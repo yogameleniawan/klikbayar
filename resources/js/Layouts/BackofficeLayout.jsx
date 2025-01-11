@@ -178,7 +178,9 @@ export default function BackofficeLayout({ children }) {
             </div>
 
             <div className={`flex-1 bg-white dark:bg-default-100/80 p-4 overflow-auto ${activeMenu != null && !isOpen ? 'blur-sm transition-all' : ''}`}>
-                {children}
+                <div className="flex flex-col gap-4">
+                    {children}
+                </div>
             </div>
         </div>
     );

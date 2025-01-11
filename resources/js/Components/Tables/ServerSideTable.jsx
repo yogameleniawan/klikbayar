@@ -151,6 +151,7 @@ export default function ServerSideTable(
     const [filterValue, setFilterValue] = React.useState(route().params.search ?? "");
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
     const [visibleColumns, setVisibleColumns] = React.useState(new Set(initialVisibleColumns));
+    const [statusFilter, setStatusFilter] = React.useState("all");
     const [rowsPerPage, setRowsPerPage] = React.useState(totalRowsPerPage);
     const [sortDescriptor, setSortDescriptor] = React.useState({
         column: initialVisibleColumns[0],
@@ -176,9 +177,14 @@ export default function ServerSideTable(
                 user.name.toLowerCase().includes(filterValue.toLowerCase()),
             );
         }
+        if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
+            filteredData = filteredData.filter((user) =>
+                Array.from(statusFilter).includes(user.status),
+            );
+        }
 
         return filteredData;
-    }, [data, filterValue]);
+    }, [data, filterValue, statusFilter]);
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -263,7 +269,7 @@ export default function ServerSideTable(
                                 aria-label="Table Columns"
                                 closeOnSelect={false}
                                 selectedKeys={visibleColumns}
-                                selectionMode={selectionMode}
+                                selectionMode={"multiple"}
                                 onSelectionChange={setVisibleColumns}
                             >
                                 {columns.map((column) => (
@@ -296,6 +302,7 @@ export default function ServerSideTable(
         );
     }, [
         filterValue,
+        statusFilter,
         visibleColumns,
         onRowsPerPageChange,
         data.length,

@@ -58,7 +58,11 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::find($id);
+
+        return Inertia::render("Backoffice/Users/Edit", [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -74,6 +78,14 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+
+        if (!$user) {
+            return back()->withErrors(['message' => 'User not found.']);
+        }
+
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }

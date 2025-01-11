@@ -151,7 +151,6 @@ export default function ServerSideTable(
     const [filterValue, setFilterValue] = React.useState(route().params.search ?? "");
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
     const [visibleColumns, setVisibleColumns] = React.useState(new Set(initialVisibleColumns));
-    const [statusFilter, setStatusFilter] = React.useState("all");
     const [rowsPerPage, setRowsPerPage] = React.useState(totalRowsPerPage);
     const [sortDescriptor, setSortDescriptor] = React.useState({
         column: initialVisibleColumns[0],
@@ -177,14 +176,9 @@ export default function ServerSideTable(
                 user.name.toLowerCase().includes(filterValue.toLowerCase()),
             );
         }
-        if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-            filteredData = filteredData.filter((user) =>
-                Array.from(statusFilter).includes(user.status),
-            );
-        }
 
         return filteredData;
-    }, [data, filterValue, statusFilter]);
+    }, [data, filterValue]);
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -200,7 +194,7 @@ export default function ServerSideTable(
     const onRowsPerPageChange = React.useCallback((e) => {
         setRowsPerPage(Number(e.target.value));
 
-        router.visit(route(routeName, {
+        router.visit(route(`${routeName}.index`, {
             page: 1,
             length: Number(e.target.value)
         }), {
@@ -210,7 +204,7 @@ export default function ServerSideTable(
     }, []);
 
     const performSearch = useCallback((searchValue) => {
-        router.visit(route(routeName, {
+        router.visit(route(`${routeName}.index`, {
             ...route().params,
             search: searchValue || "",
             page: 1
@@ -279,7 +273,9 @@ export default function ServerSideTable(
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
-                        <Button color="primary" endContent={<PlusIcon />}>
+                        <Button color="primary" endContent={<PlusIcon />} onPress={() => {
+                            router.visit(route(`${routeName}.create`))
+                        }}>
                             Add New
                         </Button>
                     </div>
@@ -302,7 +298,6 @@ export default function ServerSideTable(
         );
     }, [
         filterValue,
-        statusFilter,
         visibleColumns,
         onRowsPerPageChange,
         data.length,
@@ -322,7 +317,7 @@ export default function ServerSideTable(
                     page={page}
                     total={totalPages}
                     onChange={(value) => {
-                        router.visit(route(routeName, {
+                        router.visit(route(`${routeName}.index`, {
                             ...route().params,
                             page: value
                         }), {
@@ -358,7 +353,7 @@ export default function ServerSideTable(
                 console.log(value)
                 setSortDescriptor(value)
 
-                router.visit(route(routeName, {
+                router.visit(route(`${routeName}.index`, {
                     ...route().params,
                     sort_by: value.column,
                     sort_order: value.direction

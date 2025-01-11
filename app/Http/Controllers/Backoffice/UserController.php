@@ -34,7 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Backoffice/Users/Add");
     }
 
     /**
@@ -42,7 +42,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            User::create($request->all());
+
+            return back()->with('message', 'Data berhasil disimpan!');
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' =>  $th->getMessage()]);
+        }
     }
 
     /**
@@ -70,7 +76,11 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+
+        $user->update($request->all());
+
+        return back()->with(['code' => 'success','message' => 'User updated.']);
     }
 
     /**

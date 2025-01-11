@@ -2,9 +2,51 @@ import { useEffect, useState } from 'react';
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { FiPlusCircle, FiMinusCircle, FiLogOut } from "react-icons/fi";
 import { Button, Image, Tooltip } from '@nextui-org/react';
-import { TfiArrowCircleLeft, TfiArrowCircleRight  } from "react-icons/tfi";
+import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 import { menuItems } from '@/Modules/modules';
 import { Link, usePage } from '@inertiajs/react';
+
+const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
+    const MenuContent = () => (
+        <div
+            className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all"
+            onClick={() => {
+                if (item.submenu) toggleSubMenu(index);
+            }}
+        >
+            {item.icon}
+            {isOpen && <span className="flex-1">{item.name}</span>}
+
+            {item.count && isOpen && (
+                <div className="relative max-w-fit inline-flex items-center box-border whitespace-nowrap text-tiny rounded-full text-default-700 w-5 h-5 min-w-5 min-h-5 px-0 justify-center bg-default-500">
+                    <span className="font-normal px-0 flex-none text-default-50">
+                        {item.count}
+                    </span>
+                </div>
+            )}
+
+            {item.badge && isOpen && (
+                <div className="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full text-default-700 bg-default-500">
+                    <span className="flex-1 font-normal px-1 text-default-50">
+                        {item.badge}
+                    </span>
+                </div>
+            )}
+
+            {item.submenu && isOpen && (
+                activeMenu === index ? <FiMinusCircle size={20} /> : <FiPlusCircle size={20} />
+            )}
+        </div>
+    );
+
+    return item.submenu ? (
+        <MenuContent />
+    ) : (
+        <Link href={item.path}>
+            <MenuContent />
+        </Link>
+    );
+};
 
 export default function BackofficeLayout({ children }) {
     const [isOpen, setIsOpen] = useState(true);
@@ -76,28 +118,12 @@ export default function BackofficeLayout({ children }) {
                     <ul className="flex flex-col gap-2">
                         {menuItems.map((item, index) => (
                             <li key={index} className="flex flex-col">
-                                <div
-                                    className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all"
-                                    onClick={() => item.submenu && toggleSubMenu(index)}
-                                >
-                                    {item.icon}
-                                    {isOpen && <span className="flex-1">{item.name}</span>}
-                                    {item.count && isOpen && (
-                                        <div className="relative max-w-fit inline-flex items-center box-border whitespace-nowrap text-tiny rounded-full text-default-700 w-5 h-5 min-w-5 min-h-5 px-0 justify-center bg-default-500">
-                                            <span className="font-normal px-0 flex-none text-default-50">{item.count}</span>
-                                        </div>
-                                    )}
-
-                                    {item.badge && isOpen && (
-                                        <div className="relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-6 text-tiny rounded-full text-default-700 bg-default-500">
-                                            <span className="flex-1 font-normal px-1 text-default-50">{item.badge}</span>
-                                        </div>
-                                    )}
-
-                                    {item.submenu && isOpen && (
-                                        activeMenu === index ? <FiMinusCircle size={20} /> : <FiPlusCircle size={20} />
-                                    )}
-                                </div>
+                                <MenuItem
+                                    item={item}
+                                    isOpen={isOpen}
+                                    activeMenu={activeMenu}
+                                    index={index}
+                                    toggleSubMenu={toggleSubMenu} />
 
                                 {item.submenu && (
                                     isOpen ?

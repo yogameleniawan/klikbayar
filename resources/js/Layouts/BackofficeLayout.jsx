@@ -4,7 +4,7 @@ import { FiPlusCircle, FiMinusCircle, FiLogOut } from "react-icons/fi";
 import { Button, Image, Tooltip } from '@nextui-org/react';
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 import { menuItems } from '@/Modules/modules';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 
 const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
     const MenuContent = () => (
@@ -170,7 +170,9 @@ export default function BackofficeLayout({ children }) {
                         </Button>
                     </Tooltip>
                     <Tooltip content="Logout">
-                        <Button isIconOnly >
+                        <Button isIconOnly onPress={() => {
+                            router.post(route(`logout`))
+                        }} >
                             <FiLogOut size={20} className='text-default-500' />
                         </Button>
                     </Tooltip>

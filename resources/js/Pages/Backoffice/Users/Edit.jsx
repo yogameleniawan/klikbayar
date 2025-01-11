@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Input, Button, Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head, router } from "@inertiajs/react";
+import AlertMessage from "@/Components/Alert/AlertMessage";
 
 export default function Edit({ user }) {
     const [isLoading, setIsLoading] = React.useState(false);

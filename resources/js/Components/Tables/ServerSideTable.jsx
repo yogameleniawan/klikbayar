@@ -141,7 +141,9 @@ export default function ServerSideTable(
         initialVisibleColumns = [],
         columns = [],
         collections = [],
-        routeName = ''
+        columnRender = null,
+        routeName = '',
+        selectionMode = 'none', // single | multiple | none
     }
 ) {
     const { data, last_page: totalPages, per_page: totalRowsPerPage, current_page: currentPage } = collections;
@@ -149,10 +151,9 @@ export default function ServerSideTable(
     const [filterValue, setFilterValue] = React.useState(route().params.search ?? "");
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
     const [visibleColumns, setVisibleColumns] = React.useState(new Set(initialVisibleColumns));
-    const [statusFilter, setStatusFilter] = React.useState("all");
     const [rowsPerPage, setRowsPerPage] = React.useState(totalRowsPerPage);
     const [sortDescriptor, setSortDescriptor] = React.useState({
-        column: "name",
+        column: initialVisibleColumns[0],
         direction: "ascending",
     });
 
@@ -175,14 +176,9 @@ export default function ServerSideTable(
                 user.name.toLowerCase().includes(filterValue.toLowerCase()),
             );
         }
-        if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-            filteredData = filteredData.filter((user) =>
-                Array.from(statusFilter).includes(user.status),
-            );
-        }
 
         return filteredData;
-    }, [data, filterValue, statusFilter]);
+    }, [data, filterValue]);
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -193,59 +189,12 @@ export default function ServerSideTable(
         return filteredItems.slice(start, end);
     }, [page, filteredItems, rowsPerPage]);
 
-    const renderCell = React.useCallback((user, columnKey) => {
-        const cellValue = user[columnKey];
-
-        switch (columnKey) {
-            case "name":
-                return (
-                    <User
-                        avatarProps={{ radius: "lg", src: user.avatar }}
-                        description={user.email}
-                        name={cellValue}
-                    >
-                        {user.email}
-                    </User>
-                );
-            case "role":
-                return (
-                    <div className="flex flex-col">
-                        <p className="text-bold text-small capitalize">{cellValue}</p>
-                        <p className="text-bold text-tiny capitalize text-default-400">{user.team}</p>
-                    </div>
-                );
-            case "status":
-                return (
-                    <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
-                        {cellValue}
-                    </Chip>
-                );
-            case "actions":
-                return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button isIconOnly size="sm" variant="light">
-                                    <VerticalDotsIcon className="text-default-300" />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownItem key="view">View</DropdownItem>
-                                <DropdownItem key="edit">Edit</DropdownItem>
-                                <DropdownItem key="delete">Delete</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                );
-            default:
-                return cellValue;
-        }
-    }, []);
+    const renderCell = useCallback(columnRender, []);
 
     const onRowsPerPageChange = React.useCallback((e) => {
         setRowsPerPage(Number(e.target.value));
 
-        router.visit(route('users.index', {
+        router.visit(route(routeName, {
             page: 1,
             length: Number(e.target.value)
         }), {
@@ -255,7 +204,7 @@ export default function ServerSideTable(
     }, []);
 
     const performSearch = useCallback((searchValue) => {
-        router.visit(route('users.index', {
+        router.visit(route(routeName, {
             ...route().params,
             search: searchValue || "",
             page: 1
@@ -296,34 +245,13 @@ export default function ServerSideTable(
                     <Input
                         isClearable
                         className="w-full sm:max-w-[44%]"
-                        placeholder="Search by name..."
+                        placeholder="Search ..."
                         startContent={<SearchIcon />}
                         value={filterValue}
                         onClear={() => onClear()}
                         onValueChange={onSearchChange}
                     />
                     <div className="flex gap-3">
-                        <Dropdown>
-                            <DropdownTrigger className="hidden sm:flex">
-                                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                                    Status
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                                disallowEmptySelection
-                                aria-label="Table Columns"
-                                closeOnSelect={false}
-                                selectedKeys={statusFilter}
-                                selectionMode="multiple"
-                                onSelectionChange={setStatusFilter}
-                            >
-                                {statusOptions.map((status) => (
-                                    <DropdownItem key={status.uid} className="capitalize">
-                                        {capitalize(status.name)}
-                                    </DropdownItem>
-                                ))}
-                            </DropdownMenu>
-                        </Dropdown>
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
@@ -335,7 +263,7 @@ export default function ServerSideTable(
                                 aria-label="Table Columns"
                                 closeOnSelect={false}
                                 selectedKeys={visibleColumns}
-                                selectionMode="multiple"
+                                selectionMode={selectionMode}
                                 onSelectionChange={setVisibleColumns}
                             >
                                 {columns.map((column) => (
@@ -368,7 +296,6 @@ export default function ServerSideTable(
         );
     }, [
         filterValue,
-        statusFilter,
         visibleColumns,
         onRowsPerPageChange,
         data.length,
@@ -388,7 +315,7 @@ export default function ServerSideTable(
                     page={page}
                     total={totalPages}
                     onChange={(value) => {
-                        router.visit(route('users.index', {
+                        router.visit(route(routeName, {
                             ...route().params,
                             page: value
                         }), {
@@ -412,7 +339,7 @@ export default function ServerSideTable(
                 wrapper: "max-h-[482px]",
             }}
             selectedKeys={selectedKeys}
-            selectionMode="multiple"
+            selectionMode={selectionMode}
             sortDescriptor={{
                 column: route().params.sort_by,
                 direction: route().params.sort_order
@@ -424,7 +351,7 @@ export default function ServerSideTable(
                 console.log(value)
                 setSortDescriptor(value)
 
-                router.visit(route('users.index', {
+                router.visit(route(routeName, {
                     ...route().params,
                     sort_by: value.column,
                     sort_order: value.direction

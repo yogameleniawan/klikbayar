@@ -1,4 +1,5 @@
 import ServerSideTable from "@/Components/Tables/ServerSideTable";
+import { columnRender } from "@/Data/Tables/Backoffice/Users/column";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head } from "@inertiajs/react";
 
@@ -15,6 +16,7 @@ export default function Index({ users: data }) {
                     {name: "ACTIONS", uid: "actions"},
                   ]}
                 collections={data}
+                columnRender={columnRender}
                 routeName={'users.index'}
              />
         </BackofficeLayout>

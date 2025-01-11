@@ -45,7 +45,7 @@ class UserController extends Controller
         try {
             User::create($request->all());
 
-            return back()->with('message', 'Data berhasil disimpan!');
+            return back()->with('message', 'Data added successfuly');
         } catch (\Throwable $th) {
             return back()->withErrors(['message' =>  $th->getMessage()]);
         }
@@ -78,9 +78,13 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        $user->update($request->all());
+        try {
+            $user->update($request->all());
 
-        return back()->with(['code' => 'success','message' => 'User updated.']);
+            return back()->with('message', 'User updated successfuly');
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' =>  $th->getMessage()]);
+        }
     }
 
     /**
@@ -90,12 +94,12 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if (!$user) {
-            return back()->withErrors(['message' => 'User not found.']);
+        try {
+            $user->delete();
+
+            return back()->with('message', 'User deleted successfuly');
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' =>  $th->getMessage()]);
         }
-
-        $user->delete();
-
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }

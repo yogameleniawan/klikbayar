@@ -1,28 +1,21 @@
 import React from "react";
 import { Form, Input, Button, Breadcrumbs, BreadcrumbItem, Alert } from "@nextui-org/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
-import { Head, router, usePage } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
+import AlertMessage from "@/Components/Alert/AlertMessage";
 
 export default function Add() {
     const [isLoading, setIsLoading] = React.useState(false);
-    const { errors } = usePage().props;
-    const { flash } = usePage().props;
 
-    console.log(usePage().props);
     return (
         <BackofficeLayout>
-            <Head title="Edit User"></Head>
+            <Head title="Add User"></Head>
             <Breadcrumbs>
                 <BreadcrumbItem>Admin</BreadcrumbItem>
                 <BreadcrumbItem onPress={() => { router.visit(route('users.index')) }}>Users</BreadcrumbItem>
                 <BreadcrumbItem>Add</BreadcrumbItem>
             </Breadcrumbs>
-            {errors.message && (
-                <Alert color={'danger'} title={errors.message} />
-            )}
-            {flash.message && (
-                <Alert color={'success'} title={flash.message} />
-            )}
+            <AlertMessage />
             <Form
                 className="w-full max-w-xs flex flex-col gap-4"
                 validationBehavior="native"

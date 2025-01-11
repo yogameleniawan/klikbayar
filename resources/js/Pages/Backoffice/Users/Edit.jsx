@@ -14,6 +14,7 @@ export default function Edit({ user }) {
                 <BreadcrumbItem onPress={() => { router.visit(route('users.index')) }}>Users</BreadcrumbItem>
                 <BreadcrumbItem>Edit</BreadcrumbItem>
             </Breadcrumbs>
+            <AlertMessage />
             <Form
                 className="w-full max-w-xs flex flex-col gap-4"
                 validationBehavior="native"

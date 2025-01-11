@@ -342,7 +342,6 @@ export default function ServerSideTable(
             topContentPlacement="outside"
             onSelectionChange={setSelectedKeys}
             onSortChange={(value) => {
-                console.log(value)
                 setSortDescriptor(value)
 
                 router.visit(route(`${routeName}.index`, {

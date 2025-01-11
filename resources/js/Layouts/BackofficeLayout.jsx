@@ -7,7 +7,6 @@ import { menuItems } from '@/Modules/modules';
 import { Link, router, usePage } from '@inertiajs/react';
 
 const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
-    console.log(usePage().url, item.path);
 
     const MenuContent = () => (
         <div
@@ -62,8 +61,10 @@ export default function BackofficeLayout({ children }) {
 
     useEffect(() => {
         if (darkMode) {
+            localStorage.setItem('darkMode', true)
             document.documentElement.classList.add('dark');
         } else {
+            localStorage.setItem('darkMode', false)
             document.documentElement.classList.remove('dark');
         }
     }, [darkMode]);

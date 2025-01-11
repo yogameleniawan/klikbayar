@@ -5,6 +5,8 @@ import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from "react-icons
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { FiGrid, FiPlusCircle, FiMinusCircle, FiUser, FiSettings, FiServer, FiLogOut } from "react-icons/fi";
 import { Button, Image, Tooltip } from '@nextui-org/react';
+import { IoIosArrowDropleft, IoIosArrowDropright  } from "react-icons/io";
+import { TfiArrowCircleLeft, TfiArrowCircleRight  } from "react-icons/tfi";
 
 export default function BackofficeLayout({ children }) {
     const [isOpen, setIsOpen] = useState(true);
@@ -70,16 +72,23 @@ export default function BackofficeLayout({ children }) {
     return (
         <div className="flex h-screen">
             <div
-                className={`relative text-small bg-default-100 dark:text-default-500 ${isOpen ? 'w-64' : 'w-20'
-                    } duration-300 flex flex-col p-4 items-center justify-between`}
+                className={`text-small bg-default-100 dark:text-default-500 ${isOpen ? 'w-64' : 'w-20'
+                    } duration-300 flex flex-col p-4 items-center justify-between overflow-x-hidden overflow-y-scroll gap-8`}
             >
-                <div className="flex flex-col gap-4">
-                    <div className='absolute -right-3'>
+                <div className="flex flex-col gap-8">
+                    <div className={`flex ${isOpen ? 'flex-row' : 'flex-col-reverse'} justify-between px-3 gap-3`}>
+                        <div class="flex items-center justify-center gap-0">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
+                                <svg fill="none" height="32" viewBox="0 0 32 32" width="32" class="text-background">
+                                    <path clip-rule="evenodd" d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z" fill="currentColor" fill-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
                         <button
-                            className="mb-4 text-default-500 hover:text-default-400 transition-all"
+                            className={`${isOpen ? 'justify-items-end' : 'justify-items-center'} text-default-500 hover:text-default-400 transition-all`}
                             onClick={toggleSidebar}
                         >
-                            {isOpen ? <IoIosArrowDropleftCircle size={30} /> : <IoIosArrowDroprightCircle size={30} />}
+                            {isOpen ? <TfiArrowCircleLeft size={18} /> : <TfiArrowCircleRight size={18} />}
                         </button>
                     </div>
 
@@ -140,7 +149,7 @@ export default function BackofficeLayout({ children }) {
                                             ))}
                                         </ul> :
                                         <ul
-                                            className={`ml-8 mt-2 space-y-2 overflow-hidden transition-all duration-300 ${activeMenu === index ? 'absolute z-10 max-h-screen p-4 translate-x-10 bg-default-100 w-52 rounded-xl transition-all' : '-z-10 absolute p-4 max-h-0 w-52 rounded-xl animate-pulse transition-all'
+                                            className={`ml-8 mt-2 space-y-2 overflow-hidden transition-all ${activeMenu === index ? 'absolute z-10 max-h-screen p-4 translate-x-14 top-0 bg-default-100 w-52 rounded-xl transition-all' : '-z-10 absolute p-4 max-h-0 w-52 top-0 rounded-xl animate-pulse transition-all'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (
@@ -173,10 +182,9 @@ export default function BackofficeLayout({ children }) {
                         </Button>
                     </Tooltip>
                 </div>
-
             </div>
 
-            <div className="flex-1 bg-white dark:bg-default-200 p-4 overflow-auto">
+            <div className={`flex-1 bg-white dark:bg-default-200 p-4 overflow-auto ${activeMenu != null && !isOpen ? 'blur-sm transition-all' : ''}`}>
                 {children}
             </div>
         </div>

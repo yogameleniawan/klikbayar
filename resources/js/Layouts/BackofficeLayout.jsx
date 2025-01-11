@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { FaChevronDown } from 'react-icons/fa';
-import { Link } from '@inertiajs/react';
-import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from "react-icons/io";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { FiGrid, FiPlusCircle, FiMinusCircle, FiUser, FiSettings, FiServer, FiLogOut } from "react-icons/fi";
+import { FiPlusCircle, FiMinusCircle, FiLogOut } from "react-icons/fi";
 import { Button, Image, Tooltip } from '@nextui-org/react';
-import { IoIosArrowDropleft, IoIosArrowDropright  } from "react-icons/io";
 import { TfiArrowCircleLeft, TfiArrowCircleRight  } from "react-icons/tfi";
+import { menuItems } from '@/Modules/modules';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function BackofficeLayout({ children }) {
     const [isOpen, setIsOpen] = useState(true);
@@ -15,6 +13,8 @@ export default function BackofficeLayout({ children }) {
         const storedPreference = localStorage.getItem('darkMode');
         return storedPreference ? JSON.parse(storedPreference) : true;
     });
+
+    const user = usePage().props.auth.user;
 
     useEffect(() => {
         if (darkMode) {
@@ -35,39 +35,6 @@ export default function BackofficeLayout({ children }) {
     const toggleDarkMode = () => {
         setDarkMode(!darkMode);
     };
-
-    const menuItems = [
-        {
-            name: 'Dashboard',
-            icon: <FiGrid size={20} />,
-            path: '/',
-            count: 3,
-        },
-        {
-            name: 'Profile',
-            icon: <FiUser size={20} />,
-            path: '/profile',
-            submenu: [
-                { name: 'View Profile', path: '/profile/view' },
-                { name: 'Edit Profile', path: '/profile/edit' },
-            ],
-        },
-        {
-            name: 'Product',
-            icon: <FiServer size={20} />,
-            path: '/profile',
-            submenu: [
-                { name: 'View Profile', path: '/profile/view' },
-                { name: 'Edit Profile', path: '/profile/edit' },
-            ],
-        },
-        {
-            name: 'Settings',
-            icon: <FiSettings size={20} />,
-            path: '/settings',
-            badge: "News",
-        },
-    ];
 
     return (
         <div className="flex h-screen">
@@ -99,7 +66,7 @@ export default function BackofficeLayout({ children }) {
                         {
                             isOpen && (
                                 <div className="flex max-w-full flex-col">
-                                    <p className="text-small font-medium text-foreground">Kate Moore</p>
+                                    <p className="text-small font-medium text-foreground truncate max-w-40">{user.name}</p>
                                     <p className="text-tiny font-medium text-default-400">Customer Support</p>
                                 </div>
                             )

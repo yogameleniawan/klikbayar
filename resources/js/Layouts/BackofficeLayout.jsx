@@ -145,7 +145,7 @@ export default function BackofficeLayout({ children }) {
                                             ))}
                                         </ul> :
                                         <ul
-                                            className={`ml-8 mt-2 space-y-2 overflow-hidden transition-all ${activeMenu === index || usePage().url === item.path ? 'absolute z-10 max-h-screen p-4 translate-x-14 top-0 bg-default-100 w-52 rounded-xl transition-all' : '-z-10 absolute p-4 max-h-0 w-52 top-0 rounded-xl animate-pulse transition-all'
+                                            className={`ml-8 mt-2 space-y-2 overflow-hidden transition-all ${activeMenu === index || usePage().url === item.path ? 'absolute z-10 max-h-screen p-4 translate-x-14 top-0 bg-default-100 w-52 rounded-xl transition-all' : '-z-10 absolute p-4 max-h-0 -translate-x-40 w-52 top-0 rounded-xl animate-pulse transition-all'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (

@@ -162,7 +162,7 @@ export default function BackofficeLayout({ children }) {
                 </div>
 
                 <div className={`flex ${isOpen ? 'flex-row' : 'flex-col'} gap-4`}>
-                    <Tooltip content={darkMode ? "Dark" : "Light"}>
+                    <Tooltip content={darkMode ? "Light" : "Dark"}>
                         <Button isIconOnly onPress={toggleDarkMode} >
                             {darkMode ?
                                 <MdLightMode size={20} className='cursor-pointer' /> : <MdDarkMode size={20} className='cursor-pointer text-default-500' />

@@ -1,5 +1,4 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
 const { nextui } = require("@nextui-org/react");
 
 /** @type {import('tailwindcss').Config} */
@@ -21,5 +20,5 @@ export default {
     },
 
     darkMode: "class",
-    plugins: [forms, nextui()],
+    plugins: [nextui()],
 };

@@ -102,7 +102,7 @@ export default function BackofficeLayout({ children }) {
                                 {item.submenu && (
                                     isOpen ?
                                         <ul
-                                            className={`ml-8 mt-2 space-y-2 overflow-hidden ${activeMenu === index ? 'max-h-screen transition-all duration-300' : 'max-h-0'
+                                            className={`ml-8 space-y-2 overflow-hidden ${activeMenu === index ? 'mt-2 max-h-screen transition-all duration-300' : 'max-h-0'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (
@@ -151,7 +151,7 @@ export default function BackofficeLayout({ children }) {
                 </div>
             </div>
 
-            <div className={`flex-1 bg-white dark:bg-default-200 p-4 overflow-auto ${activeMenu != null && !isOpen ? 'blur-sm transition-all' : ''}`}>
+            <div className={`flex-1 bg-white dark:bg-default-100/80 p-4 overflow-auto ${activeMenu != null && !isOpen ? 'blur-sm transition-all' : ''}`}>
                 {children}
             </div>
         </div>

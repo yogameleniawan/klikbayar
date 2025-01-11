@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backoffice\DashboardController;
+use App\Http\Controllers\Backoffice\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,8 @@ Route::prefix('admin')->group(function () {
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::resources([
-        'dashboard' => DashboardController::class
+        'dashboard' => DashboardController::class,
+        'users' => UserController::class,
     ]);
 });
 

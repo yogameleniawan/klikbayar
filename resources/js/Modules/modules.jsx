@@ -8,13 +8,9 @@ const menuItems = [
         count: 3,
     },
     {
-        name: 'Profile',
+        name: 'Users',
         icon: <FiUser size={20} />,
-        path: '/profile',
-        submenu: [
-            { name: 'View Profile', path: '/profile/view' },
-            { name: 'Edit Profile', path: '/profile/edit' },
-        ],
+        path: '/admin/users',
     },
     {
         name: 'Product',

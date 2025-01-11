@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,9 +12,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render("Backoffice/Users/Index");
+        $users = User::search(
+            keyword: $request->search,
+            columns: ["id", "name", "email"],
+        )
+        ->sort(
+            sort_by: $request->sort_by ?? 'name',
+            sort_order: $request->sort_order == 'ascending' ? 'ASC' : 'DESC'
+        )
+        ->paginate($request->length ?? 10);
+
+        return Inertia::render("Backoffice/Users/Index", [
+            'users' => $users
+        ]);
     }
 
     /**

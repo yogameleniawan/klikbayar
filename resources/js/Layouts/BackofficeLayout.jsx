@@ -7,9 +7,11 @@ import { menuItems } from '@/Modules/modules';
 import { Link, router, usePage } from '@inertiajs/react';
 
 const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
+    console.log(usePage().url, item.path);
+
     const MenuContent = () => (
         <div
-            className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all"
+            className={`flex items-center gap-4 px-4 py-3 rounded-xl ${usePage().url === item.path ? 'bg-default/40' : ''} hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all`}
             onClick={() => {
                 if (item.submenu) toggleSubMenu(index);
             }}
@@ -34,7 +36,7 @@ const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
             )}
 
             {item.submenu && isOpen && (
-                activeMenu === index ? <FiMinusCircle size={20} /> : <FiPlusCircle size={20} />
+                activeMenu === index || item.submenu.some((item) => item.path === usePage().url) ? <FiMinusCircle size={20} /> : <FiPlusCircle size={20} />
             )}
         </div>
     );
@@ -128,13 +130,13 @@ export default function BackofficeLayout({ children }) {
                                 {item.submenu && (
                                     isOpen ?
                                         <ul
-                                            className={`ml-8 space-y-2 overflow-hidden ${activeMenu === index ? 'mt-2 max-h-screen transition-all duration-300' : 'max-h-0'
+                                            className={`ml-8 space-y-2 overflow-hidden ${activeMenu === index || item.submenu.some((item) => item.path === usePage().url) ? 'mt-2 max-h-screen transition-all duration-300' : 'max-h-0'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (
                                                 <li key={subIndex}>
                                                     <Link href={subItem.path}>
-                                                        <a className="flex items-center hover:text-default-500 gap-4 px-4 py-2 rounded-xl hover:bg-default/40 transition-all">
+                                                        <a className={`flex items-center hover:text-default-500 gap-4 px-4 py-2 rounded-xl ${usePage().url == subItem.path && 'bg-default/40'} hover:bg-default/40 transition-all`}>
                                                             {isOpen && <span>{subItem.name}</span>}
                                                         </a>
                                                     </Link>
@@ -142,7 +144,7 @@ export default function BackofficeLayout({ children }) {
                                             ))}
                                         </ul> :
                                         <ul
-                                            className={`ml-8 mt-2 space-y-2 overflow-hidden transition-all ${activeMenu === index ? 'absolute z-10 max-h-screen p-4 translate-x-14 top-0 bg-default-100 w-52 rounded-xl transition-all' : '-z-10 absolute p-4 max-h-0 w-52 top-0 rounded-xl animate-pulse transition-all'
+                                            className={`ml-8 mt-2 space-y-2 overflow-hidden transition-all ${activeMenu === index || usePage().url === item.path ? 'absolute z-10 max-h-screen p-4 translate-x-14 top-0 bg-default-100 w-52 rounded-xl transition-all' : '-z-10 absolute p-4 max-h-0 w-52 top-0 rounded-xl animate-pulse transition-all'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (

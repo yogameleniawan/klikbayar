@@ -8,7 +8,7 @@ export default function Add() {
     const [isLoading, setIsLoading] = React.useState(false);
 
     const { errors } = usePage().props;
-    console.log(errors)
+
     return (
         <BackofficeLayout>
             <Head title="Add User"></Head>

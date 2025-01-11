@@ -15,10 +15,10 @@ const menuItems = [
     {
         name: 'Product',
         icon: <FiServer size={20} />,
-        path: '/profile',
+        path: '/products',
         submenu: [
-            { name: 'View Profile', path: '/profile/view' },
-            { name: 'Edit Profile', path: '/profile/edit' },
+            { name: 'Master Product', path: '/products/master' },
+            { name: 'Digi Product', path: '/products/digi' },
         ],
     },
     {

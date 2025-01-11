@@ -42,6 +42,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|min:2',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+
         try {
             User::create($request->all());
 
@@ -76,6 +82,12 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'name' => 'required|min:2',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+
         $user = User::find($id);
 
         try {

@@ -1,11 +1,12 @@
 import React from "react";
 import { Form, Input, Button, Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
-import { Head, router } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import AlertMessage from "@/Components/Alert/AlertMessage";
 
 export default function Edit({ user }) {
     const [isLoading, setIsLoading] = React.useState(false);
+    const { errors } = usePage().props;
 
     return (
         <BackofficeLayout>
@@ -18,7 +19,6 @@ export default function Edit({ user }) {
             <AlertMessage />
             <Form
                 className="w-full max-w-xs flex flex-col gap-4"
-                validationBehavior="native"
                 onSubmit={(e) => {
                     e.preventDefault();
 
@@ -37,7 +37,8 @@ export default function Edit({ user }) {
             >
                 <Input
                     isRequired
-                    errorMessage="Please enter a valid name"
+                    errorMessage={errors.name || "Please enter a valid name"}
+                    isInvalid={errors.name}
                     label="Name"
                     labelPlacement="outside"
                     name="name"
@@ -48,7 +49,8 @@ export default function Edit({ user }) {
 
                 <Input
                     isRequired
-                    errorMessage="Please enter a valid email"
+                    errorMessage={errors.email || "Please enter a valid email"}
+                    isInvalid={errors.email}
                     label="Email"
                     labelPlacement="outside"
                     name="email"

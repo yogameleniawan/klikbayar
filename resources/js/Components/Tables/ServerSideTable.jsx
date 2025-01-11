@@ -12,8 +12,6 @@ import {
     Dropdown,
     DropdownMenu,
     DropdownItem,
-    Chip,
-    User,
     Pagination,
     Spinner,
 } from "@nextui-org/react";
@@ -130,12 +128,6 @@ export const ChevronDownIcon = ({ strokeWidth = 1.5, ...otherProps }) => {
     );
 };
 
-const statusColorMap = {
-    active: "success",
-    paused: "danger",
-    vacation: "warning",
-};
-
 export default function ServerSideTable(
     {
         initialVisibleColumns = [],
@@ -146,7 +138,7 @@ export default function ServerSideTable(
         selectionMode = 'none', // single | multiple | none
     }
 ) {
-    const { data, last_page: totalPages, per_page: totalRowsPerPage, current_page: currentPage } = collections;
+    const { data, last_page: totalPages, per_page: totalRowsPerPage, current_page: currentPage, total } = collections;
 
     const [filterValue, setFilterValue] = React.useState(route().params.search ?? "");
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -308,7 +300,7 @@ export default function ServerSideTable(
     const bottomContent = React.useMemo(() => {
         return (
             <div className="py-2 px-2 flex justify-between items-center">
-                <span className="text-default-400 text-small">Total {data.length} data</span>
+                <span className="text-default-400 text-small">Total {data.length} / {total} data</span>
                 <Pagination
                     isCompact
                     showControls

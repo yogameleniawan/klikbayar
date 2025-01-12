@@ -5,6 +5,7 @@ import { Button, Image, Tooltip } from '@nextui-org/react';
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 import { menuItems } from '@/Modules/modules';
 import { Link, router, usePage } from '@inertiajs/react';
+import { GoDot } from "react-icons/go";
 
 const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
 
@@ -15,7 +16,13 @@ const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
                 if (item.submenu) toggleSubMenu(index);
             }}
         >
-            {item.icon}
+            {
+                !isOpen ? <Tooltip content={item.name}>
+                    <Button isIconOnly>
+                            {item.icon}
+                        </Button>
+                </Tooltip> : item.icon
+            }
             {isOpen && <span className="flex-1">{item.name}</span>}
 
             {item.count && isOpen && (
@@ -131,29 +138,31 @@ export default function BackofficeLayout({ children }) {
                                 {item.submenu && (
                                     isOpen ?
                                         <ul
-                                            className={`ml-8 space-y-2 overflow-hidden ${activeMenu === index || item.submenu.some((item) => item.path === usePage().url) ? 'mt-2 max-h-screen transition-all duration-300' : 'max-h-0'
+                                            className={`ml-4 space-y-2 overflow-hidden ${activeMenu === index || item.submenu.some((item) => item.path === usePage().url) ? 'mt-2 max-h-screen transition-all duration-300' : 'max-h-0'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (
                                                 <li key={subIndex}>
                                                     <Link href={subItem.path}>
                                                         <a className={`flex items-center hover:text-default-500 gap-4 px-4 py-2 rounded-xl ${usePage().url == subItem.path && 'bg-default/40'} hover:bg-default/40 transition-all`}>
-                                                            {isOpen && <span>{subItem.name}</span>}
+                                                            {isOpen && <span className='flex flex-row items-center gap-1'><GoDot size={20} />{subItem.name}</span>}
                                                         </a>
                                                     </Link>
                                                 </li>
                                             ))}
                                         </ul> :
                                         <ul
-                                            className={`ml-8 mt-2 space-y-2 overflow-hidden transition-all ${activeMenu === index || usePage().url === item.path ? 'absolute z-10 max-h-screen p-4 translate-x-14 top-0 bg-default-100 w-52 rounded-xl transition-all' : '-z-10 absolute p-4 max-h-0 -translate-x-40 w-52 top-0 rounded-xl animate-pulse transition-all'
+                                            className={`space-y-2 overflow-hidden transition-all ${activeMenu === index || usePage().url === item.path ? 'z-10 max-h-screen px-4 bg-default-100 rounded-xl transition-all' : '-z-10 px-4 max-h-0 rounded-xl animate-pulse transition-all'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (
                                                 <li key={subIndex}>
                                                     <Link href={subItem.path}>
-                                                        <a className="flex items-center hover:text-default-500 gap-4 px-4 py-2 rounded-xl hover:bg-default/40 transition-all">
-                                                            <span>{subItem.name}</span>
-                                                        </a>
+                                                        <Tooltip content={subItem.name}>
+                                                            <Button isIconOnly>
+                                                                <GoDot />
+                                                            </Button>
+                                                        </Tooltip>
                                                     </Link>
                                                 </li>
                                             ))}
@@ -182,7 +191,7 @@ export default function BackofficeLayout({ children }) {
                 </div>
             </div>
 
-            <div className={`flex-1 bg-white dark:bg-default-100/80 p-4 overflow-auto ${activeMenu != null && !isOpen ? 'blur-sm transition-all' : ''}`}>
+            <div className={`flex-1 bg-white dark:bg-default-100/80 p-4 overflow-auto`}>
                 <div className="flex flex-col gap-4">
                     {children}
                 </div>

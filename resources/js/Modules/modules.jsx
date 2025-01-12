@@ -4,7 +4,7 @@ const menuItems = [
     {
         name: 'Dashboard',
         icon: <FiGrid size={20} />,
-        path: '/',
+        path: '/admin/dashboard',
         count: 3,
     },
     {

@@ -1,12 +1,24 @@
-import Checkbox from '@/Components/Checkbox';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
+import React from 'react';
+import { Button, Input, Checkbox, Link, Form, Divider } from "@nextui-org/react";
+import { Icon } from "@iconify/react";
+
+const AcmeIcon = ({ size = 32, width, height, ...props }) => (
+    <svg fill="none" height={size || height} viewBox="0 0 32 32" width={size || width} {...props}>
+        <path
+            clipRule="evenodd"
+            d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
+            fill="currentColor"
+            fillRule="evenodd"
+        />
+    </svg>
+);
 
 export default function Login({ status, canResetPassword }) {
+    const [isVisible, setIsVisible] = React.useState(false);
+
+    const toggleVisibility = () => setIsVisible(!isVisible);
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -22,79 +34,98 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <GuestLayout>
+        <div className="flex h-full w-full items-center justify-center">
             <Head title="Log in" />
-
             {status && (
                 <div className="mb-4 text-sm font-medium text-green-600">
                     {status}
                 </div>
             )}
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
+            <div className="flex w-full max-w-sm flex-col gap-4 rounded-large">
+                <div className="flex flex-col items-center pb-6">
+                    <AcmeIcon size={60} />
+                    <p className="text-xl font-medium">Welcome Back</p>
+                    <p className="text-small text-default-500">Log in to your account to continue</p>
+                </div>
+                <Form className="flex flex-col gap-3" onSubmit={submit}>
+                    <Input
+                        isRequired
+                        label="Email Address"
                         name="email"
+                        placeholder="Enter your email"
+                        type="email"
+                        variant="bordered"
+                        errorMessage={errors.email}
+                        isInvalid={errors}
                         value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
                         isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
                     />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
+                    <Input
+                        isRequired
+                        endContent={
+                            <button type="button" onClick={toggleVisibility}>
+                                {isVisible ? (
+                                    <Icon
+                                        className="pointer-events-none text-2xl text-default-400"
+                                        icon="solar:eye-closed-linear"
+                                    />
+                                ) : (
+                                    <Icon
+                                        className="pointer-events-none text-2xl text-default-400"
+                                        icon="solar:eye-bold"
+                                    />
+                                )}
+                            </button>
+                        }
+                        label="Password"
                         name="password"
+                        placeholder="Enter your password"
+                        type={isVisible ? "text" : "password"}
+                        variant="bordered"
+                        errorMessage={errors.password}
+                        isInvalid={errors}
                         value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
+                        isFocused={true}
                         onChange={(e) => setData('password', e.target.value)}
                     />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4 block">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) =>
-                                setData('remember', e.target.checked)
-                            }
-                        />
-                        <span className="ms-2 text-sm text-gray-600">
+                    <div className="flex w-full items-center justify-between px-1 py-2">
+                        <Checkbox name="remember" size="sm">
                             Remember me
-                        </span>
-                    </label>
+                        </Checkbox>
+                        {canResetPassword && (
+                            <Link
+                                href={route('password.request')}
+                                className="text-default-500"
+                            >
+                                Forgot password?
+                            </Link>
+                        )}
+                    </div>
+                    <Button className="w-full" color="primary" type="submit" isLoading={processing}>
+                        Sign In
+                    </Button>
+                </Form>
+                <div className="flex items-center gap-4 py-2">
+                    <Divider className="flex-1" />
+                    <p className="shrink-0 text-tiny text-default-500">OR</p>
+                    <Divider className="flex-1" />
                 </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
+                <div className="flex flex-col gap-2">
+                    <Button
+                        startContent={<Icon icon="flat-color-icons:google" width={24} />}
+                        variant="bordered"
+                    >
+                        Continue with Google
+                    </Button>
                 </div>
-            </form>
-        </GuestLayout>
+                <p className="text-center text-small">
+                    Need to create an account?&nbsp;
+                    <Link href={route('register')} size="sm">
+                        Sign Up
+                    </Link>
+                </p>
+            </div>
+        </div>
     );
 }

@@ -5,7 +5,7 @@ import React from 'react'
 const CustomerLayout = ({ children }) => {
     return (
         <div className="flex flex-col h-full min-h-screen bg-default-50 dark:bg-default-50">
-            <div className="sticky top-0 z-10">
+            <div className="sticky top-0 z-20">
                 <CustomerNavbar />
             </div>
 

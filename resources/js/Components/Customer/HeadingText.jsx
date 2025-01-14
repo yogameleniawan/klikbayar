@@ -30,7 +30,7 @@ const HeadingText = () => {
             <h1 className="text-center text-[clamp(2.125rem,1.142rem+3.659vw,4rem)] font-bold leading-none text-foreground">
                 Cara Mudah Bertransaksi <br /> dengan{" "}
                 <span className="relative">
-                    <span className="text-blue-600 animate-pulse">Klik </span>
+                    <span className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent animate-pulse">Klik </span>
                     <RiCursorFill
                         className="z-10 absolute transition-transform duration-300 ease-in-out animate-move-loop"
                         style={{
@@ -42,10 +42,9 @@ const HeadingText = () => {
                 </span>
                 lalu {" "}
                 <span className="relative inline-flex items-center gap-2">
-                    <span className="text-blue-600 animate-bayar">Bayar</span>
+                    <span className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent animate-bayar">Bayar</span>
                     <BsFillBagCheckFill
-                        className="z-1 text-blue-600 opacity-0 animate-[fadeIn_1.2s_ease-in-out_1.2s_forwards]"
-                        size={50}
+                        className="z-1 text-blue-500 opacity-0 animate-[fadeIn_1.2s_ease-in-out_1.2s_forwards] text-[25px] sm:text-[35px]"
                     />
                 </span>
             </h1>

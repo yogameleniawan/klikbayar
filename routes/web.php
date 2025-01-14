@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\UserController;
-use App\Http\Controllers\Customer\BerandaController;
+use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +26,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 });
 
 Route::group(['as' => 'customer.'], function() {
-    Route::get('/', [BerandaController::class, 'index'])->name('beranda');
+    Route::get('/', [CustomerController::class, 'index'])->name('beranda');
+    Route::get('/{slug}', [CustomerController::class, 'detail'])->name('detail');
 });
 
 require __DIR__.'/auth.php';

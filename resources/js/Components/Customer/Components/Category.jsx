@@ -58,7 +58,7 @@ const CategoryItem = ({
             </span>
             <Chip
                 size="sm"
-                className={`relative z-10 transition-all duration-200 ${isActive ? 'bg-opacity-20' : ''}`}
+                className={`relative z-10 transition-all duration-200 ${isActive ? 'bg-opacity-20 text-white' : ''}`}
             >
                 {total}
             </Chip>

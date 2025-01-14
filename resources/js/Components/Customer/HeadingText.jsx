@@ -44,7 +44,7 @@ const HeadingText = () => {
                 <span className="relative inline-flex items-center gap-2">
                     <span className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent animate-bayar">Bayar</span>
                     <BsFillBagCheckFill
-                        className="z-1 text-blue-500 opacity-0 animate-[fadeIn_1.2s_ease-in-out_1.2s_forwards] text-[25px] sm:text-[35px]"
+                        className="z-1 text-blue-500 opacity-0 animate-[fadeIn_1.5s_ease-in-out_1s_infinite] text-[25px] sm:text-[35px]"
                     />
                 </span>
             </h1>

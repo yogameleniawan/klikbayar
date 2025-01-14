@@ -1,3 +1,4 @@
+import { transform } from 'lodash';
 import defaultTheme from 'tailwindcss/defaultTheme';
 const { nextui } = require("@nextui-org/react");
 
@@ -45,7 +46,7 @@ export default {
                 'fade-in': 'fadeIn 0.5s ease-in-out',
                 "move-loop": "moveLoop 2s ease-in-out infinite",
                 transaction: "transaction 1.5s ease-in-out 1.5s",
-                bayar: "bayar 1.5s ease-in-out",
+                bayar: "bayar 1.5s ease-in-out infinite",
             },
         },
     },

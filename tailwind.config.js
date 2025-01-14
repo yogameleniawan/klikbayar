@@ -67,6 +67,13 @@ export default {
                         opacity: 0,
                     },
                 },
+                bell: {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '25%': { transform: 'rotate(-2deg)' },
+                    '50%': { transform: 'rotate(2deg)' },
+                    '75%': { transform: 'rotate(-2deg)' },
+                    '100%': { transform: 'rotate(0deg)' },
+                  },
             },
             animation: {
                 'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -75,6 +82,7 @@ export default {
                 bayar: "bayar 1.5s ease-in-out infinite",
                 'gradient': 'gradient 5s linear infinite',
                 'float': 'float 8s ease-in infinite',
+                bell: 'bell 1s ease-in-out infinite',
             },
         },
     },

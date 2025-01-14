@@ -13,6 +13,6 @@ class CustomerController extends Controller
     }
 
     public function detail($slug) {
-        return Inertia::render('Customer/Detail');
+        return Inertia::render('Customer/Detail/Index');
     }
 }

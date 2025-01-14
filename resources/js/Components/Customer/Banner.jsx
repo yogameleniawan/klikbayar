@@ -7,21 +7,23 @@ import { Image } from "@nextui-org/react";
 
 const Banner = () => {
     return (
-        <div className="w-full max-w-screen-lg">
-            <Swiper
-                pagination={{
-                    dynamicBullets: true,
-                }}
-                modules={[Pagination]}
-                className="w-full"
-            >
-                <SwiperSlide>
-                    <Image src="https://storage.googleapis.com/fastwork-static/c87afb55-35d7-4197-b18a-99811ca4f718.jpg" />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Image src="https://storage.googleapis.com/fastwork-static/c87afb55-35d7-4197-b18a-99811ca4f718.jpg" />
-                </SwiperSlide>
-            </Swiper>
+        <div className="flex w-full justify-center bg-gradient-to-r from-cyan-300 to-blue-500 py-5 animate-gradient">
+            <div className="w-full max-w-screen-lg">
+                <Swiper
+                    pagination={{
+                        dynamicBullets: true,
+                    }}
+                    modules={[Pagination]}
+                    className="w-full"
+                >
+                    <SwiperSlide>
+                        <Image src="https://storage.googleapis.com/fastwork-static/c87afb55-35d7-4197-b18a-99811ca4f718.jpg" />
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <Image src="https://storage.googleapis.com/fastwork-static/c87afb55-35d7-4197-b18a-99811ca4f718.jpg" />
+                    </SwiperSlide>
+                </Swiper>
+            </div>
         </div>
     )
 }

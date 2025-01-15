@@ -111,7 +111,7 @@ export default function BackofficeLayout({ children }) {
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-3 px-3">
+                    <div className="flex items-center justify-center gap-3 px-3">
                         <span tabindex="-1" className="flex relative justify-center items-center box-border overflow-hidden align-middle z-0 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 w-8 h-8 text-tiny bg-default text-default-foreground rounded-full ring-2 ring-offset-2 ring-offset-background dark:ring-offset-background-dark ring-default">
                             <Image className="flex object-cover w-full h-full transition-opacity !duration-500 opacity-0 data-[loaded=true]:opacity-100" alt="avatar" src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/avatars/e1b8ec120710c09589a12c0004f85825.jpg" data-loaded="true" />
                         </span>

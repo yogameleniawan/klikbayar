@@ -18,7 +18,7 @@ const items = [
 
 const Banner = () => {
     return (
-        <div className="flex w-full justify-center bg-gradient-to-r from-cyan-300 to-blue-500 py-5 animate-gradient">
+        <div className="flex w-full justify-center py-5 animate-gradient">
             <div className="w-full max-w-screen-lg">
                 <Swiper
                     pagination={{

@@ -82,9 +82,9 @@ const Category = () => {
         <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-96 sm:max-w-none bg-default-100 p-2 rounded-3xl"
+            className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none bg-default-100 p-2 rounded-3xl"
         >
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
                 {items.map((item) => (
                     <CategoryItem
                         key={item.id}

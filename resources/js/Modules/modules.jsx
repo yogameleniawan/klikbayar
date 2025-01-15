@@ -1,4 +1,4 @@
-import { FiGrid, FiServer, FiSettings, FiUser } from "react-icons/fi";
+import { FiGrid, FiServer, FiSettings, FiUser, FiImage } from "react-icons/fi";
 
 const menuItems = [
     {
@@ -6,6 +6,11 @@ const menuItems = [
         icon: <FiGrid size={20} />,
         path: '/admin/dashboard',
         count: 3,
+    },
+    {
+        name: 'Banners',
+        icon: <FiImage size={20} />,
+        path: '/admin/banners',
     },
     {
         name: 'Users',

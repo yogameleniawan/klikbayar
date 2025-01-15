@@ -3,19 +3,26 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\File;
+use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class BannerController extends Controller
 {
+
+    public function __construct(
+        protected FileService $fileService
+    )
+    {}
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $banners = File::all();
+        $banners = Banner::with('file')->get();
 
         return Inertia::render('Backoffice/Banner/Index', [
             'banners' => $banners
@@ -35,16 +42,19 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'image' => 'required'
+        ]);
+
         $files = $request->file('image');
+
         if (count($files)) {
             foreach ($files as $file) {
-                $fileName = uniqid() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('images', $fileName);
-
                 try {
-                    File::create([
-                        'file_name' => $fileName,
-                        'path' => $path
+                    $file = $this->fileService->create($file);
+
+                    Banner::create([
+                        'file_id' => $file->id,
                     ]);
                 } catch (\Throwable $th) {
                     return back()->withErrors(['message' =>  $th->getMessage()]);
@@ -84,10 +94,14 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        $data = File::find($id);
+        $banner = Banner::with('file')->where('id', $id)->first();
+        $file = File::find($banner->file_id);
 
         try {
-            $data->delete();
+            $banner->delete();
+            $file->delete();
+
+            $this->fileService->delete($banner->file->path);
 
             return back()->with('message', 'File deleted successfuly');
         } catch (\Throwable $th) {

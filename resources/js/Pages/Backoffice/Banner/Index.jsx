@@ -36,7 +36,7 @@ const Index = ({ banners }) => {
                     setData={setData}
                     processing={processing}
                     multiple />
-                <Button className="w-full" color="primary" type="submit" isLoading={processing}>
+                <Button className="w-full" color="primary" type="submit" isLoading={processing} isDisabled={data.image.length == 0}>
                     Add
                 </Button>
             </Form>
@@ -63,12 +63,12 @@ const Index = ({ banners }) => {
 
                             <div className="flex items-center space-x-4 flex-1">
                                 <Image src={route('stream', {
-                                    path: item.path
+                                    path: item.file.path
                                 })} alt="preview"
                                     className="w-16 h-16 object-cover rounded" />
 
                                 <div className="flex-1">
-                                    <p className="font-medium truncate">{item.file_name}</p>
+                                    <p className="font-medium truncate">{item.file.file_name}</p>
                                 </div>
                             </div>
                         </div>

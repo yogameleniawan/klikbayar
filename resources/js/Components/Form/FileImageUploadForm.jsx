@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Progress } from '@nextui-org/react';
+import { Card } from '@nextui-org/react';
 import { Form } from "@nextui-org/form";
 import { FileIcon, XCircleIcon } from 'lucide-react';
 
@@ -12,7 +12,6 @@ const FileImageUploadForm = ({
     className = "",
     multiple = false,
 }) => {
-    const [fileProgress, setFileProgress] = useState({});
     const [previews, setPreviews] = useState([]);
     const [error, setError] = useState(null);
 
@@ -60,25 +59,6 @@ const FileImageUploadForm = ({
         }));
 
         setPreviews(prev => [...prev, ...newPreviews]);
-
-        newPreviews.forEach(preview => {
-            simulateUploadProgress(preview.id);
-        });
-    };
-
-    const simulateUploadProgress = (fileId) => {
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 5;
-            setFileProgress(prev => ({
-                ...prev,
-                [fileId]: progress
-            }));
-
-            if (progress >= 100) {
-                clearInterval(interval);
-            }
-        }, 200);
     };
 
     const removeFile = (id) => {
@@ -89,10 +69,6 @@ const FileImageUploadForm = ({
             }
             return prev.filter(p => p.id !== id);
         });
-
-        setData('image', prev => prev.filter((_, index) =>
-            previews[index].id !== id
-        ));
     };
 
     return (
@@ -157,11 +133,6 @@ const FileImageUploadForm = ({
                                 <div className="flex-1">
                                     <p className="font-medium truncate">{preview.file.name}</p>
                                     <p className="text-sm text-gray-500">{formatFileSize(preview.file.size)}</p>
-                                    <Progress
-                                        value={fileProgress[preview.id] || 0}
-                                        className="mt-2"
-                                        size="sm"
-                                    />
                                 </div>
                             </div>
                         </div>

@@ -1,14 +1,17 @@
 import AlertMessage from '@/Components/Alert/AlertMessage'
 import FileImageUploadForm from '@/Components/Form/FileImageUploadForm'
 import BackofficeLayout from '@/Layouts/BackofficeLayout'
-import { Head, useForm } from '@inertiajs/react'
-import { BreadcrumbItem, Breadcrumbs, Button, Form, Image, Input } from '@nextui-org/react'
+import { Head, router, useForm } from '@inertiajs/react'
+import { BreadcrumbItem, Breadcrumbs, Button, Form, Image, Input, Progress } from '@nextui-org/react'
 import React from 'react'
+import { XCircleIcon } from 'lucide-react';
 
 const Index = ({ banners }) => {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         image: [],
     });
+
+    const [isLoading, setIsLoading] = React.useState("");
 
     const submit = (e) => {
         e.preventDefault();
@@ -40,9 +43,34 @@ const Index = ({ banners }) => {
             {
                 banners.map((item, i) => {
                     return (
-                        <Image src={route('stream', {
-                            path: item.image
-                        })} />
+                        <div key={i} className="relative flex items-center p-4 border rounded-lg">
+                            <Button
+                                key={i}
+                                isIconOnly
+                                type="button"
+                                onPress={() => {
+                                    router.delete(route('banners.destroy', { id: item.id }), {
+                                        onStart: () => setIsLoading(item.id),
+                                        onFinish: () => setIsLoading(item.id)
+                                    });
+                                }}
+                                className="absolute top-2 right-2"
+                                isLoading={isLoading === item.id}
+                            >
+                                <XCircleIcon size={20} />
+                            </Button>
+
+                            <div className="flex items-center space-x-4 flex-1">
+                                <Image src={route('stream', {
+                                    path: item.path
+                                })} alt="preview"
+                                    className="w-16 h-16 object-cover rounded" />
+
+                                <div className="flex-1">
+                                    <p className="font-medium truncate">{item.file_name}</p>
+                                </div>
+                            </div>
+                        </div>
                     )
                 })
             }

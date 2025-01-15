@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
-use App\Models\Banner;
+use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -15,7 +15,7 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $banners = Banner::all();
+        $banners = File::all();
 
         return Inertia::render('Backoffice/Banner/Index', [
             'banners' => $banners
@@ -38,11 +38,13 @@ class BannerController extends Controller
         $files = $request->file('image');
         if (count($files)) {
             foreach ($files as $file) {
-                $path = $file->store('images');
+                $fileName = uniqid() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('images', $fileName);
 
                 try {
-                    Banner::create([
-                        'image' => $path
+                    File::create([
+                        'file_name' => $fileName,
+                        'path' => $path
                     ]);
                 } catch (\Throwable $th) {
                     return back()->withErrors(['message' =>  $th->getMessage()]);
@@ -82,6 +84,14 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = File::find($id);
+
+        try {
+            $data->delete();
+
+            return back()->with('message', 'File deleted successfuly');
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' =>  $th->getMessage()]);
+        }
     }
 }

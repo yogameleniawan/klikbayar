@@ -18,9 +18,11 @@ const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
         >
             {
                 !isOpen ? <Tooltip content={item.name}>
-                    <Button isIconOnly>
-                            {item.icon}
-                        </Button>
+                    <Button isIconOnly onPress={() => {
+                        if (item.submenu) toggleSubMenu(index);
+                    }}>
+                        {item.icon}
+                    </Button>
                 </Tooltip> : item.icon
             }
             {isOpen && <span className="flex-1">{item.name}</span>}

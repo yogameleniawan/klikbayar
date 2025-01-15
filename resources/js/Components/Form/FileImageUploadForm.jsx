@@ -115,9 +115,9 @@ const FileImageUploadForm = ({
                     </div>
                 )}
 
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-12 grid-rows-auto sm:grid-rows-1 gap-4">
                     {previews.map((preview, index) => (
-                        <div key={preview.id} className="relative flex items-center p-4 border rounded-lg">
+                        <div key={preview.id} className="sm:col-span-4 relative flex items-center p-4 border rounded-lg">
                             <button
                                 type="button"
                                 onClick={() => removeFile(preview.id, index)}
@@ -140,7 +140,7 @@ const FileImageUploadForm = ({
                                 )}
 
                                 <div className="flex-1">
-                                    <p className="font-medium truncate">{preview.file.name}</p>
+                                    <p className="font-medium truncate w-24 sm:w-36">{preview.file.name}</p>
                                     <p className="text-sm text-gray-500">{formatFileSize(preview.file.size)}</p>
                                 </div>
                             </div>

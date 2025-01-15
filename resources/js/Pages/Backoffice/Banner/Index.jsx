@@ -34,6 +34,7 @@ const Index = ({ banners }) => {
                 <FileImageUploadForm
                     data={data}
                     setData={setData}
+                    processing={processing}
                     multiple />
                 <Button className="w-full" color="primary" type="submit" isLoading={processing}>
                     Add

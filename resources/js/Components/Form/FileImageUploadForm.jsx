@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from '@nextui-org/react';
 import { Form } from "@nextui-org/form";
 import { FileIcon, XCircleIcon } from 'lucide-react';
@@ -11,9 +11,16 @@ const FileImageUploadForm = ({
     acceptedFileTypes = "*/*",
     className = "",
     multiple = false,
+    processing = false
 }) => {
     const [previews, setPreviews] = useState([]);
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (processing) {
+            setPreviews([])
+        }
+    }, [processing]);
 
     const formatFileSize = (bytes) => {
         if (bytes === 0) return '0 Bytes';
@@ -61,7 +68,7 @@ const FileImageUploadForm = ({
         setPreviews(prev => [...prev, ...newPreviews]);
     };
 
-    const removeFile = (id) => {
+    const removeFile = (id, index) => {
         setPreviews(prev => {
             const preview = prev.find(p => p.id === id);
             if (preview && preview.preview) {
@@ -69,6 +76,8 @@ const FileImageUploadForm = ({
             }
             return prev.filter(p => p.id !== id);
         });
+
+        setData('image', data.image.filter((_, i) => i !== index));
     };
 
     return (
@@ -107,11 +116,11 @@ const FileImageUploadForm = ({
                 )}
 
                 <div className="space-y-4">
-                    {previews.map((preview) => (
+                    {previews.map((preview, index) => (
                         <div key={preview.id} className="relative flex items-center p-4 border rounded-lg">
                             <button
                                 type="button"
-                                onClick={() => removeFile(preview.id)}
+                                onClick={() => removeFile(preview.id, index)}
                                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
                             >
                                 <XCircleIcon size={20} />

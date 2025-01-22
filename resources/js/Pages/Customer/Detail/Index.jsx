@@ -163,7 +163,10 @@ const Index = () => {
                         <div className="text-xs font-semibold leading-6 md:text-sm">-, 275 Diamonds, -</div>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <span>Langkah : 3/4</span>
+                        <div className="flex justify-between">
+                        <span>Langkah</span>
+                        <span className="text-default-400">3/4</span>
+                        </div>
                         <Progress aria-label="Progress" className="max-w-md" value={60} />
                         <button type="submit" className="flex cursor-pointer bg-gradient-to-r from-cyan-300 to-blue-500 p-3 justify-center text-default-100 font-bold rounded-full w-full disabled:cursor-not-allowed disabled:brightness-75" disabled="disabled">
                             Klik Bayar</button>

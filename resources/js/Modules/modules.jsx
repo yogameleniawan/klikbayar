@@ -1,4 +1,4 @@
-import { FiGrid, FiServer, FiSettings, FiUser, FiImage } from "react-icons/fi";
+import { FiGrid, FiServer, FiSettings, FiUser, FiImage, FiVideo } from "react-icons/fi";
 
 const menuItems = [
     {
@@ -11,6 +11,11 @@ const menuItems = [
         name: 'Banners',
         icon: <FiImage size={20} />,
         path: '/admin/banners',
+    },
+    {
+        name: 'Courses',
+        icon: <FiVideo size={20} />,
+        path: '/admin/courses',
     },
     {
         name: 'Users',

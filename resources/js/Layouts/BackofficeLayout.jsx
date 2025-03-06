@@ -11,7 +11,7 @@ const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
 
     const MenuContent = () => (
         <div
-            className={`flex items-center gap-4 px-4 py-3 rounded-xl ${usePage().url === item.path ? 'bg-default/40' : ''} hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all`}
+            className={`flex items-center gap-4 px-4 py-3 rounded-xl ${usePage().url.includes(item.path) ? 'bg-default/40' : ''} hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all`}
             onClick={() => {
                 if (item.submenu) toggleSubMenu(index);
             }}

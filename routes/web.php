@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backoffice\BannerController;
+use App\Http\Controllers\Backoffice\CourseController;
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\UserController;
 use App\Http\Controllers\Customer\CustomerController;
@@ -17,6 +18,7 @@ Route::middleware('auth')->group(function () {
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::resources([
         'banners' => BannerController::class,
+        'courses' => CourseController::class,
         'dashboard' => DashboardController::class,
         'users' => UserController::class,
     ]);

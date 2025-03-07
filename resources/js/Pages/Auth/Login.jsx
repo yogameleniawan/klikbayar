@@ -113,6 +113,9 @@ export default function Login({ status, canResetPassword }) {
                 </div>
                 <div className="flex flex-col gap-2">
                     <Button
+                        onPress={() => {
+                            window.location.href = route('auth.google');
+                        }}
                         startContent={<Icon icon="flat-color-icons:google" width={24} />}
                         variant="bordered"
                     >

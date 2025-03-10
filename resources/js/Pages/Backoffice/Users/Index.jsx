@@ -22,7 +22,7 @@ export default function Index({ users: data }) {
                   ]}
                 collections={data}
                 columnRender={columnRender}
-                routeName={'users'}
+                routeName={'backoffice.users'}
              />
         </BackofficeLayout>
     );

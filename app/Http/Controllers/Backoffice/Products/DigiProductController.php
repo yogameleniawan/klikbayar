@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice\Products;
 
 use App\Http\Controllers\Controller;
 use App\Models\DigiProduct;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
@@ -73,6 +74,16 @@ class DigiProductController extends Controller
                     'start_cut_off' => $product['start_cut_off'],
                     'end_cut_off' => $product['end_cut_off'],
                     'desc' => $product['desc'],
+                ]);
+            }
+
+            $category = DigiProduct::select('category')->distinct()->get();
+
+            foreach ($category as $cat) {
+                ProductCategory::updateOrCreate([
+                    'name' => $cat->category,
+                ],[
+                    'name' => $cat->category,
                 ]);
             }
 

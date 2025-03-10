@@ -136,6 +136,7 @@ export default function ServerSideTable(
         columnRender = null,
         routeName = '',
         selectionMode = 'none', // single | multiple | none
+        buttonAdd = true
     }
 ) {
     const { data, last_page: totalPages, per_page: totalRowsPerPage, current_page: currentPage, total } = collections;
@@ -265,11 +266,15 @@ export default function ServerSideTable(
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
-                        <Button color="primary" endContent={<PlusIcon />} onPress={() => {
-                            router.visit(route(`${routeName}.create`))
-                        }}>
-                            Add New
-                        </Button>
+                        {
+                            buttonAdd && (
+                                <Button color="primary" endContent={<PlusIcon />} onPress={() => {
+                                    router.visit(route(`${routeName}.create`))
+                                }}>
+                                    Add New
+                                </Button>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
@@ -337,7 +342,7 @@ export default function ServerSideTable(
             sortDescriptor={{
                 column: route().params.sort_by,
                 direction: route().params.sort_order
-             } ?? sortDescriptor}
+            } ?? sortDescriptor}
             topContent={topContent}
             topContentPlacement="outside"
             onSelectionChange={setSelectedKeys}

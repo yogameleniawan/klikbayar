@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backoffice\BannerController;
 use App\Http\Controllers\Backoffice\DashboardController;
+use App\Http\Controllers\Backoffice\Products\DigiProductController;
 use App\Http\Controllers\Backoffice\Products\ProductCategoryController;
 use App\Http\Controllers\Backoffice\Products\ProductController;
 use App\Http\Controllers\Backoffice\UserController;
@@ -16,6 +17,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'backoffice.'
 
     Route::group(['prefix' => '/products', 'as' => 'products.'], function() {
         Route::resources([
+            'digi' => DigiProductController::class,
             'master' => ProductController::class,
             'categories' => ProductCategoryController::class
         ]);

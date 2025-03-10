@@ -22,8 +22,9 @@ const menuItems = [
         icon: <FiServer size={20} />,
         path: '/products',
         submenu: [
-            { name: 'Master', path: `${route('backoffice.products.master.index')}` },
             { name: 'Categories', path: `${route('backoffice.products.categories.index')}` },
+            { name: 'Digiflazz', path: `${route('backoffice.products.digi.index')}` },
+            { name: 'Master', path: `${route('backoffice.products.master.index')}` },
         ],
     },
     {

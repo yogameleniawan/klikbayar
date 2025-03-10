@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react';
 const data = [
     {
         title: "Total Users",
-        value: "5,400",
+        value: "134",
         change: "33%",
         changeType: "positive",
         trendChipPosition: "top",
@@ -15,7 +15,7 @@ const data = [
     },
     {
         title: "Total Sales",
-        value: "$15,400",
+        value: "Rp. 5.652,400",
         change: "0.0%",
         changeType: "neutral",
         trendChipPosition: "top",
@@ -23,7 +23,7 @@ const data = [
     },
     {
         title: "Net Profit",
-        value: "$10,400",
+        value: "Rp. 4.652,400",
         change: "3.3%",
         changeType: "negative",
         trendChipPosition: "top",

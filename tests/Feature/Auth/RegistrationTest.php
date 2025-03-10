@@ -26,6 +26,6 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard.index', absolute: false));
+        $response->assertRedirect(route('backoffice.dashboard.index', absolute: false));
     }
 }

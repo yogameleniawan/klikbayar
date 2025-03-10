@@ -16,7 +16,7 @@ const Index = ({ banners }) => {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('banners.store'), {
+        post(route('backoffice.banners.store'), {
             onFinish: () => reset('image'),
         });
     };
@@ -50,7 +50,7 @@ const Index = ({ banners }) => {
                                 isIconOnly
                                 type="button"
                                 onPress={() => {
-                                    router.delete(route('banners.destroy', { id: item.id }), {
+                                    router.delete(route('backoffice.banners.destroy', { id: item.id }), {
                                         onStart: () => setIsLoading(item.id),
                                         onFinish: () => setIsLoading(item.id)
                                     });

@@ -13,12 +13,12 @@ export default function Edit({ user }) {
             <Head title="Edit User"></Head>
             <Breadcrumbs>
                 <BreadcrumbItem>Admin</BreadcrumbItem>
-                <BreadcrumbItem onPress={() => { router.visit(route('users.index')) }}>Users</BreadcrumbItem>
+                <BreadcrumbItem onPress={() => { router.visit(route('backoffice.users.index')) }}>Users</BreadcrumbItem>
                 <BreadcrumbItem>Edit</BreadcrumbItem>
             </Breadcrumbs>
             <AlertMessage />
             <Form
-                className="w-full max-w-xs flex flex-col gap-4"
+                className="w-full flex flex-col gap-4"
                 onSubmit={(e) => {
                     e.preventDefault();
 

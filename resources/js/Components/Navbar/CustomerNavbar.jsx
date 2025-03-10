@@ -103,7 +103,7 @@ const CustomerNavbar = (props) => {
             <NavbarContent justify="center" className="flex-row flex-nowrap items-center data-[justify=start]:justify-start data-[justify=start]:flex-grow data-[justify=start]:basis-0 data-[justify=center]:justify-center data-[justify=end]:justify-end data-[justify=end]:flex-grow data-[justify=end]:basis-0 hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50 md:flex">
                 {menuItems.map((item, index) => (
                     <NavbarItem key={`${item.title}-${index}`}>
-                        <Link className={`w-full ${item.path === usePage().url ? 'text-foreground' : 'text-default-500'}`} href={item.path} size="md">
+                        <Link className={`w-full ${item.path.includes(usePage().url) ? 'text-foreground' : 'text-default-500'}`} href={item.path} size="md">
                             <div className="flex items-center gap-2">
                                 {item.icon}
                                 {item.title}

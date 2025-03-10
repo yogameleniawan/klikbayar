@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\Backoffice\BannerController;
-use App\Http\Controllers\Backoffice\DashboardController;
-use App\Http\Controllers\Backoffice\UserController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
@@ -14,14 +11,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-    Route::resources([
-        'banners' => BannerController::class,
-        'dashboard' => DashboardController::class,
-        'users' => UserController::class,
-    ]);
-});
-
 Route::group(['as' => 'customer.'], function() {
     Route::get('/', [CustomerController::class, 'index'])->name('beranda');
     Route::get('/{slug}', [CustomerController::class, 'detail'])->name('detail');
@@ -30,3 +19,4 @@ Route::group(['as' => 'customer.'], function() {
 Route::get('stream/image', [ImageController::class, 'streamImage'])->name('stream');
 
 require __DIR__.'/auth.php';
+require __DIR__.'/backoffice.php';

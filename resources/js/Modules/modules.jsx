@@ -4,26 +4,26 @@ const menuItems = [
     {
         name: 'Dashboard',
         icon: <FiGrid size={20} />,
-        path: '/admin/dashboard',
+        path: `${route('backoffice.dashboard.index')}`,
         count: 3,
     },
     {
         name: 'Banners',
         icon: <FiImage size={20} />,
-        path: '/admin/banners',
+        path: `${route('backoffice.banners.index')}`,
     },
     {
         name: 'Users',
         icon: <FiUser size={20} />,
-        path: '/admin/users',
+        path: `${route('backoffice.users.index')}`,
     },
     {
-        name: 'Product',
+        name: 'Products',
         icon: <FiServer size={20} />,
         path: '/products',
         submenu: [
-            { name: 'Master Product', path: '/products/master' },
-            { name: 'Digi Product', path: '/products/digi' },
+            { name: 'Master', path: `${route('backoffice.products.master.index')}` },
+            { name: 'Categories', path: `${route('backoffice.products.categories.index')}` },
         ],
     },
     {

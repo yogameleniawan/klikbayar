@@ -1,22 +1,29 @@
 import React from "react";
-import { Form, Input, Button, Breadcrumbs, BreadcrumbItem, Alert } from "@nextui-org/react";
+import { Form, Input, Button, Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head, router, usePage } from "@inertiajs/react";
 import AlertMessage from "@/Components/Alert/AlertMessage";
+import { IoChevronBackCircleSharp } from "react-icons/io5";
 
-export default function Add() {
+export default function Edit({ data }) {
     const [isLoading, setIsLoading] = React.useState(false);
-
     const { errors } = usePage().props;
 
     return (
         <BackofficeLayout>
-            <Head title="Add User"></Head>
+            <Head title="Edit Categories"></Head>
             <Breadcrumbs>
                 <BreadcrumbItem>Admin</BreadcrumbItem>
-                <BreadcrumbItem onPress={() => { router.visit(route('backoffice.users.index')) }}>Users</BreadcrumbItem>
-                <BreadcrumbItem>Add</BreadcrumbItem>
+                <BreadcrumbItem>Products</BreadcrumbItem>
+                <BreadcrumbItem onPress={() => { router.visit(route('backoffice.products.categories.index')) }}>Categories</BreadcrumbItem>
+                <BreadcrumbItem>Edit</BreadcrumbItem>
             </Breadcrumbs>
+            <div className="flex items-center gap-2">
+                <div onClick={() => { router.visit(route('backoffice.products.categories.index')) }} className="cursor-pointer">
+                    <IoChevronBackCircleSharp size={25} />
+                </div>
+                <span>Edit Categories</span>
+            </div>
             <AlertMessage />
             <Form
                 className="w-full flex flex-col gap-4"
@@ -24,11 +31,11 @@ export default function Add() {
                     e.preventDefault();
 
                     const formData = new FormData(e.currentTarget);
-                    const data = Object.fromEntries(formData);
+                    const form = Object.fromEntries(formData);
 
-                    router.post(
-                        route('users.store'),
-                        data,
+                    router.put(
+                        route('backoffice.products.categories.update', { id: data.id }),
+                        form,
                         {
                             onStart: () => setIsLoading(true),
                             onFinish: () => setIsLoading(false)
@@ -38,36 +45,16 @@ export default function Add() {
             >
                 <Input
                     isRequired
+                    errorMessage={errors.name || "Please enter a valid name"}
+                    isInvalid={errors.name}
                     label="Name"
                     labelPlacement="outside"
                     name="name"
                     placeholder="Enter your name"
                     type="text"
-                    errorMessage={errors.name || "Please enter a valid name"}
-                    isInvalid={errors.name}
+                    defaultValue={data.name}
                 />
 
-                <Input
-                    isRequired
-                    label="Email"
-                    labelPlacement="outside"
-                    name="email"
-                    placeholder="Enter your email"
-                    type="email"
-                    errorMessage={errors.email || "Please enter a valid email"}
-                    isInvalid={errors.email}
-                />
-
-                <Input
-                    isRequired
-                    label="Password"
-                    labelPlacement="outside"
-                    name="password"
-                    placeholder="Enter your password"
-                    type="password"
-                    errorMessage={errors.password || "Please enter a valid password"}
-                    isInvalid={errors.password}
-                />
                 <div className="flex gap-2">
                     <Button color="primary" type="submit" isLoading={isLoading}>
                         Submit

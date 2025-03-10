@@ -23,30 +23,6 @@ const columnRender = (data, columnKey) => {
             return (
                 <p>{formatRupiah(data.price)}</p>
             );
-        case "actions":
-            return (
-                <div className="relative flex justify-end items-center gap-2">
-                    <Dropdown>
-                        <DropdownTrigger>
-                            <Button isIconOnly size="sm" variant="light">
-                                <VerticalDotsIcon className="text-default-300" />
-                            </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu>
-                            <DropdownItem key="edit" onPress={() => {
-                                router.get(route('backoffice.products.categories.edit', { id: data.id }));
-                            }}>
-                                Edit
-                            </DropdownItem>
-                            <DropdownItem key="delete" onPress={() => {
-                                router.delete(route('backoffice.products.categories.destroy', { id: data.id }));
-                            }}>
-                                Delete
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>
-            );
         default:
             return cellValue;
     }

@@ -120,7 +120,7 @@ export default function BackofficeLayout({ children }) {
                             isOpen && (
                                 <div className="flex max-w-full flex-col">
                                     <p className="text-small font-medium text-foreground truncate max-w-40">{user.name}</p>
-                                    <p className="text-tiny font-medium text-default-400">Customer Support</p>
+                                    <p className="text-tiny font-medium text-default-400 truncate w-30">{user.email}</p>
                                 </div>
                             )
                         }

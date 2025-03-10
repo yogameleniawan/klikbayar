@@ -18,7 +18,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'backoffice.'
     Route::group(['prefix' => '/products', 'as' => 'products.'], function() {
         Route::resources([
             'digi' => DigiProductController::class,
-            'master' => ProductController::class,
+            'catalog' => ProductController::class,
             'categories' => ProductCategoryController::class
         ]);
     });

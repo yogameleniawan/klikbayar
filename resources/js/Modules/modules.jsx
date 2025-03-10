@@ -24,7 +24,7 @@ const menuItems = [
         submenu: [
             { name: 'Categories', path: `${route('backoffice.products.categories.index')}` },
             { name: 'Digiflazz', path: `${route('backoffice.products.digi.index')}` },
-            { name: 'Master', path: `${route('backoffice.products.master.index')}` },
+            { name: 'Catalog', path: `${route('backoffice.products.catalog.index')}` },
         ],
     },
     {

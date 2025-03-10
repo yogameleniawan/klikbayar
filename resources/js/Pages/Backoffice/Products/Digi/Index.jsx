@@ -29,14 +29,13 @@ export default function Index({ products: data }) {
                 Sync
             </Button>
             <ServerSideTable
-                initialVisibleColumns={["product_name", "category", "brand", "price", "actions"]}
+                initialVisibleColumns={["product_name", "category", "brand", "price"]}
                 columns={[
                     { name: "ID", uid: "id", sortable: true },
                     { name: "PRODUCT NAME", uid: "product_name", sortable: true },
                     { name: "CATEGORY", uid: "category", sortable: true },
                     { name: "BRAND", uid: "brand", sortable: true },
                     { name: "PRICE", uid: "price", sortable: true },
-                    { name: "ACTIONS", uid: "actions" },
                 ]}
                 collections={data}
                 columnRender={columnRender}

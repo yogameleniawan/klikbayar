@@ -12,7 +12,16 @@ class CustomerController extends Controller
 {
     public function index() {
         $banners = Banner::with('file')->get();
-        $categories = ProductCategory::select(['name'])->get();
+
+        $categories = ProductCategory::withCount('products')->get()->map(function ($category, $i) {
+            return [
+                'id' => $category->id,
+                'name' => $category->name,
+                'total' => $category->products_count,
+                'isActive' => $i === 0 ? true : false,
+                'icon' => $category->icon,
+            ];
+        });
 
         return Inertia::render('Customer/Beranda', [
             'banners' => $banners,

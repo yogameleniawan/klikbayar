@@ -14,4 +14,9 @@ class Product extends Model
     use HasFactory, HasUuids, Searchable, Sortable;
 
     protected $guarded = ['created_at', 'updated_at'];
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class);
+    }
 }

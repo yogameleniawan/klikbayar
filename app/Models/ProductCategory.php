@@ -14,4 +14,9 @@ class ProductCategory extends Model
     use HasFactory, HasUuids, Searchable, Sortable;
 
     protected $guarded = ['created_at', 'updated_at'];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

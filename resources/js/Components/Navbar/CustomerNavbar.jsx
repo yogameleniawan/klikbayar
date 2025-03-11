@@ -20,7 +20,6 @@ import {
     DropdownItem
 } from "@nextui-org/react";
 import { cn } from "@nextui-org/react";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { router, usePage } from "@inertiajs/react";
 import SearchModal from "../Modal/SearchModal";
 import { ClipboardList, GroupChat, Home, Moon, Sun } from "../Icons/Icon";
@@ -60,7 +59,7 @@ const CustomerNavbar = (props) => {
 
     const [darkMode, setDarkMode] = React.useState(() => {
         const storedPreference = localStorage.getItem('darkMode');
-        return storedPreference ? JSON.parse(storedPreference) : true;
+        return storedPreference ? JSON.parse(storedPreference) : false;
     });
 
     React.useEffect(() => {

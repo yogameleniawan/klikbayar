@@ -1,39 +1,8 @@
 import { Chip } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Gamepad } from '@/Components/Icons/Icon'
+import { Gamepad, Warning } from '@/Components/Icons/Icon'
 import { usePage } from '@inertiajs/react'
-
-const initialItems = [
-    {
-        id: 1,
-        name: "Mobile Game",
-        total: 9,
-        isActive: true,
-        icon: "gamepad"
-    },
-    {
-        id: 2,
-        name: "PC Game",
-        total: 9,
-        isActive: false,
-        icon: "gamepad"
-    },
-    {
-        id: 3,
-        name: "Voucher",
-        total: 9,
-        isActive: false,
-        icon: "gamepad"
-    },
-    {
-        id: 4,
-        name: "Pulsa",
-        total: 9,
-        isActive: false,
-        icon: "gamepad"
-    }
-]
 
 const CategoryItem = ({
     id,
@@ -48,7 +17,7 @@ const CategoryItem = ({
             case "gamepad":
                 return <Gamepad />
             default:
-                break;
+                return <Warning />;
         }
     }
     return (
@@ -87,7 +56,7 @@ const CategoryItem = ({
 const Category = () => {
     const { categories } = usePage().props
 
-    const [items, setItems] = useState(initialItems);
+    const [items, setItems] = useState(categories);
 
     const handleCategoryClick = (clickedId) => {
         setItems(prevItems =>
@@ -102,7 +71,7 @@ const Category = () => {
         <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none bg-default-100 p-2 rounded-3xl"
+            className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none sm:flex-wrap bg-default-100 p-2 rounded-3xl mx-8 justify-center"
         >
             <AnimatePresence>
                 {items.map((item) => (

@@ -27,7 +27,7 @@ const HeadingText = () => {
 
     return (
         <>
-            <h1 className="text-center text-[clamp(2.125rem,1.142rem+3.659vw,4rem)] font-bold leading-none text-foreground">
+            <h1 className="hidden sm:block text-center text-[clamp(2.125rem,1.142rem+3.659vw,4rem)] font-bold leading-none text-foreground">
                 Cara Mudah Bertransaksi <br /> dengan{" "}
                 <span className="relative">
                     <span className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent animate-pulse">Klik </span>
@@ -48,7 +48,7 @@ const HeadingText = () => {
                     />
                 </span>
             </h1>
-            <p className="text-center text-base text-default-600 w-[250px] sm:w-[466px] md:text-lg md:leading-6">
+            <p className="hidden sm:block text-center text-base text-default-600 w-[250px] sm:w-[466px] md:text-lg md:leading-6">
                 Eksplorasi semua fasilitas yang tidak sama dengan platform lainnya
                 dengan harga yang bervariasi.
             </p>

@@ -143,6 +143,15 @@ const Wallet = () => {
     )
 }
 
+const Code = () => {
+    return (
+        <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.5445 9.90915C16.1344 9.47346 16.1552 8.78784 16.5909 8.37778C17.0265 7.96772 17.7122 7.9885 18.1222 8.42419L22.4556 13.0284C22.8482 13.4455 22.8482 14.0962 22.4556 14.5133L18.1222 19.1175C17.7122 19.5532 17.0265 19.5739 16.5909 19.1639C16.1552 18.7538 16.1344 18.0682 16.5445 17.6325L20.179 13.7708L16.5445 9.90915ZM9.45555 9.90914L5.82102 13.7708L9.45555 17.6325C9.86561 18.0682 9.84483 18.7538 9.40915 19.1639C8.97346 19.5739 8.28784 19.5532 7.87778 19.1175L3.54445 14.5133C3.15185 14.0962 3.15185 13.4455 3.54445 13.0284L7.87778 8.42419C8.28784 7.9885 8.97346 7.96772 9.40915 8.37778C9.84483 8.78784 9.86561 9.47345 9.45555 9.90914Z" fill="#3699FF" />
+        </svg>
+
+    )
+}
+
 export const IconLists = [
     {
         id: 1,
@@ -193,4 +202,4 @@ const IconCase = (icon) => {
     }
 }
 
-export { ClipboardList, Home, GroupChat, Search, Cart, Moon, Sun, Gamepad, Warning, Write, DeletedFolder, Keyboard, Iphone, ActiveCall, Wallet, IconCase }
+export { ClipboardList, Home, GroupChat, Search, Cart, Moon, Sun, Gamepad, Warning, Write, DeletedFolder, Keyboard, Iphone, ActiveCall, Wallet, IconCase, Code }

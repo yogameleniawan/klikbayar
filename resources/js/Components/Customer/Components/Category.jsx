@@ -1,7 +1,7 @@
 import { Chip } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { IconCase } from '@/Components/Icons/Icon'
+import { Code, IconCase } from '@/Components/Icons/Icon'
 import { usePage } from '@inertiajs/react'
 import { useCategoryCatalogStore } from '@/store/useCategoryCatalogStore'
 
@@ -16,7 +16,7 @@ const CategoryItem = ({
     return (
         <div
             onClick={() => onClick(id)}
-            className="relative flex items-center space-x-2 px-3 py-2 cursor-pointer"
+            className="relative flex items-center space-x-2 px-3 py-2 cursor-pointer text-sm sm:text-md"
         >
             {isActive && (
                 <motion.div
@@ -65,25 +65,31 @@ const Category = () => {
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none sm:flex-wrap bg-default-100 p-2 rounded-3xl mx-8 sm:justify-center"
-        >
-            <AnimatePresence>
-                {items.map((item) => (
-                    <CategoryItem
-                        key={item.id}
-                        id={item.id}
-                        name={item.name}
-                        total={item.total}
-                        isActive={item.isActive}
-                        icon={item.icon}
-                        onClick={handleCategoryClick}
-                    />
-                ))}
-            </AnimatePresence>
-        </motion.div>
+        <div className="flex flex-col">
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none sm:flex-wrap bg-default-200 p-2 rounded-3xl mx-8 sm:justify-center"
+            >
+                <AnimatePresence>
+                    {items.map((item) => (
+                        <CategoryItem
+                            key={item.id}
+                            id={item.id}
+                            name={item.name}
+                            total={item.total}
+                            isActive={item.isActive}
+                            icon={item.icon}
+                            onClick={handleCategoryClick}
+                        />
+                    ))}
+                </AnimatePresence>
+            </motion.div>
+            <div className="flex mx-8 text-[10px] my-2 sm:hidden sm:mx-0 sm:my-0 items-center gap-1">
+                <Code />
+                <p>Geser untuk kategori lainnya</p>
+            </div>
+        </div>
     )
 }
 

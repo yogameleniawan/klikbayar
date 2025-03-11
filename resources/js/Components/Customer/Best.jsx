@@ -27,7 +27,7 @@ const Best = () => {
     return (
         <div className="flex flex-col items-center gap-2">
             <h3 className="text-4xl font-semibold">Best of the Blast</h3>
-            <span className="text-center text-sm mx-2">
+            <span className="text-center text-sm mx-8 sm:mx-2">
                 Waktunya kamu berpartisipasi untuk menjadi yang terbaik saat ini!
             </span>
             <div className="max-w-[500px] gap-2 grid grid-cols-3 sm:grid-cols-12 grid-rows-auto sm:grid-rows-1 px-8 mt-2">

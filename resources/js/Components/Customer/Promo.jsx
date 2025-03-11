@@ -32,7 +32,7 @@ const Promo = () => {
                 effect={'cards'}
                 grabCursor={true}
                 modules={[EffectCards]}
-                className="w-44 h-50 sm:w-52 sm:h-full mt-2"
+                className="w-36 h-50 sm:w-52 sm:h-full mt-2"
             >
                 {
                     items.map((item, i) => {

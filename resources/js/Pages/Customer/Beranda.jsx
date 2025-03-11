@@ -92,7 +92,7 @@ const Beranda = () => {
                 <Banner />
                 <HeadingText />
             </div>
-            <div className="flex flex-col items-center mt-10 gap-8">
+            <div className="flex flex-col items-center mt-2 sm:mt-10 gap-8">
                 <Promo />
                 <Best />
                 <Catalog />

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('product_details', function (Blueprint $table) {
             $table->uuid('id');
             $table->integer('margin');
-            $table->text('input');
             $table->foreignUuid('product_id');
             $table->foreignUuid('digi_product_id');
             $table->timestamps();

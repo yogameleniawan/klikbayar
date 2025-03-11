@@ -15,7 +15,9 @@ return new class extends Migration
             $table->uuid('id');
             $table->text('name');
             $table->text('description');
+            $table->text('brand');
             $table->text('slug');
+            $table->text('input');
             $table->foreignUuid('banner_id');
             $table->foreignUuid('image_id');
             $table->foreignUuid('product_category_id');

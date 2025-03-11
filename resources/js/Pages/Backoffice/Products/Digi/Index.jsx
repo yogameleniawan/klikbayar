@@ -13,6 +13,9 @@ export default function Index({ products: data }) {
         mutationFn: () => {
             return axios.post(route('backoffice.products.digi.store'));
         },
+        onSuccess: () => {
+            window.location.reload();
+        }
     })
 
     return (

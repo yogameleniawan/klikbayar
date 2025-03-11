@@ -4,6 +4,7 @@ import { Form } from "@nextui-org/form";
 import { FileIcon, XCircleIcon } from 'lucide-react';
 
 const FileImageUploadForm = ({
+    name = "image", // Add name prop with default value
     data,
     setData,
     maxSize = 10485760, // 10MB in bytes
@@ -21,6 +22,12 @@ const FileImageUploadForm = ({
             setPreviews([])
         }
     }, [processing]);
+
+    useEffect(() => {
+        if (!data[name]) {
+            setData(name, []);
+        }
+    }, [name, data, setData]);
 
     const formatFileSize = (bytes) => {
         if (bytes === 0) return '0 Bytes';
@@ -45,17 +52,20 @@ const FileImageUploadForm = ({
     };
 
     const handleFileChange = (e) => {
+        console.log(e.target.files)
         const selectedFiles = Array.from(e.target.files);
 
         const validationError = validateFiles(selectedFiles);
+        console.log(validationError)
         if (validationError) {
             setError(validationError);
             return;
         }
         setError(null);
 
-        setData('image', [...data.image, ...selectedFiles]);
+        setData(name, [...(data[name] || []), ...selectedFiles]);
 
+        console.log({selectedFiles})
         const newPreviews = selectedFiles.map(file => ({
             id: Math.random().toString(36).substr(2, 9),
             file,
@@ -77,7 +87,7 @@ const FileImageUploadForm = ({
             return prev.filter(p => p.id !== id);
         });
 
-        setData('image', data.image.filter((_, i) => i !== index));
+        setData(name, (data[name] || []).filter((_, i) => i !== index));
     };
 
     return (
@@ -92,7 +102,7 @@ const FileImageUploadForm = ({
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                             </svg>
                             <p className="mb-2 text-sm text-gray-500">
-                                <span className="font-semibold">Click to upload</span>
+                                <span className="font-semibold">Click to upload</span> {name}
                             </p>
                             <p className="text-xs text-gray-500">
                                 {multiple && `Multiple files allowed`}

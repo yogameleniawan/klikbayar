@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import { Card, CardHeader, Chip, Image } from '@nextui-org/react'
 import React from 'react'
 import Category from './Components/Category'

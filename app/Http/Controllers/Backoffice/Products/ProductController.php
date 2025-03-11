@@ -107,6 +107,7 @@ class ProductController extends Controller
                     'image_id' => $image_id,
                     'product_category_id' => $request->product_category_id
                 ]);
+
                 foreach($request->products as $item) {
                     ProductDetail::create([
                         'margin' => $item["margin"],

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('type');
             $table->integer('price');
             $table->string('buyer_sku_code');
+            $table->string('seller_name');
             $table->boolean('buyer_product_status');
             $table->boolean('seller_product_status');
             $table->boolean('unlimited_stock');

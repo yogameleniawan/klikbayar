@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\File;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@test.com',
             'password' => Hash::make('qwerty')
+        ]);
+
+        $this->call([
+            FileSeeder::class,
+            BannerSeeder::class,
+            DigiProductSeeder::class,
+            ProductSeeder::class,
+            ProductDetailSeeder::class,
         ]);
     }
 }

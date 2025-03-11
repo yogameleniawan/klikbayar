@@ -2,6 +2,7 @@ import { Chip } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Gamepad } from '@/Components/Icons/Icon'
+import { usePage } from '@inertiajs/react'
 
 const initialItems = [
     {
@@ -84,6 +85,8 @@ const CategoryItem = ({
 }
 
 const Category = () => {
+    const { categories } = usePage().props
+
     const [items, setItems] = useState(initialItems);
 
     const handleCategoryClick = (clickedId) => {

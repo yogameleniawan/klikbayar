@@ -35,7 +35,7 @@ const Best = () => {
                     items.map((item, i) => {
                         return (
                             <Card isFooterBlurred className="sm:col-span-4 sm:hover:-translate-y-2">
-                                <Link href={route('customer.detail', {
+                                <Link href={route('customer.checkout', {
                                     slug: item.slug
                                 })}>
                                     <Image

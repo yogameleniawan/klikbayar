@@ -13,7 +13,7 @@ Route::middleware('auth')->group(function () {
 
 Route::group(['as' => 'customer.'], function() {
     Route::get('/', [CustomerController::class, 'index'])->name('beranda');
-    Route::get('/{slug}', [CustomerController::class, 'detail'])->name('detail');
+    Route::get('/checkout/{slug}', [CustomerController::class, 'checkout'])->name('checkout');
 });
 
 Route::get('stream/image', [ImageController::class, 'streamImage'])->name('stream');

@@ -29,7 +29,7 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function detail($slug) {
+    public function checkout($slug) {
         return Inertia::render('Customer/Detail/Index');
     }
 }

@@ -1,3 +1,4 @@
+import { IconCase } from "@/Components/Icons/Icon";
 import { VerticalDotsIcon } from "@/Components/Tables/ServerSideTable";
 import { router } from "@inertiajs/react";
 import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from "@nextui-org/react";
@@ -10,6 +11,10 @@ const columnRender = (data, columnKey) => {
         case "name":
             return (
                 <p>{data.name}</p>
+            );
+        case "icon":
+            return (
+                IconCase(data.icon)
             );
         case "actions":
             return (

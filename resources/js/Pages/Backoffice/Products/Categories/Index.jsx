@@ -14,10 +14,11 @@ export default function Index({ categories: data }) {
                 <BreadcrumbItem onPress={() => { router.visit(route('backoffice.products.categories.index')) }}>Categories</BreadcrumbItem>
             </Breadcrumbs>
             <ServerSideTable
-                initialVisibleColumns={["name", "actions"]}
+                initialVisibleColumns={["name", "icon", "actions"]}
                 columns={[
                     { name: "ID", uid: "id", sortable: true },
                     { name: "NAME", uid: "name", sortable: true },
+                    { name: "ICON", uid: "icon", sortable: true },
                     { name: "ACTIONS", uid: "actions" },
                 ]}
                 collections={data}

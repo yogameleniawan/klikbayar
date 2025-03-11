@@ -1,9 +1,11 @@
 import React from "react";
-import { Form, Input, Button, Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
+import { Form, Input, Button, Breadcrumbs, BreadcrumbItem, Select, SelectItem } from "@nextui-org/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head, router, usePage } from "@inertiajs/react";
 import AlertMessage from "@/Components/Alert/AlertMessage";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
+import { ActiveCall, Gamepad, IconLists, Iphone, Keyboard, Wallet } from "@/Components/Icons/Icon";
+
 export default function Add() {
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -53,6 +55,31 @@ export default function Add() {
                     errorMessage={errors.name || "Please enter a valid name"}
                     isInvalid={errors.name}
                 />
+
+                <Select
+                    items={IconLists}
+                    label="Icon"
+                    labelPlacement="outside"
+                    placeholder="Select a Icon"
+                    name="icon"
+                    renderValue={(items) => {
+                        return items.map((item) => (
+                            <div key={item.data.key} className="flex items-center gap-2">
+                                {item.data.icon}
+                                <span>{item.data.value}</span>
+                            </div>
+                        ));
+                    }}
+                >
+                    {(item) => (
+                        <SelectItem key={item.value} textValue={item.value} value={item.value}>
+                            <div key={item.key} className="flex items-center gap-2">
+                                {item.icon}
+                                <span>{item.value}</span>
+                            </div>
+                        </SelectItem>
+                    )}
+                </Select>
 
                 <div className="flex gap-2">
                     <Button color="primary" type="submit" isLoading={isLoading}>

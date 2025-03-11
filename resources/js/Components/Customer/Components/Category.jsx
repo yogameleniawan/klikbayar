@@ -1,7 +1,7 @@
 import { Chip } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Gamepad, Warning } from '@/Components/Icons/Icon'
+import { IconCase } from '@/Components/Icons/Icon'
 import { usePage } from '@inertiajs/react'
 import { useCategoryCatalogStore } from '@/store/useCategoryCatalogStore'
 
@@ -13,14 +13,6 @@ const CategoryItem = ({
     icon,
     onClick
 }) => {
-    const IconCase = (icon) => {
-        switch (icon) {
-            case "gamepad":
-                return <Gamepad />
-            default:
-                return <Warning />;
-        }
-    }
     return (
         <div
             onClick={() => onClick(id)}

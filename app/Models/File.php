@@ -48,4 +48,8 @@ class File extends Model
     public function banner(): HasMany {
         return $this->hasMany(Banner::class);
     }
+
+    public function product(): HasMany {
+        return $this->hasMany(Product::class);
+    }
 }

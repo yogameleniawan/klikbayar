@@ -19,4 +19,14 @@ class Product extends Model
     {
         return $this->belongsTo(ProductCategory::class);
     }
+
+    public function image()
+    {
+        return $this->belongsTo(File::class, 'image_id');
+    }
+
+    public function banner()
+    {
+        return $this->belongsTo(File::class, 'banner_id');
+    }
 }

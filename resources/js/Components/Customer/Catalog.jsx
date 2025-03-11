@@ -1,7 +1,10 @@
 import { Link, usePage } from '@inertiajs/react'
 import { Card, CardHeader, Chip, Image } from '@nextui-org/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Category from './Components/Category'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import { useCategoryCatalogStore } from '@/store/useCategoryCatalogStore'
 
 const items = [
     {
@@ -25,12 +28,30 @@ const items = [
 ]
 
 const Catalog = () => {
+
+    const categoryStore = useCategoryCatalogStore();
+
+    const { isLoading, data } = useQuery({
+        queryKey: ["data-products", categoryStore.category],
+        queryFn: async () => {
+            const res = await axios.get(route('api.product.get', {
+                'category': categoryStore.category
+            }));
+
+            const data = res.data;
+
+            return data;
+        },
+    })
+
+    console.log(data);
+
     return (
         <div className="flex flex-col items-center gap-3">
             <Category />
             <div className="max-w-[700px] gap-2 grid grid-cols-2 sm:grid-cols-12 grid-rows-auto sm:grid-rows-1 px-8 mt-2">
                 {
-                    items.map((item, i) => {
+                    data && data.map((item, i) => {
                         return (
                             <Card className="sm:col-span-4 sm:hover:-translate-y-2">
                                 <Link href={route('customer.detail', { slug: item.slug })}>
@@ -42,7 +63,9 @@ const Catalog = () => {
                                         removeWrapper
                                         alt="Card background"
                                         className="z-0 w-full h-full object-cover"
-                                        src={item.image}
+                                        src={route('stream', {
+                                            path: item.image
+                                        })}
                                     />
                                 </Link>
                             </Card>

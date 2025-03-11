@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Gamepad, Warning } from '@/Components/Icons/Icon'
 import { usePage } from '@inertiajs/react'
+import { useCategoryCatalogStore } from '@/store/useCategoryCatalogStore'
 
 const CategoryItem = ({
     id,
@@ -58,7 +59,11 @@ const Category = () => {
 
     const [items, setItems] = useState(categories);
 
+    const categoryStore = useCategoryCatalogStore();
+
     const handleCategoryClick = (clickedId) => {
+        categoryStore.setCategory(clickedId);
+
         setItems(prevItems =>
             prevItems.map(item => ({
                 ...item,

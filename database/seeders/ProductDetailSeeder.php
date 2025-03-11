@@ -17,6 +17,7 @@ class ProductDetailSeeder extends Seeder
     {
         ProductDetail::create([
             'margin' => 2,
+            'discount' => 2,
             'product_id' => Product::first()->id,
             'digi_product_id' => DigiProduct::first()->id,
         ]);

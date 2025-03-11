@@ -114,6 +114,7 @@ class ProductController extends Controller
                 foreach($request->products as $item) {
                     ProductDetail::create([
                         'margin' => $item["margin"],
+                        'discount' => $item["discount"],
                         'product_id' => $product->id,
                         'digi_product_id' => $item["digi_product"],
                     ]);

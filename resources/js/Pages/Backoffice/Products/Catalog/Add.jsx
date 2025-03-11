@@ -18,7 +18,7 @@ const DynamicProductsForm = ({
     const [productItems, setProductItems] = useState(data.products || []);
 
     const handleAddProduct = () => {
-        const newProducts = [...productItems, { digi_product: "", margin: "" }];
+        const newProducts = [...productItems, { digi_product: "", margin: "", discount: "" }];
         setProductItems(newProducts);
         setData('products', newProducts);
     };
@@ -84,6 +84,17 @@ const DynamicProductsForm = ({
                                 errorMessage={errors[`products.${index}.margin`] || "Please enter a valid margin"}
                                 isInvalid={errors[`products.${index}.margin`]}
                                 onChange={(e) => handleProductChange(index, "margin", e.target.value)}
+                            />
+                            <Input
+                                isRequired
+                                label="Discount"
+                                labelPlacement="outside"
+                                placeholder="Enter discount (%) percent"
+                                type="number"
+                                value={product.discount}
+                                errorMessage={errors[`products.${index}.discount`] || "Please enter a valid discount"}
+                                isInvalid={errors[`products.${index}.discount`]}
+                                onChange={(e) => handleProductChange(index, "discount", e.target.value)}
                             />
                         </div>
                     </div>
@@ -210,17 +221,21 @@ export default function Add() {
                     digiflazz_products={digiflazz_products}
                 />
 
-                <FileImageUploadForm
-                    name="image"
-                    data={data}
-                    setData={setData}
-                    processing={processing} />
+                <div className="flex flex-row gap-2 w-full">
+                    <FileImageUploadForm
+                        className="w-96"
+                        name="image"
+                        data={data}
+                        setData={setData}
+                        processing={processing} />
 
-                <FileImageUploadForm
-                    name="banner"
-                    data={data}
-                    setData={setData}
-                    processing={processing} />
+                    <FileImageUploadForm
+                        className="w-full"
+                        name="banner"
+                        data={data}
+                        setData={setData}
+                        processing={processing} />
+                </div>
 
                 <div className="flex gap-2">
                     <Button color="primary" type="submit" isLoading={processing}>

@@ -32,6 +32,7 @@ const Index = ({ banners }) => {
             <AlertMessage />
             <Form className="flex flex-col gap-3" onSubmit={submit} encType='multipart/form-data'>
                 <FileImageUploadForm
+                    className={"w-full"}
                     data={data}
                     setData={setData}
                     processing={processing}

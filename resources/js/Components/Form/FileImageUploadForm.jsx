@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from '@nextui-org/react';
 import { Form } from "@nextui-org/form";
-import { FileIcon, XCircleIcon } from 'lucide-react';
+import { FileIcon, TrashIcon, XCircleIcon } from 'lucide-react';
 
 const FileImageUploadForm = ({
     name = "image", // Add name prop with default value
@@ -91,7 +91,7 @@ const FileImageUploadForm = ({
     };
 
     return (
-        <Card className={`p-4 ${className} w-full`}>
+        <Card className={`p-4 ${className}`}>
             <Form>
                 <div className="mb-4 w-full">
                     <label
@@ -125,33 +125,33 @@ const FileImageUploadForm = ({
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-12 grid-rows-auto sm:grid-rows-1 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 grid-rows-auto sm:grid-rows-1 gap-2 w-full">
                     {previews.map((preview, index) => (
-                        <div key={preview.id} className="sm:col-span-4 relative flex items-center p-4 border rounded-lg">
+                        <div key={preview.id} className="sm:col-span-1 flex flex-col p-2 border rounded-lg items-center gap-2">
                             <button
                                 type="button"
                                 onClick={() => removeFile(preview.id, index)}
-                                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 hover:text-gray-700"
                             >
-                                <XCircleIcon size={20} />
+                                <TrashIcon className="bg-red-400 text-white p-2 rounded-full" size={30} />
                             </button>
 
-                            <div className="flex items-center space-x-4 flex-1">
+                            <div className="flex flex-col items-center gap-2">
                                 {preview.file.type.startsWith('image/') ? (
                                     <img
                                         src={preview.preview}
                                         alt="preview"
-                                        className="w-16 h-16 object-cover rounded"
+                                        className="w-12 h-12 object-cover rounded"
                                     />
                                 ) : (
-                                    <div className="w-16 h-16 flex items-center justify-center bg-gray-100 rounded">
+                                    <div className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded">
                                         <FileIcon size={24} className="text-gray-500" />
                                     </div>
                                 )}
 
-                                <div className="flex-1">
-                                    <p className="font-medium truncate w-24 sm:w-36">{preview.file.name}</p>
-                                    <p className="text-sm text-gray-500">{formatFileSize(preview.file.size)}</p>
+                                <div className="flex flex-col items-center text-center">
+                                    <p className="text-[6px] font-medium truncate w-24 sm:w-36 text-wrap">{preview.file.name}</p>
+                                    <p className="text-[8px] text-sm text-gray-500">{formatFileSize(preview.file.size)}</p>
                                 </div>
                             </div>
                         </div>

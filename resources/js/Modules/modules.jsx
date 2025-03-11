@@ -4,27 +4,27 @@ const menuItems = [
     {
         name: 'Dashboard',
         icon: <FiGrid size={20} />,
-        path: `${route('backoffice.dashboard.index')}`,
+        path: `/admin/dashboard`,
         count: 3,
     },
     {
         name: 'Banners',
         icon: <FiImage size={20} />,
-        path: `${route('backoffice.banners.index')}`,
+        path: `/admin/banners`,
     },
     {
         name: 'Users',
         icon: <FiUser size={20} />,
-        path: `${route('backoffice.users.index')}`,
+        path: `/admin/users`,
     },
     {
         name: 'Products',
         icon: <FiServer size={20} />,
-        path: '/products',
+        path: '/admin/products',
         submenu: [
-            { name: 'Categories', path: `${route('backoffice.products.categories.index')}` },
-            { name: 'Digiflazz', path: `${route('backoffice.products.digi.index')}` },
-            { name: 'Catalog', path: `${route('backoffice.products.catalog.index')}` },
+            { name: 'Categories', path: `/admin/products/categories` },
+            { name: 'Digiflazz', path: `/admin/products/digi` },
+            { name: 'Catalog', path: `/admin/products/catalog` },
         ],
     },
     {

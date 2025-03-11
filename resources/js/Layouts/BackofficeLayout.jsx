@@ -6,11 +6,12 @@ import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 import { menuItems } from '@/Modules/modules';
 import { Link, router, usePage } from '@inertiajs/react';
 import { GoDot } from "react-icons/go";
+import { checkActiveUrl } from '@/utils/check_active_url';
 
 const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
     const MenuContent = () => (
         <div
-            className={`flex items-center gap-4 px-4 py-3 rounded-xl ${item.path.includes(usePage().url.split("?")[0]) ? 'bg-default/40' : ''} hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all`}
+            className={`flex items-center gap-4 px-4 py-3 rounded-xl ${checkActiveUrl(usePage().url, item.path) ? 'bg-default/40' : ''} hover:bg-default/40 dark:hover:text-white cursor-pointer transition-all`}
             onClick={() => {
                 if (item.submenu) toggleSubMenu(index);
             }}
@@ -43,7 +44,7 @@ const MenuItem = ({ item, isOpen, index, activeMenu, toggleSubMenu }) => {
             )}
 
             {item.submenu && isOpen && (
-                activeMenu === index || item.submenu.some((item) => item.path.includes(usePage().url.split("?")[0])) ? <FiMinusCircle size={20} /> : <FiPlusCircle size={20} />
+                activeMenu === index || item.submenu.some((item) => checkActiveUrl(usePage().url, item.path)) ? <FiMinusCircle size={20} /> : <FiPlusCircle size={20} />
             )}
         </div>
     );
@@ -139,13 +140,13 @@ export default function BackofficeLayout({ children }) {
                                 {item.submenu && (
                                     isOpen ?
                                         <ul
-                                            className={`ml-4 space-y-2 overflow-hidden ${activeMenu === index || item.submenu.some((item) => item.path.includes(usePage().url.split("?")[0])) ? 'mt-2 max-h-screen transition-all duration-300' : 'max-h-0'
+                                            className={`ml-4 space-y-2 overflow-hidden ${activeMenu === index || item.submenu.some((item) => checkActiveUrl(usePage().url, item.path)) ? 'mt-2 max-h-screen transition-all duration-300' : 'max-h-0'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (
                                                 <li key={subIndex}>
                                                     <Link href={subItem.path}>
-                                                        <a className={`flex items-center hover:text-default-500 gap-4 px-4 py-2 rounded-xl ${subItem.path.includes(usePage().url.split("?")[0]) && 'bg-default/40'} hover:bg-default/40 transition-all`}>
+                                                        <a className={`flex items-center hover:text-default-500 gap-4 px-4 py-2 rounded-xl ${checkActiveUrl(usePage().url, subItem.path) && 'bg-default/40'} hover:bg-default/40 transition-all`}>
                                                             {isOpen && <span className='flex flex-row items-center gap-1'><GoDot size={20} />{subItem.name}</span>}
                                                         </a>
                                                     </Link>
@@ -153,7 +154,7 @@ export default function BackofficeLayout({ children }) {
                                             ))}
                                         </ul> :
                                         <ul
-                                            className={`space-y-2 overflow-hidden transition-all ${activeMenu === index || item.path.includes(usePage().url.split("?")[0]) ? 'z-10 max-h-screen px-4 bg-default-100 rounded-xl transition-all' : '-z-10 px-4 max-h-0 rounded-xl animate-pulse transition-all'
+                                            className={`space-y-2 overflow-hidden transition-all ${activeMenu === index || checkActiveUrl(usePage().url, item.path) ? 'z-10 max-h-screen px-4 bg-default-100 rounded-xl transition-all' : '-z-10 px-4 max-h-0 rounded-xl animate-pulse transition-all'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (

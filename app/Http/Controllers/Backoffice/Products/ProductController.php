@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice\Products;
 
 use App\Http\Controllers\Controller;
 use App\Models\DigiProduct;
+use App\Models\File;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductDetail;
@@ -23,13 +24,15 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::search(
+        $products = Product::select('products.*', 'product_categories.name as category_name')
+            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->search(
             keyword: $request->search,
-            columns: ["id", "name"],
-        )
+            columns: ["products.id", "products.name", "product_categories.name"],
+            )
             ->sort(
-                sort_by: $request->sort_by ?? 'name',
-                sort_order: $request->sort_order == 'ascending' ? 'ASC' : 'DESC'
+            sort_by: $request->sort_by ?? 'products.name',
+            sort_order: $request->sort_order == 'ascending' ? 'ASC' : 'DESC'
             )
             ->paginate($request->length ?? 10);
 
@@ -105,7 +108,7 @@ class ProductController extends Controller
                     'slug' => Str::slug($request->name),
                     'banner_id' => $banner_id,
                     'image_id' => $image_id,
-                    'product_category_id' => $request->product_category_id
+                    'product_category_id' => ProductCategory::where('name', $request->product_category_id)->first()->id
                 ]);
 
                 foreach($request->products as $item) {
@@ -154,6 +157,23 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+        $image = File::find($product->image_id);
+        $banner = File::find($product->banner_id);
+        $detail_product = ProductDetail::where('product_id', $id)->first();
+
+        try {
+            $product->delete();
+            $image->delete();
+            $image->delete();
+            $detail_product->delete();
+
+            $this->fileService->delete($banner->file->path);
+            $this->fileService->delete($image->file->path);
+
+            return back()->with('message', 'Data deleted successfuly');
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' =>  $th->getMessage()]);
+        }
     }
 }

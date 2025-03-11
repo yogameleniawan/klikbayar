@@ -38,7 +38,7 @@ class ProductController extends Controller
                     'slug' => $product->slug,
                 ];
             }
-        );;
+        );
 
         return response()->json($products);
     }

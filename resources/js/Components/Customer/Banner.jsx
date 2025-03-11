@@ -10,7 +10,7 @@ const Banner = () => {
     const banners = usePage().props.banners;
 
     return (
-        <div className="flex w-full justify-center py-5 animate-gradient">
+        <div className="flex w-full justify-center py-5 px-4 animate-gradient">
             <div className="w-full max-w-screen-lg">
                 <Swiper
                     pagination={{
@@ -22,7 +22,7 @@ const Banner = () => {
                     {
                         banners.map((item, i) => {
                             return (
-                                <SwiperSlide>
+                                <SwiperSlide key={i}>
                                     <Image src={route('stream', {
                                         path: item.file.path
                                     })} />

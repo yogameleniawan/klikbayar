@@ -37,7 +37,7 @@ const Promo = () => {
                 {
                     items.map((item, i) => {
                         return (
-                            <SwiperSlide>
+                            <SwiperSlide key={i}>
                                 <Link href={route('customer.checkout', { slug: item.slug })}>
                                     <Image src={item.image} />
                                 </Link>

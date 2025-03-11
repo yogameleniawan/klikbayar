@@ -105,7 +105,7 @@ const Index = () => {
                         {
                             items.map((item, i) => {
                                 return (
-                                    <ItemProduct id={item.id} name={item.product} price={item.price} selected={item.selected} onClick={handleCategoryClick} />
+                                    <ItemProduct key={i} id={item.id} name={item.product} price={item.price} selected={item.selected} onClick={handleCategoryClick} />
                                 )
                             })
                         }

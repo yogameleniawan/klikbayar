@@ -47,7 +47,7 @@ const Catalog = () => {
                         {
                             data.map((item, i) => {
                                 return (
-                                    <Card className="sm:col-span-4 sm:hover:-translate-y-2">
+                                    <Card key={i} className="sm:col-span-4 sm:hover:-translate-y-2">
                                         <Link href={route('customer.checkout', { slug: item.slug })}>
                                             <CardHeader className="absolute z-10 top-1 flex-col !items-start">
                                                 <p className="text-tiny text-white/60 uppercase font-bold">{item.brand}</p>

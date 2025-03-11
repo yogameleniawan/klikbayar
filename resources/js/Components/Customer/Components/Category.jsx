@@ -68,7 +68,7 @@ const Category = () => {
         <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none sm:flex-wrap bg-default-100 p-2 rounded-3xl mx-8 justify-center"
+            className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none sm:flex-wrap bg-default-100 p-2 rounded-3xl mx-8 sm:justify-center"
         >
             <AnimatePresence>
                 {items.map((item) => (

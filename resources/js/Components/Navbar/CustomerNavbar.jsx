@@ -23,9 +23,7 @@ import { cn } from "@nextui-org/react";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { router, usePage } from "@inertiajs/react";
 import SearchModal from "../Modal/SearchModal";
-import { AiFillHome } from "react-icons/ai";
-import { HiShoppingCart } from "react-icons/hi2";
-import { BiSolidContact } from "react-icons/bi";
+import { ClipboardList, GroupChat, Home, Moon, Sun } from "../Icons/Icon";
 
 const AcmeIcon = ({ size = 32, width, height, ...props }) => (
     <svg fill="none" height={size || height} viewBox="0 0 32 32" width={size || width} {...props}>
@@ -42,17 +40,17 @@ const menuItems = [
     {
         title: "Beranda",
         path: "/",
-        icon: <AiFillHome />
+        icon: <Home />
     },
     {
         title: "Cek Transaksi",
         path: "/cek-transaksi",
-        icon: <HiShoppingCart />
+        icon: <ClipboardList />
     },
     {
         title: "Kontak Kami",
         path: "/kontak-kami",
-        icon: <BiSolidContact />
+        icon: <GroupChat />
     },
 ];
 
@@ -121,7 +119,7 @@ const CustomerNavbar = (props) => {
                     <Tooltip content={darkMode ? "Light" : "Dark"}>
                         <Button isIconOnly onPress={toggleDarkMode} className="rounded-full bg-default-200 dark:bg-default-100" >
                             {darkMode ?
-                                <MdLightMode size={20} className='cursor-pointer' /> : <MdDarkMode size={20} className='cursor-pointer text-default-500' />
+                                <Sun size={20} className='cursor-pointer' /> : <Moon size={20} className='cursor-pointer text-default-500' />
                             }
                         </Button>
                     </Tooltip>
@@ -163,7 +161,7 @@ const CustomerNavbar = (props) => {
                     <Tooltip content={darkMode ? "Light" : "Dark"}>
                         <Button isIconOnly onPress={toggleDarkMode} className="rounded-full bg-default-200 dark:bg-default-100" >
                             {darkMode ?
-                                <MdLightMode size={20} className='cursor-pointer' /> : <MdDarkMode size={20} className='cursor-pointer text-default-500' />
+                                <Sun size={20} className='cursor-pointer' /> : <Moon size={20} className='cursor-pointer text-default-500' />
                             }
                         </Button>
                     </Tooltip>

@@ -8,6 +8,7 @@ import {
     useDisclosure,
     Tooltip,
 } from "@nextui-org/react";
+import { Search } from "../Icons/Icon";
 
 export const SearchIcon = ({ size = 24, strokeWidth = 1.5, width, height, ...props }) => {
     return (
@@ -46,7 +47,7 @@ export default function SearchModal() {
         <>
             <Tooltip content={"Search Product"}>
                 <Button isIconOnly onPress={onOpen} className="rounded-full bg-default-200 dark:bg-default-100" >
-                    <SearchIcon />
+                    <Search />
                 </Button>
             </Tooltip>
             <Modal

@@ -1,6 +1,7 @@
 import { Chip } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Gamepad } from '@/Components/Icons/Icon'
 
 const initialItems = [
     {
@@ -8,24 +9,28 @@ const initialItems = [
         name: "Mobile Game",
         total: 9,
         isActive: true,
+        icon: "gamepad"
     },
     {
         id: 2,
         name: "PC Game",
         total: 9,
         isActive: false,
+        icon: "gamepad"
     },
     {
         id: 3,
         name: "Voucher",
         total: 9,
         isActive: false,
+        icon: "gamepad"
     },
     {
         id: 4,
         name: "Pulsa",
         total: 9,
         isActive: false,
+        icon: "gamepad"
     }
 ]
 
@@ -34,8 +39,17 @@ const CategoryItem = ({
     name,
     total,
     isActive,
+    icon,
     onClick
 }) => {
+    const IconCase = (icon) => {
+        switch (icon) {
+            case "gamepad":
+                return <Gamepad />
+            default:
+                break;
+        }
+    }
     return (
         <div
             onClick={() => onClick(id)}
@@ -53,6 +67,9 @@ const CategoryItem = ({
                     }}
                 />
             )}
+            <div className={`relative ${isActive ? 'bg-white rounded-full p-1' : 'text-default-700'}`}>
+                {IconCase(icon)}
+            </div>
             <span className={`relative z-10 text-nowrap ${isActive ? 'text-white' : 'text-default-700'}`}>
                 {name}
             </span>
@@ -92,6 +109,7 @@ const Category = () => {
                         name={item.name}
                         total={item.total}
                         isActive={item.isActive}
+                        icon={item.icon}
                         onClick={handleCategoryClick}
                     />
                 ))}

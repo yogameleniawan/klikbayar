@@ -29,4 +29,8 @@ class Product extends Model
     {
         return $this->belongsTo(File::class, 'banner_id');
     }
+
+    public function detail() {
+        return $this->hasMany(ProductDetail::class, 'product_id');
+    }
 }

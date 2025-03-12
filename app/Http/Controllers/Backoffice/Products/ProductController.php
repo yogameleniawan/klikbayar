@@ -219,11 +219,14 @@ class ProductController extends Controller
                     'product_category_id' => ProductCategory::where('name', $request->product_category_id)->first()->id
                 ]);
 
+                ProductDetail::where('product_id', $product->id)->delete();
+
                 foreach($request->products as $item) {
-                    ProductDetail::where('product_id', $product->id)->update([
+                    ProductDetail::create([
                         'margin' => $item["margin"],
                         'discount' => $item["discount"],
                         'digi_product_id' => $item["digi_product_id"],
+                        'product_id' => $product->id,
                         'is_active' => $item["is_active"],
                     ]);
                 }

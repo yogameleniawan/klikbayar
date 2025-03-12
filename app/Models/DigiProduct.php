@@ -16,4 +16,8 @@ class DigiProduct extends Model
     protected $table = 'digi_products';
 
     protected $guarded = ['created_at', 'updated_at'];
+
+    public function detail() {
+        return $this->hasMany(ProductDetail::class, 'digi_product_id');
+    }
 }

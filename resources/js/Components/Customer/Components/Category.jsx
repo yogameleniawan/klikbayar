@@ -65,11 +65,11 @@ const Category = () => {
     };
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col z-30 sticky top-20 ">
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-[22rem] sm:max-w-none sm:flex-wrap bg-default-200 p-2 rounded-3xl mx-0 sm:mx-8 sm:justify-center"
+                className="flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-[22rem] sm:max-w-none sm:flex-wrap bg-default-200 p-2 rounded-3xl mx-0 sm:mx-8 sm:justify-center"
             >
                 <AnimatePresence>
                     {items.map((item) => (

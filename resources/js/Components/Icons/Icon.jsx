@@ -162,6 +162,20 @@ const Layer = () => {
     )
 }
 
+const Fire = (className) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
+            <path fillRule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z" clipRule="evenodd" />
+        </svg>
+    )
+}
+
+const Star = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" className="text-warning-500 iconify iconify--solar" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9.153 5.408C10.42 3.136 11.053 2 12 2s1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182s.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506s-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452s-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882S3.58 8.328 6.04 7.772l.636-.144c.699-.158 1.048-.237 1.329-.45s.46-.536.82-1.182z"></path></svg>
+    )
+}
+
 export const IconLists = [
     {
         id: 1,
@@ -219,4 +233,4 @@ const IconCase = (icon) => {
     }
 }
 
-export { ClipboardList, Home, GroupChat, Search, Cart, Moon, Sun, Gamepad, Warning, Write, DeletedFolder, Keyboard, Iphone, ActiveCall, Wallet, IconCase, Code, Layer }
+export { ClipboardList, Home, GroupChat, Search, Cart, Moon, Sun, Gamepad, Warning, Write, DeletedFolder, Keyboard, Iphone, ActiveCall, Wallet, IconCase, Code, Layer, Fire, Star }

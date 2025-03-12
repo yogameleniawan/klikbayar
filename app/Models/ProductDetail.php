@@ -14,4 +14,12 @@ class ProductDetail extends Model
     use HasFactory, HasUuids, Searchable, Sortable;
 
     protected $guarded = ['created_at', 'updated_at'];
+
+    public function product() {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function digiflazz() {
+        return $this->belongsTo(DigiProduct::class, 'digi_product_id');
+    }
 }

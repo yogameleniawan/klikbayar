@@ -59,7 +59,7 @@ const CustomerNavbar = (props) => {
 
     const [darkMode, setDarkMode] = React.useState(() => {
         const storedPreference = localStorage.getItem('darkMode');
-        return storedPreference ? JSON.parse(storedPreference) : false;
+        return storedPreference ? JSON.parse(storedPreference) : true;
     });
 
     React.useEffect(() => {

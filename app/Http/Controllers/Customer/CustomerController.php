@@ -35,6 +35,10 @@ class CustomerController extends Controller
 
     public function checkout($slug)
     {
-        return Inertia::render('Customer/Detail/Index');
+        $product = Product::with(['category', 'detail.digiflazz', 'banner', 'image'])->where('slug', $slug)->first()->toArray();
+
+        return Inertia::render('Customer/Detail/Index', [
+            'product' => $product
+        ]);
     }
 }

@@ -12,8 +12,8 @@ class ProductController extends Controller
     public function getProductByCategory(Request $request) {
         $category = $request->category;
 
-        if ($category == null) {
-            $products = Product::where('product_category_id', ProductCategory::first()->id)->get()->map(
+        if ($category == null || ProductCategory::where('id', $category)->pluck('name')->first() == "Semua") {
+            $products = Product::all()->map(
                 function ($product) {
                     return [
                         'id' => $product->id,

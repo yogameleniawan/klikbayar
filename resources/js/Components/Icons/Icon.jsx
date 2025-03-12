@@ -152,6 +152,16 @@ const Code = () => {
     )
 }
 
+const Layer = () => {
+    return (
+        <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.0114 17.9119L20.9733 12.3696L21.1446 12.2339C21.8482 11.6768 21.967 10.6547 21.4098 9.95116C21.3327 9.85374 21.2446 9.76549 21.1474 9.68813L14.0115 4.01286C13.4194 3.54194 12.5806 3.54194 11.9885 4.01286L4.8477 9.69203C4.1453 10.2507 4.02875 11.2729 4.58738 11.9753C4.66372 12.0713 4.75069 12.1584 4.84662 12.2348L5.0158 12.3696L11.988 17.9126C12.5804 18.3835 13.4194 18.3832 14.0114 17.9119Z" fill="#3699FF" />
+            <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M11.9778 20.7265L5.78064 15.7997C5.35772 15.4635 4.74231 15.5338 4.40608 15.9567C4.40349 15.9599 4.40093 15.9632 4.39838 15.9665C4.06534 16.3966 4.14398 17.0152 4.57404 17.3482L4.57873 17.3518L12.0113 23.0366C12.5939 23.4822 13.4028 23.4823 13.9855 23.0368L21.4151 17.3564C21.8501 17.0238 21.9332 16.4015 21.6006 15.9665C21.5992 15.9647 21.5977 15.9628 21.5963 15.961C21.2623 15.5305 20.6426 15.4522 20.2121 15.7862C20.2089 15.7887 20.2058 15.7911 20.2027 15.7936L14.0005 20.7263C13.4085 21.1971 12.5699 21.1972 11.9778 20.7265Z" fill="#3699FF" />
+        </svg>
+
+    )
+}
+
 export const IconLists = [
     {
         id: 1,
@@ -183,6 +193,11 @@ export const IconLists = [
         value: "undefined",
         icon: <Warning />,
     },
+    {
+        id: 7,
+        value: "layer",
+        icon: <Layer />,
+    },
 ]
 
 const IconCase = (icon) => {
@@ -197,9 +212,11 @@ const IconCase = (icon) => {
             return <ActiveCall />
         case "wallet":
             return <Wallet />
+        case "layer":
+            return <Layer />
         default:
             return <Warning />;
     }
 }
 
-export { ClipboardList, Home, GroupChat, Search, Cart, Moon, Sun, Gamepad, Warning, Write, DeletedFolder, Keyboard, Iphone, ActiveCall, Wallet, IconCase, Code }
+export { ClipboardList, Home, GroupChat, Search, Cart, Moon, Sun, Gamepad, Warning, Write, DeletedFolder, Keyboard, Iphone, ActiveCall, Wallet, IconCase, Code, Layer }

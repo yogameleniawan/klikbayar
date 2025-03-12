@@ -56,5 +56,9 @@ class DigiProductSeeder extends Seeder
                 'name' => $cat->category,
             ]);
         }
+
+        ProductCategory::create([
+            'name' => 'Semua'
+        ]);
     }
 }

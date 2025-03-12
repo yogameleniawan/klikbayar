@@ -18,4 +18,17 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
+    @keyframes flicker {
+        0% { opacity: 1; transform: scale(1); }
+        25% { opacity: 0.8; transform: scale(0.95) rotate(2deg); }
+        50% { opacity: 1; transform: scale(1.05); }
+        75% { opacity: 0.9; transform: scale(0.95) rotate(-2deg); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+
+      .flame-animation {
+        animation: flicker 1.5s infinite alternate;
+        transform-origin: center;
+      }
   }

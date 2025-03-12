@@ -88,11 +88,11 @@ const Beranda = () => {
     return (
         <CustomerLayout>
             <Head title="Beranda" />
-            <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center gap-4">
                 <Banner />
                 <HeadingText />
             </div>
-            <div className="flex flex-col items-center mt-2 sm:mt-10 gap-8">
+            <div className="flex flex-col items-center mt-2 sm:mt-10 gap-4 sm:gap-8">
                 <Promo />
                 <Best />
                 <Catalog />

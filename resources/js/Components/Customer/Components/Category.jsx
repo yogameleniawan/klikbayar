@@ -69,7 +69,7 @@ const Category = () => {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-80 sm:max-w-none sm:flex-wrap bg-default-200 p-2 rounded-3xl mx-8 sm:justify-center"
+                className="z-30 sticky top-20 flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-[22rem] sm:max-w-none sm:flex-wrap bg-default-200 p-2 rounded-3xl mx-0 sm:mx-8 sm:justify-center"
             >
                 <AnimatePresence>
                     {items.map((item) => (
@@ -85,7 +85,7 @@ const Category = () => {
                     ))}
                 </AnimatePresence>
             </motion.div>
-            <div className="flex mx-8 text-[10px] my-2 sm:hidden sm:mx-0 sm:my-0 items-center gap-1">
+            <div className="flex sm:mx-8 text-[10px] my-2 sm:hidden mx-0 sm:my-0 items-center gap-1">
                 <Code />
                 <p>Geser untuk kategori lainnya</p>
             </div>

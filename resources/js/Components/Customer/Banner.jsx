@@ -11,7 +11,7 @@ const Banner = () => {
 
     return (
         <div className="flex w-full justify-center py-5 px-4 animate-gradient">
-            <div className="w-full max-w-screen-lg">
+            <div className="w-full max-w-screen-md">
                 <Swiper
                     pagination={{
                         dynamicBullets: true,

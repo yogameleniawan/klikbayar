@@ -43,11 +43,11 @@ const Catalog = () => {
             }
             {
                 data && (data.length == 0 ? <EmptyCatalog /> : (
-                    <div className="max-w-[700px] gap-2 grid grid-cols-2 sm:grid-cols-12 grid-rows-auto sm:grid-rows-1 px-8 mt-2">
+                    <div className="max-w-[500px] sm:max-w-[700px] gap-2 grid grid-cols-3 sm:grid-cols-12 grid-rows-auto sm:grid-rows-1 px-8 mt-2">
                         {
                             data.map((item, i) => {
                                 return (
-                                    <Card key={i} className="sm:col-span-4 sm:hover:-translate-y-2">
+                                    <Card key={i} className="col-span-1 sm:col-span-4 sm:hover:-translate-y-2">
                                         <Link href={route('customer.checkout', { slug: item.slug })}>
                                             <CardHeader className="absolute z-10 top-1 flex-col !items-start">
                                                 <p className="text-tiny text-white/60 uppercase font-bold">{item.brand}</p>

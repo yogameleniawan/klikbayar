@@ -14,13 +14,13 @@ class FileSeeder extends Seeder
     public function run(): void
     {
         File::create([
-            'path' => 'images/67cfade41ebd2_5e7e78a7-674e-4b81-b68b-f09ff0880555.webp',
-            'file_name' => '67cfade41ebd2_5e7e78a7-674e-4b81-b68b-f09ff0880555.webp'
+            'path' => 'images/image.png',
+            'file_name' => 'image.png'
         ]);
 
         File::create([
-            'path' => 'images/67cfade42791b_c87afb55-35d7-4197-b18a-99811ca4f718.jpg',
-            'file_name' => '67cfade42791b_c87afb55-35d7-4197-b18a-99811ca4f718.jpg'
+            'path' => 'images/banner.png',
+            'file_name' => 'banner.png'
         ]);
     }
 }

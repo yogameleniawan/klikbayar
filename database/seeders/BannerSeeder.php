@@ -15,7 +15,7 @@ class BannerSeeder extends Seeder
     public function run(): void
     {
         Banner::factory()->create([
-            'file_id' => File::where('path', 'images/67cfade42791b_c87afb55-35d7-4197-b18a-99811ca4f718.jpg')->first()->id,
+            'file_id' => File::where('path', 'images/banner.png')->first()->id,
         ]);
     }
 }

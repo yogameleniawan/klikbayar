@@ -104,7 +104,7 @@ const Index = ({ product }) => {
                         </div>
                         <h1 className="font-bold text-2xl">{product.name}</h1>
                         <h1>{product.brand}</h1>
-                        <p className="text-xs px-40">{product.description}</p>
+                        <p className="text-xs px-10 sm:px-40">{product.description}</p>
                     </div>
                 </div>
 

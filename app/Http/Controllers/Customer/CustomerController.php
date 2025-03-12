@@ -35,7 +35,16 @@ class CustomerController extends Controller
 
     public function checkout($slug)
     {
-        $product = Product::with(['category', 'detail.digiflazz', 'banner', 'image'])->where('slug', $slug)->first()->toArray();
+        $product = Product::with([
+            'category',
+            'banner',
+            'image'
+        ])->with(['detail' => function ($query) {
+            $query->with(['digiflazz']);
+            $query->join('digi_products', 'digi_products.id', '=', 'product_details.digi_product_id')
+                ->orderBy('digi_products.price', 'asc')
+                ->select('product_details.*');
+        }])->where('slug', $slug)->first()->toArray();
 
         return Inertia::render('Customer/Detail/Index', [
             'product' => $product

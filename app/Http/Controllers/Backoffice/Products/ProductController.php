@@ -116,7 +116,8 @@ class ProductController extends Controller
                         'margin' => $item["margin"],
                         'discount' => $item["discount"],
                         'product_id' => $product->id,
-                        'digi_product_id' => $item["digi_product"],
+                        'digi_product_id' => $item["digi_product_id"],
+                        'is_active' => $item["is_active"],
                     ]);
                 }
 
@@ -142,7 +143,25 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = Product::select('products.*', 'product_categories.name as category_name')
+        ->with(['image', 'banner'])
+        ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+        ->where('products.id', $id)
+        ->first()
+        ->toArray();
+
+        $product_details = ProductDetail::where('product_id', $id)->get();
+
+        $categories = ProductCategory::all();
+
+        $digiflazz_products = DigiProduct::all();
+
+        return Inertia::render("Backoffice/Products/Catalog/Edit", [
+            'categories' => $categories,
+            'digiflazz_products' => $digiflazz_products,
+            'data' => $data,
+            'product_details' => $product_details
+        ]);
     }
 
     /**
@@ -150,7 +169,72 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'product_category_id' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'products' => 'required',
+        ]);
+
+        $product = Product::find($id);
+
+        try {
+            $image = $request->file('image');
+            $image_id = $product->image_id;
+
+            if ($image != null) {
+                foreach ($image as $file) {
+                    try {
+                        $file = $this->fileService->create($file);
+                        $image_id = $file->id;
+                    } catch (\Throwable $th) {
+                        return back()->withErrors(['message' =>  $th->getMessage()]);
+                    }
+                }
+            }
+
+            $banner = $request->file('banner');
+            $banner_id = $product->banner_id;
+
+            if ($banner != null) {
+                foreach ($banner as $file) {
+                    try {
+                        $file = $this->fileService->create($file);
+                        $banner_id = $file->id;
+                    } catch (\Throwable $th) {
+                        return back()->withErrors(['message' =>  $th->getMessage()]);
+                    }
+                }
+            }
+
+            try {
+                $product->update([
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'brand' => $request->brand,
+                    'input' => 'input',
+                    'slug' => Str::slug($request->name),
+                    'banner_id' => $banner_id,
+                    'image_id' => $image_id,
+                    'product_category_id' => ProductCategory::where('name', $request->product_category_id)->first()->id
+                ]);
+
+                foreach($request->products as $item) {
+                    ProductDetail::where('product_id', $product->id)->update([
+                        'margin' => $item["margin"],
+                        'discount' => $item["discount"],
+                        'digi_product_id' => $item["digi_product_id"],
+                        'is_active' => $item["is_active"],
+                    ]);
+                }
+
+                return back()->with('message', 'Data updated successfuly');
+            } catch (\Throwable $th) {
+                return back()->withErrors(['message' =>  $th->getMessage()]);
+            }
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' =>  $th->getMessage()]);
+        }
     }
 
     /**

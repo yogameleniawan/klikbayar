@@ -19,7 +19,7 @@ class ProductDetailSeeder extends Seeder
             'margin' => 2,
             'discount' => 2,
             'product_id' => Product::first()->id,
-            'digi_product_id' => DigiProduct::first()->id,
+            'digi_product_id' => DigiProduct::where('category', 'Games')->first()->id,
         ]);
     }
 }

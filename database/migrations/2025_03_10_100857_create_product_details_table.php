@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id');
             $table->integer('margin');
             $table->integer('discount');
+            $table->boolean('is_active')->default(false);
             $table->foreignUuid('product_id');
             $table->foreignUuid('digi_product_id');
             $table->timestamps();

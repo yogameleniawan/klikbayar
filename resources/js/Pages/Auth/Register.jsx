@@ -35,7 +35,6 @@ export default function Register() {
     const toggleConfirmVisibility = () => setIsConfirmVisible(!isConfirmVisible);
 
     const submit = (e) => {
-        console.log(e)
         e.preventDefault();
 
         post(route('register'), {

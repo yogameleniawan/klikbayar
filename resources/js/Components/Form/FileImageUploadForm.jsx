@@ -52,11 +52,10 @@ const FileImageUploadForm = ({
     };
 
     const handleFileChange = (e) => {
-        console.log(e.target.files)
         const selectedFiles = Array.from(e.target.files);
 
         const validationError = validateFiles(selectedFiles);
-        console.log(validationError)
+
         if (validationError) {
             setError(validationError);
             return;
@@ -65,7 +64,6 @@ const FileImageUploadForm = ({
 
         setData(name, [...(data[name] || []), ...selectedFiles]);
 
-        console.log({selectedFiles})
         const newPreviews = selectedFiles.map(file => ({
             id: Math.random().toString(36).substr(2, 9),
             file,

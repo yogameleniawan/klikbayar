@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
+use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ImageController extends Controller
 {
+
+    public function __construct(
+        protected FileService $fileService
+    )
+    {}
+
     public function streamImage(Request $request)
     {
         $path = $request->query('path');
@@ -35,5 +43,21 @@ class ImageController extends Controller
             'Cache-Control' => 'public, max-age=31536000',
             'Content-Disposition' => 'inline',
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $file = File::find($id);
+
+        try {
+
+            $this->fileService->delete($file->path);
+
+            $file->delete();
+
+            return back()->with('message', 'File deleted successfuly');
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' =>  $th->getMessage()]);
+        }
     }
 }

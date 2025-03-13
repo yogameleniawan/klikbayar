@@ -68,6 +68,7 @@ class ProductController extends Controller
             'name' => 'required',
             'description' => 'required',
             'products' => 'required',
+            'inputs' => 'required',
         ]);
 
         try {
@@ -104,7 +105,7 @@ class ProductController extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'brand' => $request->brand,
-                    'input' => 'input',
+                    'input' => json_encode($request->inputs),
                     'slug' => Str::slug($request->name),
                     'banner_id' => $banner_id,
                     'image_id' => $image_id,
@@ -174,6 +175,7 @@ class ProductController extends Controller
             'name' => 'required',
             'description' => 'required',
             'products' => 'required',
+            'inputs' => 'required',
         ]);
 
         $product = Product::find($id);
@@ -212,7 +214,7 @@ class ProductController extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'brand' => $request->brand,
-                    'input' => 'input',
+                    'input' => json_encode($request->inputs),
                     'slug' => Str::slug($request->name),
                     'banner_id' => $banner_id,
                     'image_id' => $image_id,

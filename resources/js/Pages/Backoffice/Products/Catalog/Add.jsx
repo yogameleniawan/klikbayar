@@ -7,6 +7,7 @@ import FileImageUploadForm from "@/Components/Form/FileImageUploadForm";
 
 import React from 'react';
 import DynamicProductsForm from "@/Components/Form/DynamicProductsForm";
+import DynamicInputForm from "@/Components/Form/DynamicInputForm";
 
 export default function Add() {
 
@@ -16,6 +17,7 @@ export default function Add() {
         brand: "",
         product_category_id: "",
         products: [],
+        inputs: [],
         image: [],
         banner: []
     });
@@ -104,6 +106,13 @@ export default function Add() {
                         </SelectItem>
                     )}
                 </Select>
+
+                <DynamicInputForm
+                    data={data}
+                    setData={setData}
+                    processing={processing}
+                    errors={errors}
+                />
 
                 <DynamicProductsForm
                     data={data}

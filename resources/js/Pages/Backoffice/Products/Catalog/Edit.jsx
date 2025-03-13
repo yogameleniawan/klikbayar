@@ -8,6 +8,7 @@ import FileImageUploadForm from "@/Components/Form/FileImageUploadForm";
 import React from 'react';
 import FilePreview from "@/Components/FilePreview";
 import DynamicProductsForm from "@/Components/Form/DynamicProductsForm";
+import DynamicInputForm from "@/Components/Form/DynamicInputForm";
 
 export default function Edit({ data: product_edit }) {
     const { categories, digiflazz_products, product_details } = usePage().props;
@@ -18,6 +19,7 @@ export default function Edit({ data: product_edit }) {
         brand: product_edit.brand,
         product_category_id: product_edit.category_name,
         products: product_details,
+        inputs: JSON.parse(product_edit.input),
         image: [],
         banner: []
     });
@@ -110,6 +112,13 @@ export default function Edit({ data: product_edit }) {
                         </SelectItem>
                     )}
                 </Select>
+
+                <DynamicInputForm
+                    data={data}
+                    setData={setData}
+                    processing={processing}
+                    errors={errors}
+                />
 
                 <DynamicProductsForm
                     data={data}

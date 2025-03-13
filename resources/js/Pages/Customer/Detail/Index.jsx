@@ -294,7 +294,7 @@ const CheckoutPage = ({ product }) => {
             value={checkout.step.percent}
           />
           <Button
-            className="flex cursor-pointer bg-blue-500 p-3 justify-center text-default-100 font-bold rounded-full w-full disabled:cursor-not-allowed disabled:brightness-75"
+            className="flex cursor-pointer bg-blue-500 p-3 justify-center text-white font-bold rounded-full w-full disabled:cursor-not-allowed disabled:brightness-75"
             disabled={checkout.step.position < 4}
             onPress={() => {
                 console.log(getCheckoutSummary())

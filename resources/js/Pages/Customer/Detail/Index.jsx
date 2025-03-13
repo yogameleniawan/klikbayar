@@ -258,7 +258,7 @@ const CheckoutPage = ({ product }) => {
     const finalPrice = priceUtils.calculateFinal(price, margin, discount);
 
     return (
-      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[99] flex w-full flex-col gap-4 rounded-t-3xl sm:rounded-3xl bg-default-100 shadow-xl px-4 py-2 md:bottom-4 md:flex-row md:items-center md:justify-between md:rounded-xl md:px-8 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
+      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[99] flex w-full flex-col gap-4 rounded-t-3xl sm:rounded-3xl bg-default-100 shadow-2xl px-4 py-2 md:bottom-4 md:flex-row md:items-center md:justify-between md:rounded-xl md:px-8 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl border-1 border-default-200">
         <div className="flex flex-col items-center sm:items-start">
           <div className="flex gap-2 text-xs font-bold text-opacity-30 md:text-sm items-center">
             {discount > 0 ? (

@@ -63,7 +63,7 @@ const ItemProduct = ({ product, selected, onClick }) => {
         <h4 className={`
           text-md text-nowrap font-bold
           ${selected
-            ? 'bg-blue-500 p-2 rounded-br-2xl rounded-tl-md'
+            ? `bg-blue-500 p-2 rounded-t-md`
             : 'border-b-1 border-gray-500 p-2 rounded-t-xl'
           }
         `}>
@@ -90,7 +90,9 @@ const ItemProduct = ({ product, selected, onClick }) => {
       </div>
 
       {discount > 0 && (
-        <FlameIcon />
+        <div className="absolute right-2 top-1">
+            <FlameIcon />
+        </div>
       )}
     </div>
   );

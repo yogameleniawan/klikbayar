@@ -9,6 +9,7 @@ import CustomerLayout from '@/Layouts/CustomerLayout';
 
 import { formatRupiah } from '@/utils/format_rupiah';
 import { useCheckoutStore } from '@/store/useCheckoutStore';
+import { useMutation } from '@tanstack/react-query';
 
 const FlameIcon = () => (
   <svg
@@ -199,63 +200,70 @@ const CheckoutPage = ({ product }) => {
     </div>
   );
 
-  const renderFormSection = () => (
-    <div className="flex flex-col w-full md:w-1/3 gap-8">
-      <FormSection title="Lengkapi Informasi Berikut" number="2">
-        {JSON.parse(product.input).map((item, i) => (
-          <Input
-            key={i}
-            className="p-2"
-            isRequired
-            label={item.label}
-            name={item.name}
-            placeholder={item.placeholder}
-            type={item.type}
-            variant="bordered"
-            onBlur={(e) => handleCustomerNoChange(e.target.value)}
-          />
-        ))}
-      </FormSection>
+  const renderFormSection = () => {
+    const { price, discount, margin } = productCheckout;
+    const finalPrice = priceUtils.calculateFinal(price, margin, discount);
 
-      <FormSection title="Kontak yang dapat dihubungi" number="3">
-        <Input
-          className="p-2"
-          isRequired
-          label="Nomor Whatsapp"
-          name="phone"
-          placeholder="contoh: 62812345xxxx"
-          type="number"
-          variant="bordered"
-          description="Kami akan menghubungi kontak ini, apabila terjadi sesuatu hal."
-          onBlur={(e) => handlePhoneChange(e.target.value)}
-        />
-      </FormSection>
+    return (
+        <div className="flex flex-col w-full md:w-1/3 gap-8">
+          <FormSection title="Lengkapi Informasi Berikut" number="2">
+            {JSON.parse(product.input).map((item, i) => (
+              <Input
+                key={i}
+                className="p-2"
+                isRequired
+                label={item.label}
+                name={item.name}
+                placeholder={item.placeholder}
+                type={item.type}
+                variant="bordered"
+                onBlur={(e) => handleCustomerNoChange(e.target.value)}
+              />
+            ))}
+          </FormSection>
 
-      <FormSection title="Pilih Metode Pembayaran" number="4">
-        <div className="flex flex-col w-full p-2 gap-2">
-          <PaymentMethodCard
-            payment="qris"
-            name="QRIS"
-            price={123}
-            logo="/assets/logo/qris.png"
-            onClick={handlePaymentClick}
-          />
-          <PaymentMethodCard
-            payment="dana"
-            name="DANA"
-            price={123}
-            logo="/assets/logo/dana.jpg"
-            onClick={handlePaymentClick}
-          />
+          <FormSection title="Kontak yang dapat dihubungi" number="3">
+            <Input
+              className="p-2"
+              isRequired
+              label="Nomor Whatsapp"
+              name="phone"
+              placeholder="contoh: 62812345xxxx"
+              type="number"
+              variant="bordered"
+              description="Kami akan menghubungi kontak ini, apabila terjadi sesuatu hal."
+              onBlur={(e) => handlePhoneChange(e.target.value)}
+            />
+          </FormSection>
+
+          <FormSection title="Pilih Metode Pembayaran" number="4">
+            <div className="flex flex-col w-full p-2 gap-2">
+              <PaymentMethodCard
+                payment="gopay"
+                name="GOPAY"
+                price={finalPrice}
+                logo="/assets/logo/gopay.png"
+                onClick={handlePaymentClick}
+              />
+            </div>
+          </FormSection>
         </div>
-      </FormSection>
-    </div>
-  );
+      );
+  }
 
   const renderCheckoutSummary = () => {
     const { price, discount, margin, product_name } = productCheckout;
     const priceWithMargin = priceUtils.withMargin(price, margin);
     const finalPrice = priceUtils.calculateFinal(price, margin, discount);
+
+    const paymentMutation = useMutation({
+        mutationFn: () => {
+            return axios.post(route('api.midtrans.transaction'), getCheckoutSummary());
+        },
+        onSuccess: (res) => {
+            console.log(res)
+        }
+    })
 
     return (
       <div className={`${!productCheckout.price ? 'translate-y-96 transition-all duration-500' : 'translate-y-0 transition-all duration-500'} fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[99] flex w-full flex-col gap-4 rounded-t-3xl sm:rounded-3xl bg-default-100 shadow-2xl px-4 py-2 md:bottom-4 md:flex-row md:items-center md:justify-between md:rounded-xl md:px-8 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl border-1 border-default-200`}>
@@ -297,8 +305,9 @@ const CheckoutPage = ({ product }) => {
             className="flex cursor-pointer bg-blue-500 p-3 justify-center text-white font-bold rounded-full w-full disabled:cursor-not-allowed disabled:brightness-75"
             disabled={checkout.step.position < 4}
             onPress={() => {
-                console.log(getCheckoutSummary())
+                paymentMutation.mutate()
             }}
+            isLoading={paymentMutation.isPending}
           >
             Klik Bayar
           </Button>

@@ -12,7 +12,7 @@ const DynamicInputForm = ({
     const [inputItems, setInputItems] = useState(data.inputs || []);
 
     const handleAddInput = () => {
-        const newInputs = [...inputItems, { label: "", name: "", type: "" }];
+        const newInputs = [...inputItems, { label: "", name: "", type: "", placeholder: "" }];
         setInputItems(newInputs);
         setData('inputs', newInputs);
     };
@@ -79,6 +79,17 @@ const DynamicInputForm = ({
                                 errorMessage={errors[`inputs.${index}.name`] || "Please enter a valid name"}
                                 isInvalid={errors[`inputs.${index}.name`]}
                                 onChange={(e) => handleInputChange(index, "name", e.target.value)}
+                            />
+                            <Input
+                                isRequired
+                                label="Placeholder"
+                                labelPlacement="outside"
+                                placeholder="Enter input placeholder"
+                                type="text"
+                                value={input.placeholder || ""}
+                                errorMessage={errors[`inputs.${index}.placeholder`] || "Please enter a valid placeholder"}
+                                isInvalid={errors[`inputs.${index}.placeholder`]}
+                                onChange={(e) => handleInputChange(index, "placeholder", e.target.value)}
                             />
                             <Select
                                 items={[{

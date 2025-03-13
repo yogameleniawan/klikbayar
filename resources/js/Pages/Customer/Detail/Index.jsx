@@ -272,7 +272,7 @@ const CheckoutPage = ({ product }) => {
                 <FlameIcon />
               </>
             ) : (
-              <span className="leading-4">Harga terbaik</span>
+              <span className="leading-4 text-orange-500">Harga terbaik</span>
             )}
           </div>
           <div className="text-2xl font-bold leading-9 text-blue-500">

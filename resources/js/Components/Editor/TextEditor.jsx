@@ -25,10 +25,11 @@ const EDITOR_CONFIG = {
 }
 
 const TextEditor = ({
-    onChange
+    onChange,
+    defaultValue
 }) => {
     return (
-        <SunEditor onChange={onChange} setOptions={EDITOR_CONFIG} />
+        <SunEditor onChange={onChange} setOptions={EDITOR_CONFIG} defaultValue={defaultValue} />
     )
 }
 

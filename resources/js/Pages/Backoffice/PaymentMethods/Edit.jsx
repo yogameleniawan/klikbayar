@@ -65,7 +65,7 @@ export default function Edit({ data: payment_method }) {
                     onChange={(e) => setData('name', e.target.value)}
                 />
 
-                <TextEditor onChange={(content) => setData('description', content)} />
+                <TextEditor onChange={(content) => setData('description', content)} defaultValue={data.description} />
 
                 <Input
                     isRequired
@@ -106,7 +106,7 @@ export default function Edit({ data: payment_method }) {
                             data={data}
                             setData={setData}
                             processing={processing} />
-                        <FilePreview file={product_edit.image} />
+                        <FilePreview file={payment_method.image} />
                     </div>
                 </div>
 

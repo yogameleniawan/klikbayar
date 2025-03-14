@@ -154,14 +154,14 @@ export default function BackofficeLayout({ children }) {
                                             ))}
                                         </ul> :
                                         <ul
-                                            className={`space-y-2 overflow-hidden transition-all ${activeMenu === index || checkActiveUrl(usePage().url, item.path) ? 'z-10 max-h-screen px-4 bg-default-100 rounded-xl transition-all' : '-z-10 px-4 max-h-0 rounded-xl animate-pulse transition-all'
+                                            className={`space-y-2 overflow-hidden transition-all ${activeMenu === index || checkActiveUrl(usePage().url, item.path) ? 'z-10 max-h-screen px-4 bg-default-100 rounded-xl transition-all my-4' : '-z-10 px-4 max-h-0 rounded-xl animate-pulse transition-all'
                                                 }`}
                                         >
                                             {item.submenu.map((subItem, subIndex) => (
                                                 <li key={subIndex}>
                                                     <Link href={subItem.path}>
                                                         <Tooltip content={subItem.name}>
-                                                            <Button isIconOnly>
+                                                            <Button isIconOnly className={checkActiveUrl(usePage().url, subItem.path) ? `bg-default-500 text-default-100` : ''}>
                                                                 <GoDot />
                                                             </Button>
                                                         </Tooltip>

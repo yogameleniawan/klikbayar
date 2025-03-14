@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Enums\GatewayEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -28,6 +29,7 @@ class MidtransController extends Controller
         $amount = $request->finalPrice;
         $paymentMethod = $request->paymentMethod;
         $contactPhone = $request->contactPhone;
+        $customerNo = $request->customerNo;
 
         $transactionDetails = [
             'transaction_details' => [
@@ -59,15 +61,17 @@ class MidtransController extends Controller
             $response = CoreApi::charge($transactionDetails);
 
             $transaction = Transaction::create([
+                'customer_number' => $customerNo,
                 'invoice_number' => $invoiceNumber,
                 'phone' => $contactPhone,
-                'status' => json_encode($response),
+                'status' => PaymentStatusEnum::PENDING->value,
             ]);
 
             TransactionLog::create([
                 'response' => json_encode($response),
                 'payload' => json_encode($request->all()),
-                'gateway' => GatewayEnum::MIDTRANS,
+                'gateway' => GatewayEnum::MIDTRANS->value,
+                'transaction_id' => $transaction->id
             ]);
 
             TransactionDetail::create([

@@ -4,7 +4,7 @@ import {ToastProvider} from "@heroui/toast";
 export default function Providers({children}) {
   return (
     <HeroUIProvider>
-      <ToastProvider />
+      <ToastProvider placement='top-right' />
       {children}
     </HeroUIProvider>
   )

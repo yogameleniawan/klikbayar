@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import { usePage } from "@inertiajs/react";
 
 const Banner = () => {

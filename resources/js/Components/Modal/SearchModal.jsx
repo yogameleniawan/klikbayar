@@ -7,7 +7,7 @@ import {
     Button,
     useDisclosure,
     Tooltip,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Search } from "../Icons/Icon";
 
 export const SearchIcon = ({ size = 24, strokeWidth = 1.5, width, height, ...props }) => {

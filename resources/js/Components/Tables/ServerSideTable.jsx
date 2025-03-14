@@ -14,7 +14,7 @@ import {
     DropdownItem,
     Pagination,
     Spinner,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { router, useRemember } from '@inertiajs/react';
 import { debounce } from 'lodash';
 

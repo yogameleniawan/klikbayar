@@ -4,8 +4,8 @@ import './bootstrap';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';
-import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Providers from './provider';
 
 const queryClient = new QueryClient();
 
@@ -25,11 +25,11 @@ createInertiaApp({
         }
 
         createRoot(el).render(
-            <NextUIProvider>
+            <Providers>
                 <QueryClientProvider client={queryClient}>
                     <App {...props} />
                 </QueryClientProvider>
-            </NextUIProvider>
+            </Providers>
         );
     },
     progress: {

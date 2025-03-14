@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\GatewayEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
+use App\Models\TransactionLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Midtrans\Config;
@@ -21,14 +24,14 @@ class MidtransController extends Controller
 
     public function createTransaction(Request $request)
     {
-        $orderId = 'KLIK-' . time();
+        $invoiceNumber = 'KLIK-' . time() . '-' . Str::random(5);
         $amount = $request->finalPrice;
         $paymentMethod = $request->paymentMethod;
         $contactPhone = $request->contactPhone;
 
         $transactionDetails = [
             'transaction_details' => [
-                'order_id' => $orderId,
+                'order_id' => $invoiceNumber,
                 'gross_amount' => $amount,
             ],
             'item_details' => [
@@ -56,9 +59,22 @@ class MidtransController extends Controller
             $response = CoreApi::charge($transactionDetails);
 
             $transaction = Transaction::create([
-                'no_transaction' => $orderId,
+                'invoice_number' => $invoiceNumber,
                 'phone' => $contactPhone,
-                'json_response' => json_encode($response),
+                'status' => json_encode($response),
+            ]);
+
+            TransactionLog::create([
+                'response' => json_encode($response),
+                'payload' => json_encode($request->all()),
+                'gateway' => GatewayEnum::MIDTRANS,
+            ]);
+
+            TransactionDetail::create([
+                'name'=> $request->productName,
+                'price' => $amount,
+                'product_detail_id' => $request->productId,
+                'transaction_id' => $transaction->id,
             ]);
 
             return response()->json([

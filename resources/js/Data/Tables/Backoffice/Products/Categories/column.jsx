@@ -1,7 +1,7 @@
 import { IconCase } from "@/Components/Icons/Icon";
 import { VerticalDotsIcon } from "@/Components/Tables/ServerSideTable";
 import { router } from "@inertiajs/react";
-import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from "@nextui-org/react";
+import { Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, User } from "@heroui/react";
 import { FiEdit } from "react-icons/fi";
 
 const columnRender = (data, columnKey) => {

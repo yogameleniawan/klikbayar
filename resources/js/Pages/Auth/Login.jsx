@@ -1,6 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import React from 'react';
-import { Button, Input, Checkbox, Link, Form, Divider } from "@nextui-org/react";
+import { Button, Input, Checkbox, Link, Form, Divider } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
 const AcmeIcon = ({ size = 32, width, height, ...props }) => (

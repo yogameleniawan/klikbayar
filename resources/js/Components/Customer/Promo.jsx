@@ -2,7 +2,7 @@ import React from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
 import { Link } from '@inertiajs/react';
-import { Image } from '@nextui-org/react';
+import { Image } from '@heroui/react';
 import "swiper/css";
 import 'swiper/css/effect-cards';
 

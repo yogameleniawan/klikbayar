@@ -2,7 +2,7 @@ import ServerSideTable from "@/Components/Tables/ServerSideTable";
 import { columnRender } from "@/Data/Tables/Backoffice/Products/Digi/column";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head } from "@inertiajs/react";
-import { BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs, Button } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { IoSync } from "react-icons/io5";

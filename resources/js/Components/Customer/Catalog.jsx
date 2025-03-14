@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react'
-import { Card, CardHeader, Image, Spinner } from '@nextui-org/react'
+import { Card, CardHeader, Image, Spinner } from '@heroui/react'
 import React from 'react'
 import Category from './Components/Category'
 import { useQuery } from '@tanstack/react-query'

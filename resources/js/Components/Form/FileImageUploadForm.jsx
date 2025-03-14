@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from '@nextui-org/react';
-import { Form } from "@nextui-org/form";
+import { Card } from '@heroui/react';
+import { Form } from "@heroui/form";
 import { FileIcon, TrashIcon, XCircleIcon } from 'lucide-react';
 
 const FileImageUploadForm = ({

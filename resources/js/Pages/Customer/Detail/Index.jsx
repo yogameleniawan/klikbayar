@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
-import { Button, Chip, Input, Progress, Image } from '@nextui-org/react';
+import { Button, Chip, Input, Progress, Image } from '@heroui/react';
 
 import PaymentMethodCard from '@/Components/Card/PaymentMethodCard';
 import FormSection from '@/Components/Customer/Components/FormSection';
@@ -123,6 +123,7 @@ const CheckoutPage = ({ product }) => {
     );
 
     setCheckout("product", {
+      product_id: product.id,
       price: product.digiflazz.price,
       discount: product.discount,
       margin: product.margin,

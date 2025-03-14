@@ -2,7 +2,7 @@ import AlertMessage from '@/Components/Alert/AlertMessage'
 import FileImageUploadForm from '@/Components/Form/FileImageUploadForm'
 import BackofficeLayout from '@/Layouts/BackofficeLayout'
 import { Head, router, useForm } from '@inertiajs/react'
-import { BreadcrumbItem, Breadcrumbs, Button, Form, Image, Input, Progress } from '@nextui-org/react'
+import { BreadcrumbItem, Breadcrumbs, Button, Form, Image, Input, Progress } from '@heroui/react'
 import React from 'react'
 import { XCircleIcon } from 'lucide-react';
 

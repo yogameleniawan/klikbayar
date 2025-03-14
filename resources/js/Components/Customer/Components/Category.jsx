@@ -1,4 +1,4 @@
-import { Chip } from '@nextui-org/react'
+import { Chip } from '@heroui/react'
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Code, IconCase } from '@/Components/Icons/Icon'

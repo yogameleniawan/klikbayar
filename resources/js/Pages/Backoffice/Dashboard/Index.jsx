@@ -1,7 +1,7 @@
 import BackofficeLayout from '@/Layouts/BackofficeLayout'
 import { Head } from '@inertiajs/react'
 import React from 'react'
-import { BreadcrumbItem, Breadcrumbs, Button, Card, Chip, cn } from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs, Button, Card, Chip, cn } from "@heroui/react";
 import { Icon } from '@iconify/react';
 
 const data = [

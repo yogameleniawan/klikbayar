@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import { Alert } from '@nextui-org/react';
+import { Alert } from '@heroui/react';
 import React from 'react'
 
 const AlertMessage = () => {

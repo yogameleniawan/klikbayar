@@ -1,4 +1,4 @@
-import { Button, Image } from '@nextui-org/react';
+import { Button, Image } from '@heroui/react';
 import { XCircleIcon } from 'lucide-react';
 import React, { useState } from 'react'
 

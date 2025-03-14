@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { FiPlusCircle, FiMinusCircle, FiLogOut } from "react-icons/fi";
-import { Button, Image, Tooltip } from '@nextui-org/react';
+import { Button, Image, Tooltip } from '@heroui/react';
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 import { menuItems } from '@/Modules/modules';
 import { Link, router, usePage } from '@inertiajs/react';

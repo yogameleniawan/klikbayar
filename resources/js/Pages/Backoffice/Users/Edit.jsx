@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
+import { Form, Input, Button, Breadcrumbs, BreadcrumbItem } from "@heroui/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head, router, usePage } from "@inertiajs/react";
 import AlertMessage from "@/Components/Alert/AlertMessage";

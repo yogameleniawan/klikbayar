@@ -5,7 +5,7 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
 import React from "react";
-import { Button, Input, Checkbox, Link, Divider, Form } from "@nextui-org/react";
+import { Button, Input, Checkbox, Link, Divider, Form } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
 const AcmeIcon = ({ size = 32, width, height, ...props }) => (

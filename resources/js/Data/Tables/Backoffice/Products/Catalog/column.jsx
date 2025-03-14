@@ -1,6 +1,6 @@
 import { VerticalDotsIcon } from "@/Components/Tables/ServerSideTable";
 import { router } from "@inertiajs/react";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
 
 const columnRender = (data, columnKey) => {
     const cellValue = data[columnKey];

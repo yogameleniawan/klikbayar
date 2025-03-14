@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardFooter, Chip, Image } from "@nextui-org/react";
+import { Card, CardFooter, Chip, Image } from "@heroui/react";
 import { Link } from "@inertiajs/react";
 
 const items = [

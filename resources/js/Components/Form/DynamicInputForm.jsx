@@ -1,5 +1,5 @@
 import { formatRupiah } from '@/utils/format_rupiah';
-import { Button, Card, CardBody, Input, Select, SelectItem, Switch } from '@nextui-org/react';
+import { Button, Card, CardBody, Input, Select, SelectItem, Switch } from '@heroui/react';
 import { PlusIcon, XCircleIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 

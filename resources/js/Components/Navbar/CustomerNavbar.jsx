@@ -18,8 +18,8 @@ import {
     Avatar,
     DropdownMenu,
     DropdownItem
-} from "@nextui-org/react";
-import { cn } from "@nextui-org/react";
+} from "@heroui/react";
+import { cn } from "@heroui/react";
 import { router, usePage } from "@inertiajs/react";
 import SearchModal from "../Modal/SearchModal";
 import { ClipboardList, GroupChat, Home, Moon, Sun } from "../Icons/Icon";

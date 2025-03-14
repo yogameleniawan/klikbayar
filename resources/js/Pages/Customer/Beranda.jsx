@@ -5,7 +5,7 @@ import Banner from "@/Components/Customer/Banner";
 import HeadingText from "@/Components/Customer/HeadingText";
 import Promo from "@/Components/Customer/Promo";
 import Best from "@/Components/Customer/Best";
-import { Tabs, Tab, Chip } from "@nextui-org/react";
+import { Tabs, Tab, Chip } from "@heroui/react";
 import Catalog from "@/Components/Customer/Catalog";
 
 export const GalleryIcon = (props) => {

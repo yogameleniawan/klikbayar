@@ -2,7 +2,7 @@ import ServerSideTable from "@/Components/Tables/ServerSideTable";
 import { columnRender } from "@/Data/Tables/Backoffice/Products/Categories/column";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head } from "@inertiajs/react";
-import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs } from "@heroui/react";
 
 export default function Index({ categories: data }) {
     return (

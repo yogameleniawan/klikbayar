@@ -1,6 +1,6 @@
 import { useCheckoutStore } from '@/store/useCheckoutStore'
 import { formatRupiah } from '@/utils/format_rupiah'
-import { Image } from '@nextui-org/react'
+import { Image } from '@heroui/react'
 import React from 'react'
 
 const PaymentMethodCard = ({

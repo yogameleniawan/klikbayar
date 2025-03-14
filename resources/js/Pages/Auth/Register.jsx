@@ -35,6 +35,7 @@ export default function Register() {
     const toggleConfirmVisibility = () => setIsConfirmVisible(!isConfirmVisible);
 
     const submit = (e) => {
+        console.log('submit')
         e.preventDefault();
 
         post(route('register'), {
@@ -54,6 +55,7 @@ export default function Register() {
                 <Form className="flex flex-col gap-3" onSubmit={submit}>
                     <div className="flex flex-col w-full">
                         <Input
+                            autocomplete="email"
                             isRequired
                             classNames={{
                                 base: "-mb-[2px]",
@@ -69,7 +71,7 @@ export default function Register() {
                             isFocused={true}
                             onChange={(e) => setData('name', e.target.value)}
                             errorMessage={errors.name}
-                            isInvalid={errors}
+                            isInvalid={errors.name}
                         />
                         <Input
                             isRequired
@@ -87,9 +89,10 @@ export default function Register() {
                             isFocused={true}
                             onChange={(e) => setData('email', e.target.value)}
                             errorMessage={errors.email}
-                            isInvalid={errors}
+                            isInvalid={errors.email}
                         />
                         <Input
+                            autocomplete="new-password"
                             isRequired
                             classNames={{
                                 base: "-mb-[2px]",
@@ -120,9 +123,10 @@ export default function Register() {
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             errorMessage={errors.password}
-                            isInvalid={errors}
+                            isInvalid={errors.password}
                         />
                         <Input
+                        autocomplete="new-password"
                             isRequired
                             classNames={{
                                 inputWrapper: "rounded-t-none",
@@ -150,7 +154,7 @@ export default function Register() {
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             errorMessage={errors.password_confirmation}
-                            isInvalid={errors}
+                            isInvalid={errors.password_confirmation}
                             isFocused={true}
                         />
                     </div>

@@ -1,7 +1,7 @@
-import { Head, useForm } from '@inertiajs/react';
-import React from 'react';
+import React from "react";
 import { Button, Input, Checkbox, Link, Form, Divider } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { Head, useForm } from "@inertiajs/react";
 
 const AcmeIcon = ({ size = 32, width, height, ...props }) => (
     <svg fill="none" height={size || height} viewBox="0 0 32 32" width={size || width} {...props}>
@@ -25,8 +25,11 @@ export default function Login({ status, canResetPassword }) {
         remember: false,
     });
 
-    const submit = (e) => {
-        e.preventDefault();
+    console.log({errors})
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("handleSubmit");
 
         post(route('login'), {
             onFinish: () => reset('password'),
@@ -47,7 +50,7 @@ export default function Login({ status, canResetPassword }) {
                     <p className="text-xl font-medium">Welcome Back</p>
                     <p className="text-small text-default-500">Log in to your account to continue</p>
                 </div>
-                <Form className="flex flex-col gap-3" onSubmit={submit}>
+                <Form className="flex flex-col gap-3" validationBehavior="native" onSubmit={handleSubmit}>
                     <Input
                         isRequired
                         label="Email Address"
@@ -56,9 +59,8 @@ export default function Login({ status, canResetPassword }) {
                         type="email"
                         variant="bordered"
                         errorMessage={errors.email}
-                        isInvalid={errors}
+                        isInvalid={errors.email ? true : false}
                         value={data.email}
-                        isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
                     />
                     <Input
@@ -84,7 +86,7 @@ export default function Login({ status, canResetPassword }) {
                         type={isVisible ? "text" : "password"}
                         variant="bordered"
                         errorMessage={errors.password}
-                        isInvalid={errors}
+                        isInvalid={errors.password ? true : false}
                         value={data.password}
                         isFocused={true}
                         onChange={(e) => setData('password', e.target.value)}

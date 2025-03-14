@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -46,8 +47,11 @@ class CustomerController extends Controller
                 ->select('product_details.*');
         }])->where('slug', $slug)->first()->toArray();
 
+        $payment_methods = PaymentMethod::with(['image'])->get()->toArray();
+
         return Inertia::render('Customer/Detail/Index', [
-            'product' => $product
+            'product' => $product,
+            'payment_methods' => $payment_methods
         ]);
     }
 }

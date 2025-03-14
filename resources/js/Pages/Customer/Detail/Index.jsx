@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { Button, Chip, Input, Progress, Image, addToast } from '@heroui/react';
 
 import PaymentMethodCard from '@/Components/Card/PaymentMethodCard';
@@ -205,6 +205,10 @@ const CheckoutPage = ({ product }) => {
         const { price, discount, margin } = productCheckout;
         const finalPrice = priceUtils.calculateFinal(price, margin, discount);
 
+        const { payment_methods } = usePage().props;
+
+        console.log({ payment_methods })
+
         return (
             <div className="flex flex-col w-full md:w-1/3 gap-8">
                 <FormSection title="Lengkapi Informasi Berikut" number="2">
@@ -239,13 +243,18 @@ const CheckoutPage = ({ product }) => {
 
                 <FormSection title="Pilih Metode Pembayaran" number="4">
                     <div className="flex flex-col w-full p-2 gap-2">
-                        <PaymentMethodCard
-                            payment="gopay"
-                            name="GOPAY"
-                            price={finalPrice}
-                            logo="/assets/logo/gopay.png"
-                            onClick={handlePaymentClick}
-                        />
+                        {
+                            payment_methods.map((item) => (
+                                <PaymentMethodCard
+                                    key={item.id}
+                                    payment={item.code}
+                                    name={item.name}
+                                    price={finalPrice}
+                                    logo={item.image.path}
+                                    onClick={handlePaymentClick}
+                                />
+                            ))
+                        }
                     </div>
                 </FormSection>
             </div>

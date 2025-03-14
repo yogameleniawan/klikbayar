@@ -18,7 +18,9 @@ const PaymentMethodCard = ({
                 <span className="font-bold">{name}</span>
                 <span className="text-sm">{formatRupiah(price)}</span>
             </div>
-            <Image src={logo} width={30} height={30} />
+            <Image src={route('stream', {
+                    path: logo
+                })} width={30} height={30} />
         </div>
     )
 }

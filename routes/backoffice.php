@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backoffice\BannerController;
 use App\Http\Controllers\Backoffice\DashboardController;
+use App\Http\Controllers\Backoffice\PaymentMethodController;
 use App\Http\Controllers\Backoffice\Products\DigiProductController;
 use App\Http\Controllers\Backoffice\Products\ProductCategoryController;
 use App\Http\Controllers\Backoffice\Products\ProductController;
@@ -12,6 +13,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'backoffice.'
     Route::resources([
         'banners' => BannerController::class,
         'dashboard' => DashboardController::class,
+        'payment-methods' => PaymentMethodController::class,
         'users' => UserController::class,
     ]);
 

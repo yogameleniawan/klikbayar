@@ -19,6 +19,10 @@
       scrollbar-width: none;
     }
 
+    .sun-editor .se-toolbar {
+        background-color: red;
+    }
+
     @keyframes flicker {
         0% { opacity: 1; transform: scale(1); }
         25% { opacity: 0.8; transform: scale(0.95) rotate(2deg); }

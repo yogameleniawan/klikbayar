@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Enums\GatewayEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Http\Controllers\Controller;
+use App\Models\PaymentMethod;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\TransactionLog;
@@ -27,7 +28,9 @@ class MidtransController extends Controller
     {
         $invoiceNumber = 'KLIK-' . time() . '-' . Str::random(5);
         $amount = $request->finalPrice;
-        $paymentMethod = $request->paymentMethod;
+        $paymentMethod = PaymentMethod::find($request->paymentMethod);
+        $paymentMethodCode = $paymentMethod->code;
+
         $contactPhone = $request->contactPhone;
         $customerNo = $request->customerNo;
 
@@ -48,12 +51,12 @@ class MidtransController extends Controller
                 'first_name' => 'Klik Bayar',
                 'phone' => $contactPhone,
             ],
-            'payment_type' => $paymentMethod,
+            'payment_type' => $paymentMethodCode,
         ];
 
-        if ($paymentMethod === 'bank_transfer') {
+        if ($paymentMethodCode === 'bank_transfer') {
             $transactionDetails['bank_transfer'] = ['bank' => 'bca'];
-        } elseif ($paymentMethod === 'qris') {
+        } elseif ($paymentMethodCode === 'qris') {
             $transactionDetails['qris'] = [];
         }
 
@@ -65,6 +68,7 @@ class MidtransController extends Controller
                 'invoice_number' => $invoiceNumber,
                 'phone' => $contactPhone,
                 'status' => PaymentStatusEnum::PENDING->value,
+                'payment_method_id' => $paymentMethod->id
             ]);
 
             TransactionLog::create([

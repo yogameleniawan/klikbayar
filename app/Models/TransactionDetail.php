@@ -13,4 +13,12 @@ class TransactionDetail extends Model
     use HasFactory, HasUuids, Searchable, Sortable;
 
     protected $guarded = ['created_at', 'updated_at'];
+
+    public function transaction() {
+        return $this->belongsTo(Transaction::class, 'transaction_id');
+    }
+
+    public function product_detail() {
+        return $this->belongsTo(ProductDetail::class, 'product_detail_id');
+    }
 }

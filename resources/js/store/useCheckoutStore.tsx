@@ -111,6 +111,7 @@ export const useCheckoutStore = create<CheckoutState>((set, get) => ({
 
     getCheckoutSummary: () => {
         const { checkout } = get();
+
         return {
             productId: checkout.product.product_id,
             productName: checkout.product.product_name,

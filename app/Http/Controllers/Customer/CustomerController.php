@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -52,6 +53,14 @@ class CustomerController extends Controller
         return Inertia::render('Customer/Detail/Index', [
             'product' => $product,
             'payment_methods' => $payment_methods
+        ]);
+    }
+
+    public function detailTransaction($id) {
+        $transaction = Transaction::with(['transaction_detail.product_detail.product.image', 'transaction_log', 'payment_method'])->where('id', $id)->first()->toArray();
+
+        return Inertia::render('Customer/Transaction/Detail/Index', [
+            'transaction' => $transaction
         ]);
     }
 }

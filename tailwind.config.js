@@ -1,17 +1,17 @@
-const {heroui} = require('@heroui/theme');
+const { heroui } = require('@heroui/theme');
 import { transform } from 'lodash';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
-    "./storage/framework/views/*.php",
-    "./resources/views/**/*.blade.php",
-    "./resources/js/**/*.jsx",
-    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@heroui/theme/dist/components/(toast|spinner).js"
-  ],
+    content: [
+        "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
+        "./storage/framework/views/*.php",
+        "./resources/views/**/*.blade.php",
+        "./resources/js/**/*.jsx",
+        "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
+        "./node_modules/@heroui/theme/dist/components/(toast|spinner).js"
+    ],
 
     theme: {
         extend: {
@@ -74,7 +74,7 @@ export default {
                     '50%': { transform: 'rotate(2deg)' },
                     '75%': { transform: 'rotate(-2deg)' },
                     '100%': { transform: 'rotate(0deg)' },
-                  },
+                },
             },
             animation: {
                 'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -89,5 +89,5 @@ export default {
     },
 
     darkMode: "class",
-  plugins: [heroui()],
+    plugins: [heroui(), require('@tailwindcss/typography')],
 };

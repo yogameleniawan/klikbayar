@@ -22,4 +22,8 @@ class ProductDetail extends Model
     public function digiflazz() {
         return $this->belongsTo(DigiProduct::class, 'digi_product_id');
     }
+
+    public function transaction_detail() {
+        return $this->belongsTo(TransactionDetail::class, 'transaction_detail_id');
+    }
 }

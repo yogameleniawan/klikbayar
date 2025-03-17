@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { Button, Chip, Input, Progress, Image, addToast } from '@heroui/react';
 
 import PaymentMethodCard from '@/Components/Card/PaymentMethodCard';
@@ -135,6 +135,7 @@ const CheckoutPage = ({ product }) => {
     };
 
     const handlePaymentClick = (payment) => {
+        console.log(payment)
         setCheckout("payment", payment);
         updateStep();
     };
@@ -247,7 +248,7 @@ const CheckoutPage = ({ product }) => {
                             payment_methods.map((item) => (
                                 <PaymentMethodCard
                                     key={item.id}
-                                    payment={item.code}
+                                    payment={item.id}
                                     name={item.name}
                                     price={finalPrice}
                                     logo={item.image.path}
@@ -276,6 +277,8 @@ const CheckoutPage = ({ product }) => {
                     description: res.data.message,
                     color: "success",
                 })
+
+                router.visit(route('customer.detail-transaction', {id: res.data.transaction_id}))
             },
             onError: (res) => {
                 addToast({

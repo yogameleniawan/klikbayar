@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
 Route::group(['as' => 'customer.'], function() {
     Route::get('/', [CustomerController::class, 'index'])->name('beranda');
     Route::get('/checkout/{slug}', [CustomerController::class, 'checkout'])->name('checkout');
+    Route::get('/transaction/{id}', [CustomerController::class, 'detailTransaction'])->name('detail-transaction');
 });
 
 Route::get('stream/image', [ImageController::class, 'streamImage'])->name('stream');

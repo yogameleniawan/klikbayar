@@ -91,10 +91,10 @@ export default function Edit({ data: payment_method }) {
                     }}
                     defaultSelectedKeys={new Set([data.category])}
                 >
-                    <SelectItem key={'bank'} textValue={'bank'} value={'bank'}>
+                    <SelectItem key={'Bank'} textValue={'Bank'} value={'Bank'}>
                         <span className="text-small">Bank</span>
                     </SelectItem>
-                    <SelectItem key={'ewallet'} textValue={'ewallet'} value={'ewallet'}>
+                    <SelectItem key={'E-Wallet'} textValue={'E-Wallet'} value={'E-Wallet'}>
                         <span className="text-small">E-Wallet</span>
                     </SelectItem>
                 </Select>

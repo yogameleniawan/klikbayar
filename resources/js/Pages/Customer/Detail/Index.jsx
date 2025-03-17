@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
-import { Button, Chip, Input, Progress, Image, addToast } from '@heroui/react';
+import { Button, Chip, Input, Progress, Image, addToast, Accordion, AccordionItem } from '@heroui/react';
 
 import PaymentMethodCard from '@/Components/Card/PaymentMethodCard';
 import FormSection from '@/Components/Customer/Components/FormSection';
@@ -243,19 +243,62 @@ const CheckoutPage = ({ product }) => {
                 </FormSection>
 
                 <FormSection title="Pilih Metode Pembayaran" number="4">
-                    <div className="flex flex-col w-full p-2 gap-2">
-                        {
-                            payment_methods.map((item) => (
-                                <PaymentMethodCard
-                                    key={item.id}
-                                    payment={item.id}
-                                    name={item.name}
-                                    price={finalPrice}
-                                    logo={item.image.path}
-                                    onClick={handlePaymentClick}
-                                />
-                            ))
-                        }
+                    <div className="flex flex-col w-full p-2 gap-4">
+                        <Accordion>
+                            {/* Kelompokkan payment methods berdasarkan kategori */}
+                            {Object.entries(
+                                payment_methods.reduce((acc, item) => {
+                                    // Buat kelompok berdasarkan kategori
+                                    const category = item.category || 'Lainnya';
+                                    if (!acc[category]) {
+                                        acc[category] = [];
+                                    }
+                                    acc[category].push(item);
+                                    return acc;
+                                }, {})
+                            ).map(([category, items]) => (
+                                <AccordionItem
+                                    key={category}
+                                    aria-label={category}
+                                    title={category}
+                                    subtitle={`${items.length} metode pembayaran`}
+                                    startContent={
+                                        <div className="flex items-center gap-1">
+                                            {items.slice(0, 2).map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="w-8 h-8 rounded-md border border-gray-200 p-1 flex items-center justify-center bg-white"
+                                                >
+                                                    <img
+                                                        src={route('stream', { path: item.image.path })}
+                                                        alt={item.name}
+                                                        className="max-w-full max-h-full object-contain"
+                                                    />
+                                                </div>
+                                            ))}
+                                            {items.length > 2 && (
+                                                <div className="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center text-xs font-semibold">
+                                                    +{items.length - 2}
+                                                </div>
+                                            )}
+                                        </div>
+                                    }
+                                >
+                                    <div className="flex flex-col gap-2 px-2 py-1">
+                                        {items.map((item) => (
+                                            <PaymentMethodCard
+                                                key={item.id}
+                                                payment={item.id}
+                                                name={item.name}
+                                                price={finalPrice}
+                                                logo={item.image.path}
+                                                onClick={handlePaymentClick}
+                                            />
+                                        ))}
+                                    </div>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
                     </div>
                 </FormSection>
             </div>
@@ -278,7 +321,7 @@ const CheckoutPage = ({ product }) => {
                     color: "success",
                 })
 
-                router.visit(route('customer.detail-transaction', {id: res.data.transaction_id}))
+                router.visit(route('customer.detail-transaction', { id: res.data.transaction_id }))
             },
             onError: (res) => {
                 addToast({

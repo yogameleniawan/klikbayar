@@ -55,9 +55,9 @@ class ImageController extends Controller
 
             $file->delete();
 
-            return back()->with('message', 'File deleted successfuly');
+            return response()->json(['message' => 'File deleted successfuly']);
         } catch (\Throwable $th) {
-            return back()->withErrors(['message' =>  $th->getMessage()]);
+            return response()->json(['message' => $th->getMessage()]);
         }
     }
 }

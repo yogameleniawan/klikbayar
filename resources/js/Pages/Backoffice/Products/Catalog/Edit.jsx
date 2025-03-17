@@ -13,7 +13,7 @@ import DynamicInputForm from "@/Components/Form/DynamicInputForm";
 export default function Edit({ data: product_edit }) {
     const { categories, digiflazz_products, product_details } = usePage().props;
 
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         name: product_edit.name,
         description: product_edit.description,
         brand: product_edit.brand,
@@ -21,13 +21,14 @@ export default function Edit({ data: product_edit }) {
         products: product_details,
         inputs: JSON.parse(product_edit.input),
         image: [],
-        banner: []
+        banner: [],
+        _method: 'PUT'
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        put(
+        post(
             route('backoffice.products.catalog.update', {
                 id: product_edit.id
             }),

@@ -1,12 +1,38 @@
 import { Button, Image } from '@heroui/react';
-import { router } from '@inertiajs/react';
+import { useMutation } from '@tanstack/react-query';
 import { XCircleIcon } from 'lucide-react';
 import React, { useState } from 'react'
 
 const FilePreview = ({ file, url }) => {
     const [isLoading, setIsLoading] = useState("");
+    const [isDeleted, setIsDeleted] = useState("");
+
+    const syncMutation = useMutation({
+        mutationFn: () => {
+            setIsLoading(file.id)
+            return axios.post(route(url, { id: file.id }));
+        },
+        onSuccess: (res) => {
+            setIsDeleted(file.id)
+            addToast({
+                title: "Success",
+                description: res.data.message,
+                color: "success",
+            })
+        },
+        onError: (res) => {
+            addToast({
+                title: res.response.statusText,
+                description: res.response.data.error,
+                color: "danger",
+            })
+        }
+    })
+
 
     if (!file) return;
+
+    if (isDeleted === file.id) return;
 
     return (
         <div className="relative flex items-center p-4 border rounded-lg">
@@ -14,10 +40,7 @@ const FilePreview = ({ file, url }) => {
                 isIconOnly
                 type="button"
                 onPress={() => {
-                    router.delete(route(url, { id: file.id }), {
-                        onStart: () => setIsLoading(file.id),
-                        onFinish: () => setIsLoading(file.id)
-                    });
+                    syncMutation.mutate();
                 }}
                 className="absolute top-2 right-2"
                 isLoading={isLoading === file.id}

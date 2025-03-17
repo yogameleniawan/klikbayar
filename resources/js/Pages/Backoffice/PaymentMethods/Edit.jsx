@@ -16,13 +16,14 @@ export default function Edit({ data: payment_method }) {
         code: payment_method.code,
         description: payment_method.description,
         category: payment_method.category,
-        image: []
+        image: [],
+        _method: 'PUT'
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        put(
+        post(
             route('backoffice.payment-methods.update', {
                 id: payment_method.id
             }),

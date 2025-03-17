@@ -1,11 +1,12 @@
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { Head } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
-import { Image, Card, Divider, Button } from '@heroui/react';
+import { Image, Card, Divider, Button, addToast } from '@heroui/react';
 import { BiCopy, BiInfoCircle, BiCheck } from 'react-icons/bi';
 import { VscSync } from "react-icons/vsc";
 import { MdOutlineCancel } from "react-icons/md";
 import { formatRupiah } from '@/utils/format_rupiah';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 // Komponen Countdown terpisah
 const Countdown = ({ expiryTime }) => {
@@ -114,9 +115,103 @@ const QRCodeSection = ({ qrCodeUrl, paymentMethod }) => {
     );
 };
 
+const PaymentActions = ({ transactionId, onStatusUpdate }) => {
+    const queryClient = useQueryClient();
+
+    // Mutation untuk cek status
+    const checkStatusMutation = useMutation({
+        mutationFn: async () => {
+            const response = await axios.get(route('api.transactions.check-status', { id: transactionId }));
+            return response.data;
+        },
+        onSuccess: (response) => {
+            queryClient.invalidateQueries(['transaction', transactionId]);
+
+            if (response.status === 'success' && response.data) {
+                onStatusUpdate(response.data.transaction_status);
+
+                addToast({
+                    title: "Berhasil",
+                    description: response.message || "Status transaksi berhasil diperbarui",
+                    color: "success",
+                });
+            }
+        },
+        onError: (error) => {
+            addToast({
+                title: "Gagal",
+                description: error.response?.data?.error || 'Gagal memeriksa status transaksi',
+                color: "danger",
+            });
+        }
+    });
+
+    // Mutation untuk membatalkan transaksi
+    const cancelTransactionMutation = useMutation({
+        mutationFn: async () => {
+            const response = await axios.post(route('api.transactions.cancel', { id: transactionId }));
+            return response.data;
+        },
+        onSuccess: (response) => {
+            queryClient.invalidateQueries(['transaction', transactionId]);
+
+            if (response.status === 'success' && response.data) {
+                onStatusUpdate(response.data.transaction_status);
+
+                addToast({
+                    title: "Berhasil",
+                    description: response.message || "Status transaksi berhasil dibatalkan",
+                    color: "success",
+                });
+            }
+        },
+        onError: (error) => {
+            addToast({
+                title: "Gagal",
+                description: error.response?.data?.error || 'Gagal membatalkan transaksi',
+                color: "danger",
+            })
+        }
+    });
+
+    const handleCheckStatus = () => {
+        checkStatusMutation.mutate();
+    };
+
+    const handleCancelTransaction = () => {
+        if (confirm('Apakah Anda yakin ingin membatalkan transaksi ini? Tindakan ini tidak dapat dibatalkan.')) {
+            cancelTransactionMutation.mutate();
+        }
+    };
+
+    return (
+        <div className="flex gap-2">
+            <Button
+                color="primary"
+                startContent={<VscSync className={checkStatusMutation.isPending ? "animate-spin" : ""} />}
+                isLoading={checkStatusMutation.isPending}
+                onPress={handleCheckStatus}
+                isDisabled={checkStatusMutation.isPending || cancelTransactionMutation.isPending}
+            >
+                Cek Status
+            </Button>
+            <Button
+                color="danger"
+                startContent={<MdOutlineCancel />}
+                isLoading={cancelTransactionMutation.isPending}
+                onPress={handleCancelTransaction}
+                isDisabled={checkStatusMutation.isPending || cancelTransactionMutation.isPending}
+            >
+                Batalkan Transaksi
+            </Button>
+        </div>
+    );
+};
+
 // Komponen utama
 const Index = ({ transaction }) => {
     const [copied, setCopied] = useState(false);
+    const [currentStatus, setCurrentStatus] = useState(transaction.status || "Menunggu Pembayaran");
 
     // Ekstrak dan siapkan data
     const { transaction_detail, transaction_log, payment_method } = transaction;
@@ -128,6 +223,8 @@ const Index = ({ transaction }) => {
     const response = transaction_log?.[0]?.response
         ? JSON.parse(transaction_log[0].response)
         : null;
+
+        console.log({response})
 
     const qrCodeUrl = response?.actions?.[0]?.url || null;
     const payload = transaction_log?.[0]?.payload
@@ -147,6 +244,10 @@ const Index = ({ transaction }) => {
         product_detail,
         product,
         image
+    };
+
+    const handleStatusUpdate = (newStatus) => {
+        setCurrentStatus(newStatus);
     };
 
     return (
@@ -220,21 +321,25 @@ const Index = ({ transaction }) => {
                         <div className="flex justify-between items-center">
                             <div>
                                 <p className="text-sm text-gray-500 dark:text-gray-100">Status Transaksi</p>
-                                <p className="font-medium text-gray-800 dark:text-gray-100">
-                                    {transaction.status || "Menunggu Pembayaran"}
+                                <p className={`font-medium ${currentStatus === 'success' ? 'text-green-600 dark:text-green-400' :
+                                        currentStatus === 'failed' || currentStatus === 'cancel' ? 'text-red-600 dark:text-red-400' :
+                                            'text-gray-800 dark:text-gray-100'
+                                    }`}>
+                                    {currentStatus === 'success' ? 'Berhasil' :
+                                        currentStatus === 'pending' ? 'Menunggu Pembayaran' :
+                                            currentStatus === 'failed' ? 'Gagal' :
+                                                currentStatus === 'cancel' ? 'Dibatalkan' :
+                                                    currentStatus || "Menunggu Pembayaran"}
                                 </p>
                             </div>
                         </div>
 
                         {/* Tombol Aksi */}
-                        <div className="flex gap-2">
-                            <Button color="primary" startContent={<VscSync />}>
-                                Cek Status
-                            </Button>
-                            <Button color="danger" startContent={<MdOutlineCancel />}>
-                                Batalkan Transaksi
-                            </Button>
-                        </div>
+                        <PaymentActions
+                            transactionId={transaction.id}
+                            onStatusUpdate={handleStatusUpdate}
+                        />
+
                     </div>
                 </Card>
 

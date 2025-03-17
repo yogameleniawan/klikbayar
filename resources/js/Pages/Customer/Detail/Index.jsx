@@ -277,7 +277,7 @@ const CheckoutPage = ({ product }) => {
                                                 </div>
                                             ))}
                                             {items.length > 2 && (
-                                                <div className="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center text-xs font-semibold">
+                                                <div className="w-8 h-8 rounded-md bg-default-300/40 dark:bg-default-200 flex items-center justify-center text-xs font-semibold">
                                                     +{items.length - 2}
                                                 </div>
                                             )}

@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react'
-import { Card, CardHeader, Image, Spinner } from '@heroui/react'
+import { addToast, Card, CardHeader, Image, Spinner } from '@heroui/react'
 import React from 'react'
 import Category from './Components/Category'
 import { useQuery } from '@tanstack/react-query'
@@ -11,18 +11,37 @@ const Catalog = () => {
 
     const categoryStore = useCategoryCatalogStore();
 
-    const { isLoading, data } = useQuery({
+    const { isLoading, data, error } = useQuery({
         queryKey: ["data-products", categoryStore.category],
         queryFn: async () => {
-            const res = await axios.get(route('api.product.get', {
-                'category': categoryStore.category
-            }));
+            try {
+                const res = await axios.get(route('api.product.get', {
+                    'category': categoryStore.category
+                }));
 
-            const data = res.data;
-
-            return data;
+                const data = res.data;
+                return data;
+            } catch (error) {
+                if (error.response && error.response.status === 429) {
+                    addToast({
+                        title: "Terlalu Banyak Request",
+                        description: "Mohon tunggu beberapa saat sebelum mencoba kembali",
+                        color: "warning"
+                    });
+                }
+                throw error;
+            }
         },
-    })
+        onError: (error) => {
+            if (!(error.response && error.response.status === 429)) {
+                addToast({
+                    title: "Error",
+                    description: "Gagal mengambil data produk",
+                    color: "danger"
+                });
+            }
+        }
+    });
 
     const EmptyCatalog = () => {
         return (

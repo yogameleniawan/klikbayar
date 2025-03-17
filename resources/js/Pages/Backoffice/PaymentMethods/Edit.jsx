@@ -106,7 +106,7 @@ export default function Edit({ data: payment_method }) {
                             data={data}
                             setData={setData}
                             processing={processing} />
-                        <FilePreview file={payment_method.image} />
+                        <FilePreview file={payment_method.image} url="image.destroy" />
                     </div>
                 </div>
 

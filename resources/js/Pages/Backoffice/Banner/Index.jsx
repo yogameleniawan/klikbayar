@@ -5,6 +5,7 @@ import { Head, router, useForm } from '@inertiajs/react'
 import { BreadcrumbItem, Breadcrumbs, Button, Form, Image, Input, Progress } from '@heroui/react'
 import React from 'react'
 import { XCircleIcon } from 'lucide-react';
+import FilePreview from '@/Components/FilePreview'
 
 const Index = ({ banners }) => {
     const { data, setData, post, processing, reset } = useForm({
@@ -45,34 +46,7 @@ const Index = ({ banners }) => {
             {
                 banners.map((item, i) => {
                     return (
-                        <div key={i} className="relative flex items-center p-4 border rounded-lg">
-                            <Button
-                                key={i}
-                                isIconOnly
-                                type="button"
-                                onPress={() => {
-                                    router.delete(route('backoffice.banners.destroy', { id: item.id }), {
-                                        onStart: () => setIsLoading(item.id),
-                                        onFinish: () => setIsLoading(item.id)
-                                    });
-                                }}
-                                className="absolute top-2 right-2"
-                                isLoading={isLoading === item.id}
-                            >
-                                <XCircleIcon size={20} />
-                            </Button>
-
-                            <div className="flex items-center space-x-4 flex-1">
-                                <Image src={route('stream', {
-                                    path: item.file.path
-                                })} alt="preview"
-                                    className="w-16 h-16 object-cover rounded" />
-
-                                <div className="flex-1">
-                                    <p className="font-medium truncate">{item.file.file_name}</p>
-                                </div>
-                            </div>
-                        </div>
+                        <FilePreview key={i} file={item} url={"backoffice.banners.destroy"} />
                     )
                 })
             }

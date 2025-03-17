@@ -1,9 +1,12 @@
 import { Button, Image } from '@heroui/react';
+import { router } from '@inertiajs/react';
 import { XCircleIcon } from 'lucide-react';
 import React, { useState } from 'react'
 
-const FilePreview = ({ file }) => {
+const FilePreview = ({ file, url }) => {
     const [isLoading, setIsLoading] = useState("");
+
+    if (!file) return;
 
     return (
         <div className="relative flex items-center p-4 border rounded-lg">
@@ -11,7 +14,7 @@ const FilePreview = ({ file }) => {
                 isIconOnly
                 type="button"
                 onPress={() => {
-                    router.delete(route('backoffice.banners.destroy', { id: file.id }), {
+                    router.delete(route(url, { id: file.id }), {
                         onStart: () => setIsLoading(file.id),
                         onFinish: () => setIsLoading(file.id)
                     });
@@ -32,6 +35,7 @@ const FilePreview = ({ file }) => {
                     <p className="text-[8px] font-medium truncate">{file.file_name}</p>
                 </div>
             </div>
+
         </div>
     )
 }

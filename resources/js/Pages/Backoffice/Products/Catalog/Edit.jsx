@@ -136,7 +136,7 @@ export default function Edit({ data: product_edit }) {
                             data={data}
                             setData={setData}
                             processing={processing} />
-                        <FilePreview file={product_edit.image} />
+                        <FilePreview file={product_edit.image} url="image.destroy" />
                     </div>
 
                     <div className="flex flex-col gap-2 w-full">
@@ -146,7 +146,7 @@ export default function Edit({ data: product_edit }) {
                             data={data}
                             setData={setData}
                             processing={processing} />
-                        <FilePreview file={product_edit.banner} />
+                        <FilePreview file={product_edit.banner} url="image.destroy" />
                     </div>
                 </div>
 

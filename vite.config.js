@@ -11,4 +11,14 @@ export default defineConfig({
         }),
         react(),
     ],
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost'
+        },
+        watch: {
+            usePolling: true,
+        },
+        port: 5173,
+    },
 });

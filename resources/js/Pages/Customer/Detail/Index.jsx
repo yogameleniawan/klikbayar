@@ -270,7 +270,7 @@ const CheckoutPage = ({ product }) => {
                                                     className="w-8 h-8 rounded-md border border-gray-200 p-1 flex items-center justify-center bg-white"
                                                 >
                                                     <img
-                                                        src={route('stream', { path: item.image.path })}
+                                                        src={route('logo.stream', { filename: item.image })}
                                                         alt={item.name}
                                                         className="max-w-full max-h-full object-contain"
                                                     />
@@ -291,7 +291,7 @@ const CheckoutPage = ({ product }) => {
                                                 payment={item.id}
                                                 name={item.name}
                                                 price={finalPrice}
-                                                logo={item.image.path}
+                                                logo={item.image}
                                                 onClick={handlePaymentClick}
                                             />
                                         ))}

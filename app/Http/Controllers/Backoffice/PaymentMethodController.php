@@ -3,18 +3,13 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
-use App\Models\File;
 use App\Models\PaymentMethod;
-use App\Services\FileService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
 
 class PaymentMethodController extends Controller
 {
-    public function __construct(
-        protected FileService $fileService
-    ) {}
-
     /**
      * Display a listing of the resource.
      */
@@ -23,10 +18,10 @@ class PaymentMethodController extends Controller
         $payment_methods = PaymentMethod::search(
             keyword: $request->search,
             columns: ["id", "name", "code", "category"],
-            )
+        )
             ->sort(
-            sort_by: $request->sort_by ?? 'name',
-            sort_order: $request->sort_order == 'ascending' ? 'ASC' : 'DESC'
+                sort_by: $request->sort_by ?? 'name',
+                sort_order: $request->sort_order == 'ascending' ? 'ASC' : 'DESC'
             )
             ->paginate($request->length ?? 10);
 
@@ -40,7 +35,9 @@ class PaymentMethodController extends Controller
      */
     public function create()
     {
-        return Inertia::render("Backoffice/PaymentMethods/Add");
+        $logo = $this->getLogoFiles();
+
+        return Inertia::render("Backoffice/PaymentMethods/Add", ['logo' => $logo]);
     }
 
     /**
@@ -57,27 +54,13 @@ class PaymentMethodController extends Controller
         ]);
 
         try {
-            $image = $request->file('image');
-            $image_id = "";
-
-            if (count($image)) {
-                foreach ($image as $file) {
-                    try {
-                        $file = $this->fileService->create($file);
-                        $image_id = $file->id;
-                    } catch (\Throwable $th) {
-                        return back()->withErrors(['message' =>  $th->getMessage()]);
-                    }
-                }
-            }
-
             try {
                 PaymentMethod::create([
                     'name' => $request->name,
                     'description' => $request->description,
                     'code' => $request->code,
                     'category' => $request->category,
-                    'image_id' => $image_id,
+                    'image' => $request->image,
                 ]);
 
                 return back()->with('message', 'Data added successfuly');
@@ -103,9 +86,9 @@ class PaymentMethodController extends Controller
     public function edit(string $id)
     {
         $data = PaymentMethod::with(['image'])
-        ->where('id', $id)
-        ->first()
-        ->toArray();
+            ->where('id', $id)
+            ->first()
+            ->toArray();
 
         return Inertia::render("Backoffice/PaymentMethods/Edit", [
             'data' => $data,
@@ -128,19 +111,6 @@ class PaymentMethodController extends Controller
         $payment_method = PaymentMethod::find($id);
 
         try {
-            $image = $request->file('image');
-            $image_id = $payment_method->image_id;
-
-            if ($image != null) {
-                foreach ($image as $file) {
-                    try {
-                        $file = $this->fileService->create($file);
-                        $image_id = $file->id;
-                    } catch (\Throwable $th) {
-                        return back()->withErrors(['message' =>  $th->getMessage()]);
-                    }
-                }
-            }
 
             try {
                 $payment_method->update([
@@ -148,7 +118,7 @@ class PaymentMethodController extends Controller
                     'description' => $request->description,
                     'code' => $request->code,
                     'category' => $request->category,
-                    'image_id' => $image_id
+                    'image' => $request->image
                 ]);
 
                 return back()->with('message', 'Data updated successfuly');
@@ -166,16 +136,50 @@ class PaymentMethodController extends Controller
     public function destroy(string $id)
     {
         $payment_method = PaymentMethod::find($id);
-        $image = File::find($payment_method->image_id);
 
         try {
             $payment_method->delete();
-
-            $this->fileService->delete($image->file->path);
 
             return back()->with('message', 'Data deleted successfuly');
         } catch (\Throwable $th) {
             return back()->withErrors(['message' =>  $th->getMessage()]);
         }
+    }
+
+    public function getLogoFiles()
+    {
+        $path = public_path('assets/logo');
+
+        if (!File::isDirectory($path)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Logo directory not found',
+                'data' => []
+            ], 404);
+        }
+
+        $files = File::files($path);
+
+        $logoFiles = [];
+        foreach ($files as $file) {
+            $extension = strtolower($file->getExtension());
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
+
+            if (in_array($extension, $allowedExtensions)) {
+                $logoFiles[] = [
+                    'name' => $file->getFilename(),
+                    'path' => route('logo.stream', ['filename' => $file->getFilename()]),
+                    'size' => $file->getSize(),
+                    'extension' => $extension,
+                    'last_modified' => date('Y-m-d H:i:s', $file->getMTime())
+                ];
+            }
+        }
+
+        usort($logoFiles, function ($a, $b) {
+            return $a['name'] <=> $b['name'];
+        });
+
+        return $logoFiles;
     }
 }

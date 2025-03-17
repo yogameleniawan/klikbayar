@@ -48,7 +48,7 @@ class CustomerController extends Controller
                 ->select('product_details.*');
         }])->where('slug', $slug)->first()->toArray();
 
-        $payment_methods = PaymentMethod::with(['image'])->get()->toArray();
+        $payment_methods = PaymentMethod::all()->toArray();
 
         return Inertia::render('Customer/Detail/Index', [
             'product' => $product,

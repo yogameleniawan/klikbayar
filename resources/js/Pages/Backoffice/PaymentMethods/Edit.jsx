@@ -16,7 +16,7 @@ export default function Edit({ data: payment_method }) {
         code: payment_method.code,
         description: payment_method.description,
         category: payment_method.category,
-        image: [],
+        image: "",
         _method: 'PUT'
     });
 
@@ -100,15 +100,24 @@ export default function Edit({ data: payment_method }) {
                 </Select>
 
                 <div className="flex flex-row gap-2 w-full">
-                    <div className="flex flex-col gap-2">
-                        <FileImageUploadForm
-                            className="w-96"
-                            name="image"
-                            data={data}
-                            setData={setData}
-                            processing={processing} />
-                        <FilePreview file={payment_method.image} url="image.destroy" />
-                    </div>
+                    <Select
+                        label="Logo"
+                        labelPlacement="outside"
+                        placeholder="Select a Logo"
+                        name="image"
+                        onChange={(e) => {
+                            setData('image', e.target.value)
+                        }}
+                        defaultSelectedKeys={new Set([payment_method.image])}
+                    >
+                        {
+                            logo.map((item, i) => (
+                                <SelectItem key={item.name} textValue={item.name} value={item.name}>
+                                    <span className="text-small">{item.name}</span>
+                                </SelectItem>
+                            ))
+                        }
+                    </Select>
                 </div>
 
                 <div className="flex gap-2">

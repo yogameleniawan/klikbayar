@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('category');
             $table->integer('fee')->default(0);
             $table->text('description');
-            $table->foreignUuid('image_id');
+            $table->text('image');
             $table->timestamps();
         });
     }

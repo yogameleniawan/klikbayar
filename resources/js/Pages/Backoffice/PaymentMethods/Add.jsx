@@ -8,14 +8,14 @@ import FileImageUploadForm from "@/Components/Form/FileImageUploadForm";
 import React from 'react';
 import TextEditor from "@/Components/Editor/TextEditor";
 
-export default function Add() {
+export default function Add({ logo }) {
 
     const { data, setData, post, processing, errors } = useForm({
         name: "",
         code: "",
         description: "",
         category: "",
-        image: []
+        image: ""
     });
 
     const submit = (e) => {
@@ -29,10 +29,6 @@ export default function Add() {
             }
         );
     };
-
-    const handleChange = (content) => {
-        console.log(content);
-    }
 
     return (
         <BackofficeLayout>
@@ -97,12 +93,23 @@ export default function Add() {
                 </Select>
 
                 <div className="flex flex-row gap-2 w-full">
-                    <FileImageUploadForm
-                        className="w-96"
+                    <Select
+                        label="Logo"
+                        labelPlacement="outside"
+                        placeholder="Select a Logo"
                         name="image"
-                        data={data}
-                        setData={setData}
-                        processing={processing} />
+                        onChange={(e) => {
+                            setData('image', e.target.value)
+                        }}
+                    >
+                        {
+                            logo.map((item, i) => (
+                                <SelectItem key={item.name} textValue={item.name} value={item.name}>
+                                    <span className="text-small">{item.name}</span>
+                                </SelectItem>
+                            ))
+                        }
+                    </Select>
                 </div>
 
                 <div className="flex gap-2">

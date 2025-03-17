@@ -19,6 +19,7 @@ Route::group(['as' => 'customer.'], function() {
 
 Route::get('stream/image', [ImageController::class, 'streamImage'])->name('stream');
 Route::post('destroy/image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
+Route::get('/logo/{filename}', [ImageController::class, 'streamLogoFile'])->name('logo.stream');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/backoffice.php';

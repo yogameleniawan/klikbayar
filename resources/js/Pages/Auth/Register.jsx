@@ -21,7 +21,7 @@ const AcmeIcon = ({ size = 32, width, height, ...props }) => (
 
 
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         name: '',
         email: '',
         password: '',
@@ -34,8 +34,12 @@ export default function Register() {
     const toggleVisibility = () => setIsVisible(!isVisible);
     const toggleConfirmVisibility = () => setIsConfirmVisible(!isConfirmVisible);
 
+    const handleInputChange = (name, value) => {
+        setData(name, value)
+        clearErrors()
+    }
+
     const submit = (e) => {
-        console.log('submit')
         e.preventDefault();
 
         post(route('register'), {
@@ -69,7 +73,7 @@ export default function Register() {
                             variant="bordered"
                             value={data.name}
                             isFocused={true}
-                            onChange={(e) => setData('name', e.target.value)}
+                            onChange={(e) => handleInputChange('name', e.target.value)}
                             errorMessage={errors.name}
                             isInvalid={errors.name}
                         />
@@ -87,7 +91,7 @@ export default function Register() {
                             variant="bordered"
                             value={data.email}
                             isFocused={true}
-                            onChange={(e) => setData('email', e.target.value)}
+                            onChange={(e) => handleInputChange('email', e.target.value)}
                             errorMessage={errors.email}
                             isInvalid={errors.email}
                         />
@@ -121,7 +125,7 @@ export default function Register() {
                             variant="bordered"
                             isFocused={true}
                             value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
+                            onChange={(e) => handleInputChange('password', e.target.value)}
                             errorMessage={errors.password}
                             isInvalid={errors.password}
                         />

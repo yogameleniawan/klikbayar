@@ -19,17 +19,19 @@ export default function Login({ status, canResetPassword }) {
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         email: '',
         password: '',
         remember: false,
     });
 
-    console.log({errors})
+    const handleInputChange = (name, value) => {
+        setData(name, value)
+        clearErrors()
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("handleSubmit");
 
         post(route('login'), {
             onFinish: () => reset('password'),
@@ -61,7 +63,7 @@ export default function Login({ status, canResetPassword }) {
                         errorMessage={errors.email}
                         isInvalid={errors.email ? true : false}
                         value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
                     />
                     <Input
                         isRequired
@@ -89,7 +91,7 @@ export default function Login({ status, canResetPassword }) {
                         isInvalid={errors.password ? true : false}
                         value={data.password}
                         isFocused={true}
-                        onChange={(e) => setData('password', e.target.value)}
+                        onChange={(e) => handleInputChange('password', e.target.value)}
                     />
                     <div className="flex w-full items-center justify-between px-1 py-2">
                         <Checkbox name="remember" size="sm">

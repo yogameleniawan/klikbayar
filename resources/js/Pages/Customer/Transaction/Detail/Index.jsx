@@ -7,6 +7,7 @@ import { VscSync } from "react-icons/vsc";
 import { MdOutlineCancel } from "react-icons/md";
 import { formatRupiah } from '@/utils/format_rupiah';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useWebSocket from '@/Hooks/useWebSocket';
 
 // Komponen Countdown terpisah
 const Countdown = ({ expiryTime }) => {
@@ -168,7 +169,7 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
         onError: (error) => {
             addToast({
                 title: "Gagal",
-                description: error.response?.data?.error || 'Gagal membatalkan transaksi' ,
+                description: error.response?.data?.error || 'Gagal membatalkan transaksi',
                 color: "danger",
             })
         }
@@ -224,7 +225,7 @@ const Index = ({ transaction }) => {
         ? JSON.parse(transaction_log[0].response)
         : null;
 
-        console.log({response})
+    console.log({ response })
 
     const qrCodeUrl = response?.actions?.[0]?.url || null;
     const payload = transaction_log?.[0]?.payload
@@ -249,6 +250,25 @@ const Index = ({ transaction }) => {
     const handleStatusUpdate = (newStatus) => {
         setCurrentStatus(newStatus);
     };
+
+    const { message } = useWebSocket(
+        'payment-notification',
+        'PaymentNotificationEvent',
+    );
+
+    useEffect(() => {
+        if (message != '' && message != null) {
+            let messageJson = JSON.parse(message)
+
+            setCurrentStatus(messageJson.status)
+
+            addToast({
+                title: messageJson.status === 'success' ? 'Berhasil' : 'Gagal',
+                description: messageJson.message,
+                color: messageJson.status === 'success' ? 'success' : 'danger',
+            })
+        }
+    }, [message])
 
     return (
         <CustomerLayout>
@@ -310,20 +330,24 @@ const Index = ({ transaction }) => {
                         </div>
 
                         {/* Expired Pembayaran */}
-                        <div className="flex flex-row gap-2 items-center">
-                            <p>Expired Pembayaran</p>
-                            {response?.expiry_time && (
-                                <Countdown expiryTime={response.expiry_time} />
-                            )}
-                        </div>
+                        {
+                            currentStatus === 'pending' && (
+                                <div className="flex flex-row gap-2 items-center">
+                                    <p>Expired Pembayaran</p>
+                                    {response?.expiry_time && (
+                                        <Countdown expiryTime={response.expiry_time} />
+                                    )}
+                                </div>
+                            )
+                        }
 
                         {/* Status Transaksi */}
                         <div className="flex justify-between items-center">
                             <div>
                                 <p className="text-sm text-gray-500 dark:text-gray-100">Status Transaksi</p>
                                 <p className={`font-medium ${currentStatus === 'success' ? 'text-green-600 dark:text-green-400' :
-                                        currentStatus === 'failed' || currentStatus === 'cancel' ? 'text-red-600 dark:text-red-400' :
-                                            'text-gray-800 dark:text-gray-100'
+                                    currentStatus === 'failed' || currentStatus === 'cancel' ? 'text-red-600 dark:text-red-400' :
+                                        'text-gray-800 dark:text-gray-100'
                                     }`}>
                                     {currentStatus === 'success' ? 'Berhasil' :
                                         currentStatus === 'pending' ? 'Menunggu Pembayaran' :
@@ -335,10 +359,14 @@ const Index = ({ transaction }) => {
                         </div>
 
                         {/* Tombol Aksi */}
-                        <PaymentActions
-                            transactionId={transaction.id}
-                            onStatusUpdate={handleStatusUpdate}
-                        />
+                        {
+                            currentStatus === 'pending' && (
+                                <PaymentActions
+                                    transactionId={transaction.id}
+                                    onStatusUpdate={handleStatusUpdate}
+                                />
+                            )
+                        }
 
                     </div>
                 </Card>

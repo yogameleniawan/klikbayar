@@ -26,7 +26,6 @@ function useWebSocket(channelName, eventName, config = {}) {
    const ws = new WebSocket(`${protocol}://${wsConfig.host}:${wsConfig.port}/app/${wsConfig.key}`);
 
    ws.onopen = () => {
-     console.log(`WebSocket connected to ${channelName}`);
      setConnected(true);
 
      // Subscribe to the channel
@@ -47,18 +46,15 @@ function useWebSocket(channelName, eventName, config = {}) {
          setMessage(eventData.message);
        }
      } catch (error) {
-       console.error("Error parsing WebSocket message:", error);
        setError(error);
      }
    };
 
    ws.onerror = (error) => {
-     console.error("WebSocket error:", error);
      setError(error);
    };
 
    ws.onclose = () => {
-     console.log("WebSocket closed");
      setConnected(false);
    };
 

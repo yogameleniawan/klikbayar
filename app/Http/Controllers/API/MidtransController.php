@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Enums\GatewayEnum;
 use App\Enums\PaymentStatusEnum;
+use App\Events\PaymentNotificationEvent;
+use App\Events\TestEvent;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
 use App\Models\Transaction;
@@ -292,12 +294,29 @@ class MidtransController extends Controller
      */
     private function triggerStatusActions($transaction)
     {
+        $message = null;
+
         if ($transaction->status === 'success') {
-            // event(new PaymentSuccessful($transaction));
+            $message = json_encode([
+                'status' => 'success',
+                'message' => "Transaksi " . $transaction->id . " berhasil dibayar",
+                'data' => $transaction
+            ]);
 
-        } elseif ($transaction->status === 'failed' || $transaction->status === 'cancel') {
-            // event(new PaymentFailed($transaction));
-
+        } elseif ($transaction->status === 'failed') {
+            $message = json_encode([
+                'status' => 'failed',
+                'message' => "Transaksi " . $transaction->id . " gagal dibayar",
+                'data' => $transaction
+            ]);
+        } elseif ($transaction->status === 'cancel') {
+            $message = json_encode([
+                'status' => 'cancel',
+                'message' => "Transaksi " . $transaction->id . " dibatalkan",
+                'data' => $transaction
+            ]);
         }
+
+        event(new PaymentNotificationEvent($message));
     }
 }

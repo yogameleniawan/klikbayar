@@ -6,6 +6,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Providers from './provider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
 
@@ -27,6 +29,7 @@ createInertiaApp({
         createRoot(el).render(
             <Providers>
                 <QueryClientProvider client={queryClient}>
+                    <ToastContainer />
                     <App {...props} />
                 </QueryClientProvider>
             </Providers>

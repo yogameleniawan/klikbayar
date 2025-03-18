@@ -140,7 +140,7 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
         },
         onError: (error) => {
             addToast({
-                title: "Gagal",
+                title: "Hmm, sayang sekali:(",
                 description: error.response?.data?.error || 'Gagal memeriksa status transaksi',
                 color: "danger",
             });
@@ -168,7 +168,7 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
         },
         onError: (error) => {
             addToast({
-                title: "Gagal",
+                title: "Hmm, sayang sekali:(",
                 description: error.response?.data?.error || 'Gagal membatalkan transaksi',
                 color: "danger",
             })
@@ -263,7 +263,7 @@ const Index = ({ transaction }) => {
             setCurrentStatus(messageJson.status)
 
             addToast({
-                title: messageJson.status === 'success' ? 'Berhasil' : 'Gagal',
+                title: messageJson.status === 'success' ? 'Berhasil' : "Hmm, sayang sekali:(",
                 description: messageJson.message,
                 color: messageJson.status === 'success' ? 'success' : 'danger',
             })

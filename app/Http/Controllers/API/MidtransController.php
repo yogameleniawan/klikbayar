@@ -4,10 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Enums\GatewayEnum;
 use App\Enums\PaymentStatusEnum;
+use App\Events\CheckoutEvent;
 use App\Events\PaymentNotificationEvent;
 use App\Events\TestEvent;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
+use App\Models\ProductDetail;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\TransactionLog;
@@ -94,6 +96,16 @@ class MidtransController extends Controller
                 'product_detail_id' => $request->productId,
                 'transaction_id' => $transaction->id,
             ]);
+
+            event(new CheckoutEvent(json_encode([
+                'name' => $request->productName,
+                'phone' => $contactPhone,
+                'product' => ProductDetail::where('product_details.id', $request->productId)
+                    ->join('products', 'product_details.product_id', '=', 'products.id')
+                    ->leftJoin('files', 'products.image_id', '=', 'files.id')
+                    ->select('products.brand', 'files.path as image_path')
+                    ->first()->toArray(),
+            ])));
 
             return response()->json([
                 'transaction_id' => $transaction->id,
@@ -302,7 +314,6 @@ class MidtransController extends Controller
                 'message' => "Transaksi " . $transaction->id . " berhasil dibayar",
                 'data' => $transaction
             ]);
-
         } elseif ($transaction->status === 'failed') {
             $message = json_encode([
                 'status' => 'failed',

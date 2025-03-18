@@ -89,8 +89,7 @@ const Beranda = () => {
     return (
         <CustomerLayout>
             <Head title="Beranda" />
-            <WebsocketTest />
-            {/* <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-4">
                 <Banner />
                 <HeadingText />
             </div>
@@ -98,7 +97,7 @@ const Beranda = () => {
                 <Promo />
                 <Best />
                 <Catalog />
-            </div> */}
+            </div>
         </CustomerLayout>
     );
 };

@@ -87,7 +87,7 @@ class MidtransController extends Controller
             ]);
 
             TransactionDetail::create([
-                'name'=> $request->productName,
+                'name' => $request->productName,
                 'price' => $amount,
                 'product_detail_id' => $request->productId,
                 'transaction_id' => $transaction->id,
@@ -106,16 +106,12 @@ class MidtransController extends Controller
     public function checkStatus(Request $request, $id)
     {
         try {
-            // Ambil data transaksi dari database
             $transaction = Transaction::findOrFail($id);
 
-            // Request ke Midtrans API untuk cek status
             $midtransStatus = MidtransTransaction::status($transaction->invoice_number);
 
-            // Log response dari Midtrans
             Log::info('Midtrans Status Check Response', (array) $midtransStatus);
 
-            // Update status transaksi di database
             $this->updateTransactionStatus($transaction, (array) $midtransStatus);
 
             return response()->json([
@@ -127,7 +123,6 @@ class MidtransController extends Controller
                 ],
                 'message' => 'Status transaksi berhasil diperbarui'
             ]);
-
         } catch (\Exception $e) {
             Log::error('Check Payment Status Error: ' . $e->getMessage());
 
@@ -138,27 +133,19 @@ class MidtransController extends Controller
         }
     }
 
-    /**
-     * Membatalkan transaksi di Midtrans
-     */
     public function cancelTransaction(Request $request, $id)
     {
         try {
-            // Ambil data transaksi dari database
             $transaction = Transaction::findOrFail($id);
 
-            // Cek apakah transaksi masih bisa dibatalkan
             if (!in_array($transaction->status, ['pending', 'challenge'])) {
                 return redirect()->back()->with('error', 'Transaksi tidak dapat dibatalkan dengan status: ' . $transaction->status);
             }
 
-            // Request ke Midtrans API untuk membatalkan transaksi
             $midtransCancel = MidtransTransaction::cancel($transaction->invoice_number);
 
-            // Log response dari Midtrans
             Log::info('Midtrans Cancel Transaction Response', (array) $midtransCancel);
 
-            // Update status transaksi menjadi cancel
             $transaction->status = 'cancel';
             $transaction->save();
 
@@ -169,104 +156,148 @@ class MidtransController extends Controller
                 ],
                 'message' => 'Transaksi berhasil dibatalkan'
             ]);
-
         } catch (\Exception $e) {
             Log::error('Cancel Transaction Error: ' . $e->getMessage());
 
             return response()->json([
-            'status' => 'error',
-            'error' => 'Terjadi kesalahan: ' . $e->getMessage()
-        ], 500);
+                'status' => 'error',
+                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
         }
     }
 
     /**
-     * Update status transaksi berdasarkan response dari Midtrans
+     * Handle Midtrans payment notification callback
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
      */
-    private function updateTransactionStatus($transaction, $midtransStatus)
+    public function handleCallback(Request $request)
     {
-        // Tentukan status transaksi berdasarkan transaction_status dari Midtrans
-        $transactionStatus = $midtransStatus['transaction_status'] ?? null;
-        $fraudStatus = $midtransStatus['fraud_status'] ?? null;
+        Log::info('Midtrans notification received', $request->all());
 
+        $notificationBody = $request->all();
+
+        if (!$this->verifySignatureKey($notificationBody)) {
+            Log::warning('Invalid signature key', $notificationBody);
+            return response()->json(['status' => 'error', 'message' => 'Invalid signature'], 403);
+        }
+
+        $orderId = $notificationBody['order_id'] ?? null;
+        $transactionStatus = $notificationBody['transaction_status'] ?? null;
+        $fraudStatus = $notificationBody['fraud_status'] ?? null;
+
+        if (!$orderId) {
+            return response()->json(['status' => 'error', 'message' => 'Order ID not provided'], 400);
+        }
+
+        $transaction = Transaction::where('invoice_number', $orderId)->first();
+
+        if (!$transaction) {
+            Log::warning('Transaction not found', ['order_id' => $orderId]);
+            return response()->json(['status' => 'error', 'message' => 'Transaction not found'], 404);
+        }
+
+        $this->updateTransactionStatus($transaction, $transactionStatus, $fraudStatus);
+
+        return response()->json(['status' => 'success']);
+    }
+
+    /**
+     * Verify Midtrans signature key
+     *
+     * @param array $data
+     * @return bool
+     */
+    private function verifySignatureKey($data)
+    {
+        if (config('app.env') !== 'production') {
+            return true;
+        }
+
+        $serverKey = env('MIDTRANS_SERVER_KEY');
+
+        if (
+            !isset($data['order_id']) || !isset($data['status_code'])
+            || !isset($data['gross_amount']) || !isset($data['signature_key'])
+        ) {
+            return false;
+        }
+
+        $orderId = $data['order_id'];
+        $statusCode = $data['status_code'];
+        $grossAmount = $data['gross_amount'];
+        $signatureKey = $data['signature_key'];
+
+        $mySignature = hash('sha512', $orderId . $statusCode . $grossAmount . $serverKey);
+
+        return $mySignature === $signatureKey;
+    }
+
+    /**
+     * Update transaction status based on Midtrans notification
+     *
+     * @param \App\Models\Transaction $transaction
+     * @param string $transactionStatus
+     * @param string|null $fraudStatus
+     * @return void
+     */
+    private function updateTransactionStatus($transaction, $transactionStatus, $fraudStatus = null)
+    {
         switch ($transactionStatus) {
             case 'capture':
                 $transaction->status = ($fraudStatus == 'challenge') ? 'challenge' : 'success';
                 break;
+
             case 'settlement':
                 $transaction->status = 'success';
                 break;
+
             case 'pending':
                 $transaction->status = 'pending';
                 break;
+
             case 'deny':
-                $transaction->status = 'deny';
+            case 'expire':
+                $transaction->status = 'failed';
                 break;
+
             case 'cancel':
                 $transaction->status = 'cancel';
                 break;
-            case 'expire':
-                $transaction->status = 'expire';
-                break;
+
             case 'refund':
+            case 'partial_refund':
                 $transaction->status = 'refund';
                 break;
-            case 'partial_refund':
-                $transaction->status = 'partial_refund';
-                break;
+
             default:
-                $transaction->status = 'pending';
+                Log::warning('Unknown transaction status', [
+                    'status' => $transactionStatus,
+                    'order_id' => $transaction->invoice_number
+                ]);
+                break;
         }
 
         $transaction->save();
+
+        $this->triggerStatusActions($transaction);
     }
 
     /**
-     * Callback dari Midtrans untuk notifikasi pembayaran
-     * Route ini harus di-expose untuk Midtrans
+     * Trigger actions based on transaction status
+     *
+     * @param \App\Models\Transaction $transaction
+     * @return void
      */
-    public function notificationHandler(Request $request)
+    private function triggerStatusActions($transaction)
     {
-        try {
-            $notificationBody = json_decode($request->getContent(), true);
-            Log::info('Midtrans Notification', $notificationBody);
+        if ($transaction->status === 'success') {
+            // event(new PaymentSuccessful($transaction));
 
-            $orderId = $notificationBody['order_id'] ?? null;
+        } elseif ($transaction->status === 'failed' || $transaction->status === 'cancel') {
+            // event(new PaymentFailed($transaction));
 
-            if (!$orderId) {
-                return response()->json(['status' => 'error', 'message' => 'Order ID tidak ditemukan'], 400);
-            }
-
-            // Verifikasi signature key
-            $statusResponse = MidtransTransaction::status($orderId);
-
-            // Proses hanya jika transaction_status sama
-            if ($notificationBody['transaction_status'] !== $statusResponse->transaction_status) {
-                return response()->json(['status' => 'error', 'message' => 'Invalid transaction status'], 400);
-            }
-
-            // Cari transaksi berdasarkan order_id
-            $transaction = Transaction::where('invoice_number', $orderId)->first();
-
-            if (!$transaction) {
-                return response()->json(['status' => 'error', 'message' => 'Transaksi tidak ditemukan'], 404);
-            }
-
-            // Update status transaksi
-            $this->updateTransactionStatus($transaction, (array) $statusResponse);
-
-            // Tambahkan log transaksi
-            $transaction->transactionLogs()->create([
-                'type' => 'notification',
-                'response' => json_encode($statusResponse),
-                'payload' => json_encode($notificationBody)
-            ]);
-
-            return response()->json(['status' => 'success']);
-
-        } catch (\Exception $e) {
-            Log::error('Notification Handler Error: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
 }

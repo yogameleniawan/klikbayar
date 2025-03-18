@@ -17,10 +17,9 @@ Route::group(['as' => 'api.'], function () {
         Route::post('/transaction', [MidtransController::class, 'createTransaction'])
             ->middleware('throttle:10,1')
             ->name('midtrans.transaction');
-
-        Route::post('/notification', [MidtransController::class, 'notificationHandler'])
-            ->middleware('throttle:120,1')
-            ->name('midtrans.notification');
+        Route::post('/callback', [MidtransController::class, 'handleCallback'])
+            ->name('midtrans.callback')
+            ->middleware('throttle:60,1');
     });
 
     Route::prefix('/transactions')->group(function () {

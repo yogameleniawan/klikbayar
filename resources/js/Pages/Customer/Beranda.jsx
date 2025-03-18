@@ -7,6 +7,7 @@ import Promo from "@/Components/Customer/Promo";
 import Best from "@/Components/Customer/Best";
 import { Tabs, Tab, Chip } from "@heroui/react";
 import Catalog from "@/Components/Customer/Catalog";
+import WebsocketTest from "@/Components/WebsocketTest";
 
 export const GalleryIcon = (props) => {
     return (
@@ -88,7 +89,8 @@ const Beranda = () => {
     return (
         <CustomerLayout>
             <Head title="Beranda" />
-            <div className="flex flex-col items-center gap-4">
+            <WebsocketTest />
+            {/* <div className="flex flex-col items-center gap-4">
                 <Banner />
                 <HeadingText />
             </div>
@@ -96,7 +98,7 @@ const Beranda = () => {
                 <Promo />
                 <Best />
                 <Catalog />
-            </div>
+            </div> */}
         </CustomerLayout>
     );
 };

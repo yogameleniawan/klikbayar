@@ -136,3 +136,22 @@ services:
     #         - PGADMIN_DEFAULT_PASSWORD=password
     #     depends_on:
     #         - db
+
+    soketi:
+        image: quay.io/soketi/soketi:latest-16-alpine
+        container_name: soketi
+        ports:
+            - 6001:6001
+        environment:
+            - SOKETI_DEBUG=1
+            - SOKETI_PORT=6001
+            - SOKETI_METRICS_SERVER_PORT=9601
+            - SOKETI_DEFAULT_APP_ID=app
+            - SOKETI_DEFAULT_APP_KEY=app-key
+            - SOKETI_DEFAULT_APP_SECRET=app-secret
+            - SOKETI_CORS_ALLOWED_ORIGINS=*
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        depends_on:
+            - php
+        restart: unless-stopped

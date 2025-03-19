@@ -5,7 +5,7 @@ export default function Providers({children}) {
 
   return (
     <HeroUIProvider>
-      <ToastProvider placement='bottom-right' />
+      <ToastProvider placement='top-right' />
       {children}
     </HeroUIProvider>
   )

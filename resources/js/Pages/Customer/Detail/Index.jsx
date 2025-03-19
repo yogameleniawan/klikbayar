@@ -135,7 +135,6 @@ const CheckoutPage = ({ product }) => {
     };
 
     const handlePaymentClick = (payment) => {
-        console.log(payment)
         setCheckout("payment", payment);
         updateStep();
     };
@@ -207,8 +206,6 @@ const CheckoutPage = ({ product }) => {
         const finalPrice = priceUtils.calculateFinal(price, margin, discount);
 
         const { payment_methods } = usePage().props;
-
-        console.log({ payment_methods })
 
         return (
             <div className="flex flex-col w-full md:w-1/3 gap-8">

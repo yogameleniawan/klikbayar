@@ -28,7 +28,7 @@ const AlertCheckout = ({
             <div className="flex items-center justify-between mb-3 bg-white p-3 rounded-r-2xl rounded-bl-2xl shadow-sm relative z-10">
                 <div className="flex items-center gap-2">
                     <Bell className="w-5 h-5 text-blue-500 animate-ringBell" />
-                    <h3 className="font-bold text-sm text-blue-600">Pembelian Baru!</h3>
+                    <h3 className="font-bold text-xs text-blue-600">Pembelian Baru!</h3>
                 </div>
                 <div className="flex items-center gap-1 bg-gradient-to-r from-green-500 to-emerald-400 px-3 py-1 rounded-full text-xs font-medium shadow-sm relative overflow-hidden group">
                     <Check className="w-3 h-3 animate-successCheck" />

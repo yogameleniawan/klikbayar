@@ -1,13 +1,14 @@
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { Head } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
-import { Image, Card, Divider, Button, addToast } from '@heroui/react';
+import { Image, Card, Divider, Button, addToast, useDisclosure } from '@heroui/react';
 import { BiCopy, BiInfoCircle, BiCheck } from 'react-icons/bi';
 import { VscSync } from "react-icons/vsc";
 import { MdOutlineCancel } from "react-icons/md";
 import { formatRupiah } from '@/utils/format_rupiah';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useWebSocket from '@/Hooks/useWebSocket';
+import CancelTransactionModal from '@/Components/Modal/CancelTransactionModal';
 
 // Komponen Countdown terpisah
 const Countdown = ({ expiryTime }) => {
@@ -196,15 +197,7 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
             >
                 Cek Status
             </Button>
-            <Button
-                color="danger"
-                startContent={<MdOutlineCancel />}
-                isLoading={cancelTransactionMutation.isPending}
-                onPress={handleCancelTransaction}
-                isDisabled={checkStatusMutation.isPending || cancelTransactionMutation.isPending}
-            >
-                Batalkan Transaksi
-            </Button>
+            <CancelTransactionModal transactionId={transactionId} onStatusUpdate={onStatusUpdate} checkStatusMutation={checkStatusMutation} />
         </div>
     );
 };
@@ -224,8 +217,6 @@ const Index = ({ transaction }) => {
     const response = transaction_log?.[0]?.response
         ? JSON.parse(transaction_log[0].response)
         : null;
-
-    console.log({ response })
 
     const qrCodeUrl = response?.actions?.[0]?.url || null;
     const payload = transaction_log?.[0]?.payload

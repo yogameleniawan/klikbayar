@@ -15,10 +15,8 @@ const CustomerLayout = ({ children }) => {
     );
 
     useEffect(() => {
-        console.log({ message })
         if (message != '' && message != null) {
             let messageData = JSON.parse(message);
-            console.log({ messageData });
 
             // Fungsi untuk mensensor nomor telepon
             const sensorPhone = (phone) => {

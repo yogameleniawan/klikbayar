@@ -70,12 +70,8 @@ const FileImageUploadForm = ({
 
         // Gunakan metode transformData untuk mengupdate seluruh objek
         Object.keys(updatedData).forEach(key => {
-            console.log({key})
-            console.log(updatedData[key])
             setData(key, updatedData[key]);
         });
-
-        console.log({data})
 
         const newPreviews = selectedFiles.map(file => ({
             id: Math.random().toString(36).substr(2, 9),

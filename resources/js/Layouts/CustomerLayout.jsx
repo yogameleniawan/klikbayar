@@ -67,7 +67,7 @@ const CustomerLayout = ({ children }) => {
 
     return (
         <div className="flex flex-col h-full min-h-screen bg-default-50 dark:bg-default-50">
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden z-10">
                 {Array.from({ length: 30 }).map((_, i) => (
                     <div
                         key={i}
@@ -84,11 +84,11 @@ const CustomerLayout = ({ children }) => {
                     />
                 ))}
             </div>
-            <div className="sticky top-0 z-20">
+            <div className="sticky top-0 z-30">
                 <CustomerNavbar />
             </div>
 
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col z-20">
                 {children}
             </div>
 

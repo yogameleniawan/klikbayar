@@ -43,7 +43,7 @@ const menuItems = [
     },
     {
         title: "Cek Transaksi",
-        path: "/cek-transaksi",
+        path: "/check-transaction",
         icon: <ClipboardList />
     },
     {

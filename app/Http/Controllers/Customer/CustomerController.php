@@ -46,14 +46,22 @@ class CustomerController extends Controller
             $query->join('digi_products', 'digi_products.id', '=', 'product_details.digi_product_id')
                 ->orderBy('digi_products.price', 'asc')
                 ->select('product_details.*');
-        }])->where('slug', $slug)->first()->toArray();
+        }])->where('slug', $slug)->first();
 
-        $payment_methods = PaymentMethod::all()->toArray();
+        if (!$product) {
+            return Inertia::render('NotFound');
+        }
+
+        $payment_methods = PaymentMethod::all();
 
         return Inertia::render('Customer/Detail/Index', [
-            'product' => $product,
-            'payment_methods' => $payment_methods
+            'product' => $product->toArray(),
+            'payment_methods' => $payment_methods->toArray()
         ]);
+    }
+
+    public function checkTransaction() {
+        return Inertia::render('Customer/Transaction/Index');
     }
 
     public function detailTransaction($id) {

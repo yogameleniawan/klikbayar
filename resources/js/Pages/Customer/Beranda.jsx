@@ -8,6 +8,7 @@ import Best from "@/Components/Customer/Best";
 import { Tabs, Tab, Chip } from "@heroui/react";
 import Catalog from "@/Components/Customer/Catalog";
 import WebsocketTest from "@/Components/WebsocketTest";
+import AlertCheckout from "@/Components/Alert/AlertCheckout";
 
 export const GalleryIcon = (props) => {
     return (

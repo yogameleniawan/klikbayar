@@ -35,4 +35,115 @@
         animation: flicker 1.5s infinite alternate;
         transform-origin: center;
       }
+
+      @keyframes slideIn {
+        0% { transform: translateX(100%); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes slideRight {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(4px); }
+    }
+
+    @keyframes ringBell {
+        0%, 100% { transform: rotate(0); }
+        20%, 60% { transform: rotate(15deg); }
+        40%, 80% { transform: rotate(-15deg); }
+    }
+
+    @keyframes confetti1 {
+        0% { transform: translateY(0) translateX(0); opacity: 1; }
+        100% { transform: translateY(60px) translateX(20px); opacity: 0; }
+    }
+
+    @keyframes confetti2 {
+        0% { transform: translateY(0) translateX(0); opacity: 1; }
+        100% { transform: translateY(80px) translateX(-20px); opacity: 0; }
+    }
+
+    @keyframes confetti3 {
+        0% { transform: translateY(0) translateX(0); opacity: 1; }
+        100% { transform: translateY(70px) translateX(30px); opacity: 0; }
+    }
+
+    @keyframes successCheck {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.4) rotate(15deg); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes successTextSlide {
+        0% { transform: translateY(-20px); opacity: 0; }
+        30% { transform: translateY(5px); opacity: 1; }
+        50% { transform: translateY(0); opacity: 1; }
+        80% { transform: translateY(-3px); opacity: 1; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .animate-slideIn {
+        animation: slideIn 0.5s ease-out forwards;
+    }
+
+    .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .animation-delay-100 {
+        animation-delay: 100ms;
+    }
+
+    .animation-delay-200 {
+        animation-delay: 200ms;
+    }
+
+    .animate-slideRight {
+        animation: slideRight 1s infinite;
+    }
+
+    .animate-ringBell {
+        animation: ringBell 1s infinite;
+    }
+
+    .animate-confetti1 {
+        animation: confetti1 2s ease-out infinite;
+    }
+
+    .animate-confetti2 {
+        animation: confetti2 2.5s ease-out infinite;
+    }
+
+    .animate-confetti3 {
+        animation: confetti3 2.2s ease-out infinite;
+    }
+
+    .animate-successCheck {
+        animation: successCheck 1.2s ease-in-out infinite;
+    }
+
+    .animate-successTextSlide {
+        animation: successTextSlide 0.8s ease forwards;
+        display: inline-block;
+    }
+
+    .animation-delay-50 {
+        animation-delay: 50ms;
+    }
+
+    .animation-delay-150 {
+        animation-delay: 150ms;
+    }
+
+    .animation-delay-250 {
+        animation-delay: 250ms;
+    }
+
+    .hover\:scale-102:hover {
+        transform: scale(1.02);
+    }
   }

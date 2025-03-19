@@ -1,3 +1,4 @@
+import AlertCheckout from '@/Components/Alert/AlertCheckout';
 import Footer from '@/Components/Footer/Footer'
 import CustomerNavbar from '@/Components/Navbar/CustomerNavbar'
 import useWebSocket from '@/Hooks/useWebSocket';
@@ -34,27 +35,12 @@ const CustomerLayout = ({ children }) => {
             const sensoredPhone = sensorPhone(messageData.phone);
 
             toast(
-                <div className="bg-blue-500 text-white p-3 rounded-r-3xl rounded-bl-3xl shadow-md">
-                    <div className="flex items-center justify-between mb-2 bg-white p-2 rounded-r-2xl rounded-bl-2xl">
-                        <h3 className="font-bold text-lg text-blue-500">Pembelian Baru!</h3>
-                        <span className="bg-blue-600 px-2 py-1 rounded-md text-xs font-medium">SUKSES</span>
-                    </div>
-
-                    <p className="font-medium">{sensoredPhone} baru saja membeli</p>
-                    <p className="text-sm text-blue-100 mb-3">{messageData.name}</p>
-
-                    <div className="flex items-center gap-4 bg-blue-600/50 p-2 rounded-md">
-                        <img
-                            src={`${route('stream', { path: messageData.product.image_path })}`}
-                            alt={messageData.product.brand}
-                            className="w-16 h-16 object-cover rounded-md border-2 border-white/50"
-                        />
-                        <div>
-                            <p className="font-bold text-white">{messageData.product.brand}</p>
-                            <p className="text-sm text-blue-100">{messageData.name}</p>
-                        </div>
-                    </div>
-                </div>,
+                <AlertCheckout
+                    sensoredPhone={sensoredPhone}
+                    name={messageData.name}
+                    brand={messageData.product.brand}
+                    image={messageData.product.image_path}
+                />,
                 {
                     position: "bottom-left",
                     autoClose: 5000,

@@ -331,13 +331,14 @@ const Index = ({ transaction }) => {
                             <div>
                                 <p className="text-sm text-gray-500 dark:text-gray-100">Status Transaksi</p>
                                 <p className={`font-medium ${currentStatus === 'success' ? 'text-green-600 dark:text-green-400' :
-                                    currentStatus === 'failed' || currentStatus === 'cancel' ? 'text-red-600 dark:text-red-400' :
+                                    currentStatus === 'failed' || currentStatus === 'cancel' || currentStatus === 'expire' ? 'text-red-600 dark:text-red-400' :
                                         'text-gray-800 dark:text-gray-100'
                                     }`}>
                                     {currentStatus === 'success' ? 'Berhasil' :
                                         currentStatus === 'pending' ? 'Menunggu Pembayaran' :
                                             currentStatus === 'failed' ? 'Gagal' :
                                                 currentStatus === 'cancel' ? 'Dibatalkan' :
+                                                currentStatus === 'expire' ? 'Expired' :
                                                     currentStatus || "Menunggu Pembayaran"}
                                 </p>
                             </div>

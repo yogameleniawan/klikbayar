@@ -48,10 +48,8 @@ const Index = () => {
     useEffect(() => {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-        tl.fromTo(".error-number", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 })
-            .fromTo(".error-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
-            .fromTo(".error-description", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
-            .fromTo(".error-actions", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.3");
+        tl.fromTo(".text-header", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 })
+            .fromTo(".text-description", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
     }, []);
 
     const checkMutation = useMutation({
@@ -66,17 +64,25 @@ const Index = () => {
         onError: (res) => {
             setIsVisible(true)
             setResponse(res.response.data)
+
+            if (res.status === 429) {
+                addToast({
+                    title: "Tenang!",
+                    description: "Kamu terdeteksi spam, tenang jangan terlalu gegabah:)",
+                    color: "warning",
+                })
+            }
         }
     })
 
     return (
         <CustomerLayout>
-            <Head title="Halaman Tidak Ditemukan" />
+            <Head title="Cek Transaksi" />
 
             <div className="min-h-screen flex flex-col items-center px-4 sm:px-6 mt-10 relative overflow-hidden">
                 {/* Content */}
                 <div className="z-10 max-w-lg w-full text-center">
-                    <div className="error-number relative mb-8">
+                    <div className="text-header relative mb-8">
                         <div className="text-6xl font-bold text-blue-500/10 select-none">Cek Transaksi</div>
                         <div className="absolute inset-0 top-10 flex items-center justify-center">
                             <div className="text-5xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-700">
@@ -85,7 +91,7 @@ const Index = () => {
                         </div>
                     </div>
 
-                    <p className="error-description text-gray-600 dark:text-gray-300 mb-8">
+                    <p className="text-description text-gray-600 dark:text-gray-300 mb-8">
                         Masukkan nomor invoice atau nomor telepon untuk melacak status transaksi Anda.
                     </p>
 

@@ -32,10 +32,8 @@ class TransactionController extends Controller
             }
         ])
             ->select('id', 'invoice_number', 'phone', 'status')
-            ->search(
-                keyword: $number,
-                columns: ["invoice_number", "phone"],
-            )
+            ->where('invoice_number', $number)
+            ->orWhere('phone', $number)
             ->orderBy('created_at', 'DESC')
             ->first();
 

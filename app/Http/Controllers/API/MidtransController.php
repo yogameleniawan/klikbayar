@@ -126,7 +126,7 @@ class MidtransController extends Controller
 
             Log::info('Midtrans Status Check Response', (array) $midtransStatus);
 
-            $this->updateTransactionStatus($transaction, (array) $midtransStatus);
+            $this->updateTransactionStatus($transaction, $midtransStatus->transaction_status);
 
             return response()->json([
                 'status' => 'success',
@@ -262,25 +262,24 @@ class MidtransController extends Controller
             case 'capture':
                 $transaction->status = ($fraudStatus == 'challenge') ? 'challenge' : 'success';
                 break;
-
             case 'settlement':
                 $transaction->status = 'success';
                 break;
-
             case 'pending':
                 $transaction->status = 'pending';
                 break;
-
             case 'deny':
-            case 'expire':
-                $transaction->status = 'failed';
+                $transaction->status = 'deny';
                 break;
-
+            case 'expire':
+                $transaction->status = 'expire';
+                break;
             case 'cancel':
                 $transaction->status = 'cancel';
                 break;
-
             case 'refund':
+                $transaction->status = 'refund';
+                break;
             case 'partial_refund':
                 $transaction->status = 'refund';
                 break;
@@ -324,6 +323,12 @@ class MidtransController extends Controller
             $message = json_encode([
                 'status' => 'cancel',
                 'message' => "Transaksi " . $transaction->id . " dibatalkan",
+                'data' => $transaction
+            ]);
+        } elseif ($transaction->status === 'expire') {
+            $message = json_encode([
+                'status' => 'expire',
+                'message' => "Transaksi " . $transaction->id . " expired",
                 'data' => $transaction
             ]);
         }

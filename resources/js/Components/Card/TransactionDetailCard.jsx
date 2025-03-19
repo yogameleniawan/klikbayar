@@ -54,13 +54,13 @@ const TransactionDetailCard = ({
             <Divider className="my-0" />
 
             <div className="p-4">
-                <div className="flex flex-col sm:flex-col md:flex-row gap-4">
+                <div className="flex flex-col sm:flex-col md:flex-row gap-4 items-center">
                     <Image
                         src={route('stream', { path: image })}
                         alt={product_name}
-                        className="w-full h-48 sm:h-auto object-cover rounded-lg"
+                        className="w-full h-36 sm:h-auto object-cover rounded-lg"
                     />
-                    <div className="flex flex-col justify-between">
+                    <div className="flex flex-col justify-between text-center sm:text-start">
                         <div>
                             <h3 className="font-semibold text-lg mb-1">{product_name}</h3>
                             <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">

@@ -63,7 +63,7 @@ const AboutUs = () => {
                                 </div>
                             </div>
                         </div>
-                        <p className="max-w-2xl mx-auto text-lg text-blue-100">
+                        <p className="max-w-2xl mx-auto text-lg text-black dark:text-blue-100">
                             Platform pembayaran digital terdepan di Indonesia. Kami berkomitmen menyediakan layanan pembayaran yang aman, cepat, dan terpercaya.
                         </p>
                     </motion.div>

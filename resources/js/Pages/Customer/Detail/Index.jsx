@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 import { Button, Chip, Input, Progress, Image, addToast, Accordion, AccordionItem } from '@heroui/react';
 
@@ -105,6 +105,22 @@ const CheckoutPage = ({ product }) => {
         selected: false
     })));
 
+    const formSectionRef = useRef(null);
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        }
+
+        checkIfMobile();
+
+        window.addEventListener('resize', checkIfMobile);
+
+        return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
+
     const {
         checkout,
         setCheckout,
@@ -132,6 +148,19 @@ const CheckoutPage = ({ product }) => {
         });
 
         updateStep();
+
+        if (isMobile && formSectionRef.current) {
+            setTimeout(() => {
+                const element = formSectionRef.current;
+                const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - 80; // Offset 100px ke atas
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
     };
 
     const handlePaymentClick = (payment) => {
@@ -187,7 +216,7 @@ const CheckoutPage = ({ product }) => {
     const renderProductSelection = () => (
         <div className="w-full md:w-2/3">
             <FormSection title="Pilih Produk" number="1">
-                <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 grid-rows-auto px-8 mt-6 w-full">
+                <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 grid-rows-auto px-2 sm:px-8 mt-6 w-full">
                     {items.map((item, i) => (
                         <ItemProduct
                             key={i}
@@ -209,21 +238,23 @@ const CheckoutPage = ({ product }) => {
 
         return (
             <div className="flex flex-col w-full md:w-1/3 gap-8">
-                <FormSection title="Lengkapi Informasi Berikut" number="2">
-                    {JSON.parse(product.input).map((item, i) => (
-                        <Input
-                            key={i}
-                            className="p-2"
-                            isRequired
-                            label={item.label}
-                            name={item.name}
-                            placeholder={item.placeholder}
-                            type={item.type}
-                            variant="bordered"
-                            onBlur={(e) => handleCustomerNoChange(e.target.value)}
-                        />
-                    ))}
-                </FormSection>
+                <div ref={formSectionRef}>
+                    <FormSection title="Lengkapi Informasi Berikut" number="2">
+                        {JSON.parse(product.input).map((item, i) => (
+                            <Input
+                                key={i}
+                                className="p-2"
+                                isRequired
+                                label={item.label}
+                                name={item.name}
+                                placeholder={item.placeholder}
+                                type={item.type}
+                                variant="bordered"
+                                onBlur={(e) => handleCustomerNoChange(e.target.value)}
+                            />
+                        ))}
+                    </FormSection>
+                </div>
 
                 <FormSection title="Kontak yang dapat dihubungi" number="3">
                     <Input

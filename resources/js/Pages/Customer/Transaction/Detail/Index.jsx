@@ -180,12 +180,6 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
         checkStatusMutation.mutate();
     };
 
-    const handleCancelTransaction = () => {
-        if (confirm('Apakah Anda yakin ingin membatalkan transaksi ini? Tindakan ini tidak dapat dibatalkan.')) {
-            cancelTransactionMutation.mutate();
-        }
-    };
-
     return (
         <div className="flex gap-2">
             <Button

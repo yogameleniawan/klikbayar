@@ -47,8 +47,8 @@ const menuItems = [
         icon: <ClipboardList />
     },
     {
-        title: "Kontak Kami",
-        path: "/kontak-kami",
+        title: "Tentang Kami",
+        path: "/about-us",
         icon: <GroupChat />
     },
 ];

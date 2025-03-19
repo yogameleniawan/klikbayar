@@ -71,4 +71,8 @@ class CustomerController extends Controller
             'transaction' => $transaction
         ]);
     }
+
+    public function aboutUs() {
+        return Inertia::render('Customer/TentangKami/Index');
+    }
 }

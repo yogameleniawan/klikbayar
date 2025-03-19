@@ -77,9 +77,9 @@ const Index = () => {
                 {/* Content */}
                 <div className="z-10 max-w-lg w-full text-center">
                     <div className="error-number relative mb-8">
-                        <div className="text-6xl font-bold text-blue-600/10 select-none">Cek Transaksi</div>
+                        <div className="text-6xl font-bold text-blue-500/10 select-none">Cek Transaksi</div>
                         <div className="absolute inset-0 top-10 flex items-center justify-center">
-                            <div className="text-5xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                            <div className="text-5xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-700">
                                 Cek Transaksi
                             </div>
                         </div>

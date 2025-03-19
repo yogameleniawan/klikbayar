@@ -9,9 +9,9 @@ const NotFound = () => {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
         tl.fromTo(".error-number", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 })
-          .fromTo(".error-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
-          .fromTo(".error-description", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
-          .fromTo(".error-actions", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.3");
+            .fromTo(".error-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
+            .fromTo(".error-description", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
+            .fromTo(".error-actions", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.3");
     }, []);
 
     return (
@@ -22,9 +22,9 @@ const NotFound = () => {
                 {/* Content */}
                 <div className="z-10 max-w-lg w-full text-center">
                     <div className="error-number relative mb-8">
-                        <div className="text-9xl font-bold text-blue-600/10 select-none">404</div>
+                        <div className="text-9xl font-bold text-blue-500/10 select-none">404</div>
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                            <div className="text-5xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-700">
                                 404
                             </div>
                         </div>
@@ -42,7 +42,7 @@ const NotFound = () => {
                     <div className="error-actions flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             href={route('customer.beranda')}
-                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-xl shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium rounded-xl shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />

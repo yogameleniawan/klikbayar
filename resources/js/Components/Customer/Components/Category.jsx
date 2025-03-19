@@ -21,7 +21,7 @@ const CategoryItem = ({
             {isActive && (
                 <motion.div
                     layoutId="activeBackground"
-                    className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-3xl border-1 border-solid border-default"
+                    className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl border-1 border-solid border-default"
                     initial={false}
                     transition={{
                         type: "spring",

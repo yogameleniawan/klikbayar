@@ -152,7 +152,7 @@ class MidtransController extends Controller
         try {
             $transaction = Transaction::findOrFail($id);
 
-            if (!in_array($transaction->status, ['pending', 'challenge'])) {
+            if (!in_array($transaction->status, [PaymentStatusEnum::PENDING->value, PaymentStatusEnum::CHALLENGE->value])) {
                 return redirect()->back()->with('error', 'Transaksi tidak dapat dibatalkan dengan status: ' . $transaction->status);
             }
 
@@ -160,13 +160,13 @@ class MidtransController extends Controller
 
             Log::info('Midtrans Cancel Transaction Response', (array) $midtransCancel);
 
-            $transaction->status = 'cancel';
+            $transaction->status = PaymentStatusEnum::CANCEL->value;
             $transaction->save();
 
             return response()->json([
                 'status' => 'success',
                 'data' => [
-                    'transaction_status' => 'cancel',
+                    'transaction_status' => PaymentStatusEnum::CANCEL->value,
                 ],
                 'message' => 'Transaksi berhasil dibatalkan'
             ]);
@@ -259,29 +259,29 @@ class MidtransController extends Controller
     private function updateTransactionStatus($transaction, $transactionStatus, $fraudStatus = null)
     {
         switch ($transactionStatus) {
-            case 'capture':
-                $transaction->status = ($fraudStatus == 'challenge') ? 'challenge' : 'success';
+            case PaymentStatusEnum::CAPTURE->value:
+                $transaction->status = ($fraudStatus == PaymentStatusEnum::CHALLENGE->value) ? PaymentStatusEnum::CHALLENGE->value : PaymentStatusEnum::SUCCESS->value;
                 break;
-            case 'settlement':
-                $transaction->status = 'success';
+            case PaymentStatusEnum::SETTLEMENT->value:
+                $transaction->status = PaymentStatusEnum::SUCCESS->value;
                 break;
-            case 'pending':
-                $transaction->status = 'pending';
+            case PaymentStatusEnum::PENDING->value:
+                $transaction->status = PaymentStatusEnum::PENDING->value;
                 break;
-            case 'deny':
-                $transaction->status = 'deny';
+            case PaymentStatusEnum::DENY->value:
+                $transaction->status = PaymentStatusEnum::DENY->value;
                 break;
-            case 'expire':
-                $transaction->status = 'expire';
+            case PaymentStatusEnum::EXPIRE->value:
+                $transaction->status = PaymentStatusEnum::EXPIRE->value;
                 break;
-            case 'cancel':
-                $transaction->status = 'cancel';
+            case PaymentStatusEnum::CANCEL->value:
+                $transaction->status = PaymentStatusEnum::CANCEL->value;
                 break;
-            case 'refund':
-                $transaction->status = 'refund';
+            case PaymentStatusEnum::REFUND->value:
+                $transaction->status = PaymentStatusEnum::REFUND->value;
                 break;
-            case 'partial_refund':
-                $transaction->status = 'refund';
+            case PaymentStatusEnum::PARTIAL_REFUND->value:
+                $transaction->status = PaymentStatusEnum::PARTIAL_REFUND->value;
                 break;
 
             default:

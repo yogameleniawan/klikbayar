@@ -22,7 +22,7 @@ const TransactionDetailCard = ({
     };
 
     return (
-        <Card className="w-full max-w-md shadow-lg overflow-hidden my-4">
+        <Card className="w-full max-w-md shadow-lg overflow-hidden my-4 justify-self-center">
             {/* Header */}
             <div className="bg-blue-500 text-white p-4">
                 <div className="flex justify-between items-center">

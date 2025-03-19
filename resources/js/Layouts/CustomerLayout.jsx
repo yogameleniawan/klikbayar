@@ -68,7 +68,7 @@ const CustomerLayout = ({ children }) => {
     return (
         <div className="flex flex-col h-full min-h-screen bg-default-50 dark:bg-default-50">
             <div className="absolute inset-0 overflow-hidden">
-                {Array.from({ length: 20 }).map((_, i) => (
+                {Array.from({ length: 30 }).map((_, i) => (
                     <div
                         key={i}
                         className="absolute rounded-full bg-blue-500/10"
@@ -77,7 +77,7 @@ const CustomerLayout = ({ children }) => {
                             left: `${Math.random() * 100}%`,
                             width: `${Math.random() * 8 + 2}rem`,
                             height: `${Math.random() * 8 + 2}rem`,
-                            animation: `${Math.random() > 0.6 ? 'float' : Math.random() > 0.3 ? 'floatAlt' : 'floatSmall'} ${Math.random() * 30 + 20}s ease-in-out infinite`,
+                            animation: `${Math.random() > 0.6 ? 'float' : Math.random() > 0.3 ? 'floatAlt' : 'floatSmall'} ${60}s ease-in-out infinite`,
                             animationDelay: `${Math.random() * 15}s`,
                             opacity: 0,
                         }}

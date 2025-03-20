@@ -65,6 +65,11 @@ class MidtransController extends Controller
                 'phone' => $contactPhone,
             ],
             'payment_type' => $paymentMethodCode,
+            "echannel" => [
+                "bill_info1" => "Payment For " . $invoiceNumber,
+                "bill_info2" => "debt",
+                "bill_key" => $customerNo
+            ]
         ];
 
         if ($paymentMethodCode === 'bank_transfer') {

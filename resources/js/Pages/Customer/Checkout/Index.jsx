@@ -29,11 +29,13 @@ const FlameIcon = () => (
 const priceUtils = {
     withMargin: (price, margin) => price * (1 + margin / 100),
     withDiscount: (price, discount) => price * (1 - discount / 100),
-    calculateFinal: (price, margin, discount) => {
+    calculateFinal: (price, margin, discount, fee = 0) => {
         const priceWithMargin = priceUtils.withMargin(price, margin);
-        return Math.floor(discount > 0
+        const priceAfterDiscount = discount > 0
             ? priceUtils.withDiscount(priceWithMargin, discount)
-            : priceWithMargin);
+            : priceWithMargin;
+
+        return Math.floor(priceAfterDiscount + fee);
     }
 };
 
@@ -298,10 +300,8 @@ const CheckoutPage = ({ product }) => {
                 <FormSection title="Pilih Metode Pembayaran" number="4">
                     <div className="flex flex-col w-full p-2 gap-4">
                         <Accordion>
-                            {/* Kelompokkan payment methods berdasarkan kategori */}
                             {Object.entries(
                                 payment_methods.reduce((acc, item) => {
-                                    // Buat kelompok berdasarkan kategori
                                     const category = item.category || 'Lainnya';
                                     if (!acc[category]) {
                                         acc[category] = [];
@@ -323,7 +323,7 @@ const CheckoutPage = ({ product }) => {
                                                     className="w-8 h-8 rounded-md border border-gray-200 p-1 flex items-center justify-center bg-white"
                                                 >
                                                     <img
-                                                        src={route('logo.stream', { filename: item.image })}
+                                                        src={item.image}
                                                         alt={item.name}
                                                         className="max-w-full max-h-full object-contain"
                                                     />
@@ -343,6 +343,7 @@ const CheckoutPage = ({ product }) => {
                                                 key={item.id}
                                                 payment={item.id}
                                                 name={item.name}
+                                                fee={item.fee}
                                                 price={finalPrice}
                                                 logo={item.image}
                                                 onClick={handlePaymentClick}
@@ -359,9 +360,10 @@ const CheckoutPage = ({ product }) => {
     }
 
     const renderCheckoutSummary = () => {
-        const { price, discount, margin, product_name } = productCheckout;
+        const { price, discount, margin, product_name, fee = 0 } = productCheckout;
         const priceWithMargin = priceUtils.withMargin(price, margin);
-        const finalPrice = priceUtils.calculateFinal(price, margin, discount);
+        const priceAfterDiscount = priceUtils.withDiscount(priceWithMargin, discount);
+        const finalPrice = priceUtils.calculateFinal(price, margin, discount, fee); // Menggunakan fungsi yang sudah dimodifikasi
 
         const paymentMutation = useMutation({
             mutationFn: () => {
@@ -388,13 +390,14 @@ const CheckoutPage = ({ product }) => {
         return (
             <div className={`${!productCheckout.price ? 'translate-y-96 transition-all duration-500' : 'translate-y-0 transition-all duration-500'} fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[99] flex w-full flex-col gap-4 rounded-t-3xl sm:rounded-3xl bg-default-100 shadow-2xl px-4 py-2 md:bottom-4 md:flex-row md:items-center md:justify-between md:rounded-xl md:px-8 lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl border-1 border-default-200`}>
                 <div className="flex flex-col items-center sm:items-start">
+                    {/* Price information section */}
                     <div className="flex gap-2 text-xs font-bold text-opacity-30 md:text-sm items-center">
                         {discount > 0 ? (
                             <>
-                                <span className="leading-4 line-through">
+                                <span className="leading-4 line-through text-gray-500">
                                     {formatRupiah(priceWithMargin)}
                                 </span>
-                                <span className="flex items-center rounded-lg bg-orange-500 px-2 py-1 text-xs leading-none">
+                                <span className="flex items-center rounded-lg bg-orange-500 px-2 py-1 text-xs text-white leading-none">
                                     {discount}%
                                 </span>
                                 <FlameIcon />
@@ -403,13 +406,30 @@ const CheckoutPage = ({ product }) => {
                             <span className="leading-4 text-orange-500">Harga terbaik</span>
                         )}
                     </div>
-                    <div className="text-2xl font-bold leading-9 text-blue-500">
-                        {formatRupiah(finalPrice)}
+
+                    {/* Display price breakdown with fee if applicable */}
+                    <div className="flex flex-col">
+                        {fee > 0 && (
+                            <div className="flex items-center gap-1 mt-1">
+                                <span className="text-xs text-gray-600 dark:text-gray-100">
+                                    {formatRupiah(discount > 0 ? priceAfterDiscount : priceWithMargin)}
+                                </span>
+                                <span className="text-xs text-gray-500">+</span>
+                                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
+                                    {formatRupiah(fee)}
+                                </span>
+                            </div>
+                        )}
+                        <div className="text-2xl font-bold leading-9 text-blue-500">
+                            {formatRupiah(finalPrice)}
+                        </div>
                     </div>
-                    <div className="text-xs font-semibold leading-6 md:text-sm">
+
+                    <div className="text-xs font-semibold leading-6 md:text-sm mt-1">
                         {product_name}
                     </div>
                 </div>
+
                 <div className="flex flex-col gap-2 p-2 sm:p-0">
                     <div className="flex justify-between text-xs">
                         <span>Langkah</span>
@@ -422,7 +442,7 @@ const CheckoutPage = ({ product }) => {
                         value={checkout.step.percent}
                     />
                     <Button
-                        className="flex cursor-pointer bg-blue-500 p-3 justify-center text-white font-bold rounded-full w-full disabled:cursor-not-allowed disabled:brightness-75"
+                        className="flex cursor-pointer bg-blue-500 p-3 justify-center text-white font-bold rounded-full w-full disabled:cursor-not-allowed disabled:brightness-75 hover:bg-blue-600 transition-colors"
                         disabled={checkout.step.position < 4}
                         onPress={() => {
                             paymentMutation.mutate()

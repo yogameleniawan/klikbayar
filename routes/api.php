@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\DuitkuController;
 use App\Http\Controllers\API\MidtransController;
 use App\Http\Controllers\API\TransactionController;
 use Illuminate\Http\Request;
@@ -20,6 +21,12 @@ Route::group(['as' => 'api.'], function () {
             ->name('midtrans.transaction');
         Route::post('/callback', [MidtransController::class, 'handleCallback'])
             ->name('midtrans.callback')
+            ->middleware('throttle:60,1');
+    });
+
+    Route::prefix('/duitku')->group(function () {
+        Route::get('/payment-methods', [DuitkuController::class, 'getPaymentMethod'])
+            ->name('duitku.payment-methods')
             ->middleware('throttle:60,1');
     });
 

@@ -8,6 +8,7 @@ interface CheckoutState {
         product: {
             product_id: string,
             price: number,
+            fee: number,
             discount: number,
             margin: number,
             product_name: string,
@@ -37,6 +38,7 @@ export const useCheckoutStore = create<CheckoutState>((set, get) => ({
         product: {
             product_id: "",
             price: 0,
+            fee: 0,
             discount: 0,
             margin: 0,
             product_name: "",
@@ -95,6 +97,7 @@ export const useCheckoutStore = create<CheckoutState>((set, get) => ({
             product: {
                 product_id: "",
                 price: 0,
+                fee: 0,
                 discount: 0,
                 margin: 0,
                 product_name: "",

@@ -15,20 +15,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(50)->create();
+        // User::factory(50)->create();
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
-            'password' => Hash::make('qwerty')
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@test.com',
+        //     'password' => Hash::make('qwerty')
+        // ]);
 
         $this->call([
-            FileSeeder::class,
-            BannerSeeder::class,
-            DigiProductSeeder::class,
-            ProductSeeder::class,
-            ProductDetailSeeder::class,
+            // FileSeeder::class,
+            // BannerSeeder::class,
+            // DigiProductSeeder::class,
+            // ProductSeeder::class,
+            // ProductDetailSeeder::class,
+            PaymentMethodSeeder::class,
         ]);
     }
 }

@@ -90,6 +90,12 @@ export default function Add({ logo }) {
                     <SelectItem key={'E-Wallet'} textValue={'E-Wallet'} value={'E-Wallet'}>
                         <span className="text-small">E-Wallet</span>
                     </SelectItem>
+                    <SelectItem key={'Virtual Account'} textValue={'Virtual Account'} value={'Virtual Account'}>
+                        <span className="text-small">Virtual Account</span>
+                    </SelectItem>
+                    <SelectItem key={'Retail'} textValue={'Retail'} value={'Retail'}>
+                        <span className="text-small">Retail</span>
+                    </SelectItem>
                 </Select>
 
                 <div className="flex flex-row gap-2 w-full">

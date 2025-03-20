@@ -60,7 +60,7 @@ class CustomerController extends Controller
 
         $payment_methods = PaymentMethod::all();
 
-        return Inertia::render('Customer/Detail/Index', [
+        return Inertia::render('Customer/Checkout/Index', [
             'product' => $product->toArray(),
             'payment_methods' => $payment_methods->toArray()
         ]);

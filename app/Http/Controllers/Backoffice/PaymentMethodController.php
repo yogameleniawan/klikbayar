@@ -90,8 +90,11 @@ class PaymentMethodController extends Controller
             ->first()
             ->toArray();
 
+            $logo = $this->getLogoFiles();
+
         return Inertia::render("Backoffice/PaymentMethods/Edit", [
             'data' => $data,
+            'logo' => $logo
         ]);
     }
 

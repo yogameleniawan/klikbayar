@@ -9,7 +9,7 @@ import React from 'react';
 import FilePreview from "@/Components/FilePreview";
 import TextEditor from "@/Components/Editor/TextEditor";
 
-export default function Edit({ data: payment_method }) {
+export default function Edit({ data: payment_method, logo }) {
 
     const { data, setData, post, processing, errors } = useForm({
         name: payment_method.name,
@@ -96,6 +96,12 @@ export default function Edit({ data: payment_method }) {
                     </SelectItem>
                     <SelectItem key={'E-Wallet'} textValue={'E-Wallet'} value={'E-Wallet'}>
                         <span className="text-small">E-Wallet</span>
+                    </SelectItem>
+                    <SelectItem key={'Virtual Account'} textValue={'Virtual Account'} value={'Virtual Account'}>
+                        <span className="text-small">Virtual Account</span>
+                    </SelectItem>
+                    <SelectItem key={'Retail'} textValue={'Retail'} value={'Retail'}>
+                        <span className="text-small">Retail</span>
                     </SelectItem>
                 </Select>
 

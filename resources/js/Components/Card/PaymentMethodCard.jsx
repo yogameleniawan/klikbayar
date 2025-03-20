@@ -9,14 +9,19 @@ const PaymentMethodCard = ({
     fee,
     price,
     logo,
-    onClick
+    onClick,
+    disabled = false
 }) => {
     const checkoutStore = useCheckoutStore();
     const hasFee = fee > 0;
     const totalPrice = price + fee;
     const isSelected = checkoutStore.checkout.payment == payment;
+    const isPaymentNull = checkoutStore.checkout.product.product_id === "";
+    const isDisabled = disabled || isPaymentNull;
 
     const handleClick = () => {
+        if (isDisabled) return;
+
         onClick(payment);
 
         if (checkoutStore.checkout.product) {
@@ -32,37 +37,69 @@ const PaymentMethodCard = ({
         <div
             onClick={handleClick}
             className={`
-                flex justify-between px-4 py-3 rounded-xl items-center cursor-pointer
-                transition-all duration-300 shadow-sm hover:shadow-md
-                ${isSelected
-                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white border-2 border-blue-500 transform -translate-y-1'
-                    : 'bg-white dark:bg-default-200 hover:border-2 border-blue-300 hover:-translate-y-1'
+                flex justify-between px-4 py-3 rounded-xl items-center
+                transition-all duration-300 shadow-sm
+                ${isDisabled
+                    ? 'bg-gray-100 dark:bg-gray-700 opacity-60 cursor-not-allowed'
+                    : isSelected
+                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white border-2 border-blue-500 transform -translate-y-1 cursor-pointer'
+                        : 'bg-white dark:bg-default-200 hover:border-2 border-blue-300 hover:-translate-y-1 hover:shadow-md cursor-pointer'
                 }
             `}
         >
             <div className="flex flex-col">
+                {isDisabled && (
+                    <span className="bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-xs px-2 py-0.5 rounded-full mb-2">
+                        Pilih Produk Terlebih Dahulu
+                    </span>
+                )}
                 <div className="flex items-center gap-2">
-                    <span className={`font-bold text-base ${isSelected ? 'text-white' : 'text-default-500 dark:text-white'}`}>
+                    <span className={`font-bold text-base ${isDisabled
+                        ? 'text-gray-500 dark:text-gray-400'
+                        : isSelected
+                            ? 'text-white'
+                            : 'text-default-500 dark:text-white'
+                        }`}>
                         {name}
                     </span>
                 </div>
 
                 {hasFee ? (
                     <div className="mt-1">
-                        <div className="flex items-center gap-2">
-                            <span className={`text-sm ${isSelected ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'} line-through`}>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                            <span className={`text-sm ${isDisabled
+                                ? 'text-gray-400 dark:text-gray-500'
+                                : isSelected
+                                    ? 'text-blue-100'
+                                    : 'text-gray-500 dark:text-gray-400'
+                                } line-through`}>
                                 {formatRupiah(price)}
                             </span>
-                            <span className={`text-xs px-1.5 py-0.5 rounded-full ${isSelected ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200'}`}>
+                            <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${isDisabled
+                                    ? 'text-gray-400 dark:text-gray-500'
+                                    : isSelected
+                                        ? 'text-orange-300'
+                                        : 'text-orange-500'
+                                }`}>
                                 + {formatRupiah(fee)}
                             </span>
                         </div>
-                        <span className={`text-sm font-bold ${isSelected ? 'text-white' : 'text-blue-600 dark:text-blue-300'} mt-1 block`}>
+                        <span className={`text-sm font-bold ${isDisabled
+                                ? 'text-gray-500 dark:text-gray-400'
+                                : isSelected
+                                    ? 'text-white'
+                                    : 'text-blue-600 dark:text-blue-300'
+                            } mt-1 block`}>
                             {formatRupiah(totalPrice)}
                         </span>
                     </div>
                 ) : (
-                    <span className={`text-sm font-bold mt-1 ${isSelected ? 'text-white' : 'text-blue-600 dark:text-blue-300'}`}>
+                    <span className={`text-sm font-bold mt-1 ${isDisabled
+                            ? 'text-gray-500 dark:text-gray-400'
+                            : isSelected
+                                ? 'text-white'
+                                : 'text-blue-600 dark:text-blue-300'
+                        }`}>
                         {formatRupiah(price)}
                     </span>
                 )}
@@ -70,7 +107,12 @@ const PaymentMethodCard = ({
 
             <div className={`
                 h-12 w-12 flex items-center justify-center rounded-xl overflow-hidden
-                ${isSelected ? 'bg-white p-1 shadow-inner' : 'bg-gray-100 dark:bg-gray-100'}
+                ${isDisabled
+                    ? 'bg-gray-200 dark:bg-gray-600 grayscale opacity-50'
+                    : isSelected
+                        ? 'bg-white p-1 shadow-inner'
+                        : 'bg-gray-100 dark:bg-gray-100'
+                }
             `}>
                 <Image
                     src={logo}

@@ -8,7 +8,7 @@ const FeatureCard = ({ icon, title, description, delay = 0 }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay }}
-        className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md flex flex-col items-center text-center h-full"
+        className="bg-white dark:bg-default-100 p-6 rounded-xl shadow-md flex flex-col items-center text-center h-full"
     >
         <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-500 flex items-center justify-center mb-4 text-blue-600 dark:text-blue-400">
             {icon}
@@ -16,28 +16,6 @@ const FeatureCard = ({ icon, title, description, delay = 0 }) => (
         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3">{title}</h3>
         <p className="text-gray-600 dark:text-gray-300">{description}</p>
     </motion.div>
-);
-
-const Milestone = ({ year, title, description, isLeft }) => (
-    <div className={`flex flex-col md:flex-row gap-4 ${isLeft ? 'md:flex-row-reverse' : ''}`}>
-        <div className="flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-                {year}
-            </div>
-            <div className="w-1 h-full bg-blue-200 dark:bg-blue-800"></div>
-        </div>
-
-        <motion.div
-            initial={{ opacity: 0, x: isLeft ? 20 : -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md flex-1 mb-8"
-        >
-            <h3 className="text-lg font-bold text-gray-800 dark:text-white">{title}</h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm">{description}</p>
-        </motion.div>
-    </div>
 );
 
 const AboutUs = () => {
@@ -164,7 +142,7 @@ const AboutUs = () => {
             </div>
 
             {/* Features/Values */}
-            <div className="bg-gray-50 dark:bg-gray-900">
+            <div className="bg-gray-50 dark:bg-default-50">
                 <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <motion.h2

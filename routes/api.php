@@ -28,10 +28,16 @@ Route::group(['as' => 'api.'], function () {
         Route::get('/payment-methods', [DuitkuController::class, 'getPaymentMethod'])
             ->name('duitku.payment-methods')
             ->middleware('throttle:60,1');
+        Route::post('/transaction', [DuitkuController::class, 'createTransaction'])
+            ->name('duitku.transaction')
+            ->middleware('throttle:60,1');
+        Route::post('/callback', [DuitkuController::class, 'handleCallback'])
+            ->name('duitku.callback')
+            ->middleware('throttle:60,1');
     });
 
     Route::prefix('/transactions')->group(function () {
-        Route::get('/{id}/check-status', [MidtransController::class, 'checkStatus'])
+        Route::get('/{id}/check-status', [DuitkuController::class, 'checkStatus'])
             ->middleware('throttle:20,1')
             ->name('transactions.check-status');
 
@@ -39,8 +45,8 @@ Route::group(['as' => 'api.'], function () {
             ->middleware('throttle:10,1')
             ->name('transactions.cancel');
 
-            Route::get('/{number}', [TransactionController::class, 'getTransaction'])
-                ->middleware('throttle:10,1')
-                ->name('transactions.detail');
+        Route::get('/{number}', [TransactionController::class, 'getTransaction'])
+            ->middleware('throttle:10,1')
+            ->name('transactions.detail');
     });
 });

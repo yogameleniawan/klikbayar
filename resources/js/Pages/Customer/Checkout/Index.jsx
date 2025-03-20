@@ -367,7 +367,7 @@ const CheckoutPage = ({ product }) => {
 
         const paymentMutation = useMutation({
             mutationFn: () => {
-                return axios.post(route('api.midtrans.transaction'), getCheckoutSummary());
+                return axios.post(route('api.duitku.transaction'), getCheckoutSummary());
             },
             onSuccess: (res) => {
                 addToast({

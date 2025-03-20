@@ -16,7 +16,7 @@ const CategoryItem = ({
     return (
         <div
             onClick={() => onClick(id)}
-            className="relative flex items-center space-x-2 px-3 py-2 cursor-pointer text-sm sm:text-md"
+            className="relative flex items-center space-x-2 px-2 py-2 sm:px-3 sm:py-2 cursor-pointer text-sm sm:text-md"
         >
             {isActive && (
                 <motion.div
@@ -69,7 +69,7 @@ const Category = () => {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex flex-row items-center gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-[22rem] sm:max-w-none sm:flex-wrap bg-default-200 p-2 rounded-3xl mx-0 sm:mx-8 sm:justify-center"
+                className="flex flex-row items-center gap-2 sm:gap-4 overflow-y-hidden overflow-x-scroll sm:overflow-x-hidden max-w-[22rem] sm:max-w-none sm:flex-wrap bg-default-200/80 p-1 sm:p-2 rounded-3xl mx-0 sm:mx-8 sm:justify-center"
             >
                 <AnimatePresence>
                     {items.map((item) => (
@@ -86,7 +86,7 @@ const Category = () => {
                 </AnimatePresence>
             </motion.div>
             <div className="flex sm:mx-8 text-[10px] my-2 sm:hidden mx-0 sm:my-0 items-center gap-1">
-                <Code />
+                <Code className="text-blue-500 w-4 h-4 sm:w-6 sm:h-6" />
                 <p>Geser untuk kategori lainnya</p>
             </div>
         </div>

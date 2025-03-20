@@ -7,7 +7,7 @@ const FilePreview = ({ file, url }) => {
     const [isLoading, setIsLoading] = useState("");
     const [isDeleted, setIsDeleted] = useState("");
 
-    const syncMutation = useMutation({
+    const removeMutation = useMutation({
         mutationFn: () => {
             setIsLoading(file.id)
             return axios.post(route(url, { id: file.id }));
@@ -40,7 +40,7 @@ const FilePreview = ({ file, url }) => {
                 isIconOnly
                 type="button"
                 onPress={() => {
-                    syncMutation.mutate();
+                    removeMutation.mutate();
                 }}
                 className="absolute top-2 right-2"
                 isLoading={isLoading === file.id}

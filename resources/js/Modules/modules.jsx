@@ -9,9 +9,9 @@ const menuItems = [
         count: 3,
     },
     {
-        name: 'Banners',
+        name: 'Customer Page',
         icon: <FiImage size={20} />,
-        path: `/admin/banners`,
+        path: `/admin/customer-page`,
     },
     {
         name: 'Payment Methods',

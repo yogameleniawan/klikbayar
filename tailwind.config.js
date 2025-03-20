@@ -84,6 +84,8 @@ export default {
                 'gradient': 'gradient 5s linear infinite',
                 'float': 'float 8s ease-in infinite',
                 bell: 'bell 1s ease-in-out infinite',
+                'spin-slow': 'spin-slow 8s linear infinite',
+                'flame': 'flame 1.5s infinite'
             },
         },
     },

@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductPromo;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,6 +19,9 @@ class CustomerController extends Controller
         $banners = Banner::with('file')->get();
 
         $allProductsCount = Product::count();
+
+        $product_promos = ProductPromo::with('product.image')->where('type', 'promo')->get()->toArray();
+        $product_best = ProductPromo::with('product.image')->where('type', 'best')->get();
 
         $categories = ProductCategory::withCount('products')->orderBy('name', 'DESC')->get()->map(function ($category, $i) use ($allProductsCount) {
             return [
@@ -31,7 +35,9 @@ class CustomerController extends Controller
 
         return Inertia::render('Customer/Beranda', [
             'banners' => $banners,
-            'categories' => $categories
+            'categories' => $categories,
+            'product_promos' => $product_promos,
+            'product_best' => $product_best
         ]);
     }
 

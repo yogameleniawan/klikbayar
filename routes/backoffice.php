@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Backoffice\BannerController;
+use App\Http\Controllers\Backoffice\CustomerPageController;
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\PaymentMethodController;
 use App\Http\Controllers\Backoffice\Products\DigiProductController;
@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'backoffice.'], function () {
     Route::resources([
-        'banners' => BannerController::class,
+        'customer-page' => CustomerPageController::class,
         'dashboard' => DashboardController::class,
         'payment-methods' => PaymentMethodController::class,
         'users' => UserController::class,
     ]);
+
+    Route::post('/customer-page/delete-product/{id}', [CustomerPageController::class, 'deleteProduct'])->name('customer-page.delete-product');
 
     Route::group(['prefix' => '/products', 'as' => 'products.'], function() {
         Route::resources([

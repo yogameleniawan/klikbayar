@@ -9,33 +9,6 @@ import 'swiper/css/effect-cards';
 const Promo = () => {
     const { product_promos } = usePage().props;
 
-    useEffect(() => {
-        setTimeout(() => {
-            const slides = document.querySelectorAll('.swiper-slide');
-
-            slides.forEach(slide => {
-                if (!slide.querySelector('.promo-badge')) {
-                    const badge = document.createElement('div');
-                    badge.className = 'promo-badge';
-                    badge.innerHTML = 'PROMO 🔥';
-                    badge.style.position = 'absolute';
-                    badge.style.top = '5px';
-                    badge.style.right = '5px';
-                    badge.style.backgroundColor = '#ef4444';
-                    badge.style.color = 'white';
-                    badge.style.padding = '3px 6px';
-                    badge.style.borderRadius = '4px';
-                    badge.style.fontSize = '10px';
-                    badge.style.fontWeight = 'bold';
-                    badge.style.zIndex = '100';
-                    badge.style.boxShadow = '0 1px 2px rgba(0,0,0,0.3)';
-                    slide.style.overflow = 'visible';
-                    slide.appendChild(badge);
-                }
-            });
-        }, 500);
-    }, [product_promos]);
-
     return (
         <div className="flex flex-col items-center sm:gap-2">
             <h3 className="text-xl sm:text-4xl font-semibold">

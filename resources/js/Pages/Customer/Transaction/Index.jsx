@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 import CustomerLayout from '@/Layouts/CustomerLayout';
 import { gsap } from 'gsap';

@@ -13,6 +13,7 @@ use App\Models\ProductDetail;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\TransactionLog;
+use App\Services\DigiflazzService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -264,6 +265,10 @@ class MidtransController extends Controller
                 break;
             case PaymentStatusEnum::SETTLEMENT->value:
                 $transaction->status = PaymentStatusEnum::SUCCESS->value;
+
+                $paymentDigiflazz = new DigiflazzService($transaction);
+                $paymentDigiflazz->execute();
+
                 break;
             case PaymentStatusEnum::PENDING->value:
                 $transaction->status = PaymentStatusEnum::PENDING->value;

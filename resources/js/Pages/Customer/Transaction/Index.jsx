@@ -44,7 +44,7 @@ const Index = () => {
 
     const [response, setResponse] = useState(null);
     const [isVisible, setIsVisible] = useState(false);
-    // Efek animasi untuk elemen-elemen pada halaman
+
     useEffect(() => {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -57,7 +57,6 @@ const Index = () => {
             return axios.get(route('api.transactions.detail', { number: data.input }));
         },
         onSuccess: (res) => {
-            console.log(res.data)
             reset()
             setResponse(res.data.data)
         },

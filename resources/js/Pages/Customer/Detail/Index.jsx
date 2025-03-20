@@ -39,39 +39,57 @@ const priceUtils = {
 
 const ItemProduct = ({ product, selected, onClick }) => {
     const { digiflazz, discount, margin } = product;
-    const { price, product_name: name } = digiflazz;
+    const { price, product_name: name, buyer_product_status } = digiflazz;
+    const isActive = buyer_product_status !== 0;
     const priceWithMargin = priceUtils.withMargin(price, margin);
     const finalPrice = priceUtils.calculateFinal(price, margin, discount);
 
-    const handleClick = () => onClick(product, finalPrice);
+    const handleClick = () => {
+        if (isActive) {
+            onClick(product, finalPrice);
+        }
+    };
 
     return (
         <div
             onClick={handleClick}
             className={`
-        flex items-center gap-2 bg-default-400/20 translate-y-0
-        hover:-translate-y-2 hover:border-2 border-blue-500 transition-all
-        rounded-xl cursor-pointer justify-between relative
-        ${selected ? 'border-3 border-blue-500' : ''}
-      `}
+                flex items-center gap-2 translate-y-0
+                ${isActive ? 'bg-default-400/20 hover:-translate-y-2 hover:border-2 border-blue-500' : 'bg-gray-500/40 opacity-75'}
+                transition-all rounded-xl cursor-pointer justify-between relative
+                ${selected && isActive ? 'border-3 border-blue-500' : ''}
+                ${!isActive ? 'cursor-not-allowed' : ''}
+            `}
             style={{
-                backgroundImage: `url("/assets/bg.jpg")`,
+                backgroundImage: isActive ? `url("/assets/bg.jpg")` : 'none',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
             }}
         >
             <div className="flex flex-col text-white w-full gap-2 rounded-lg bg-black/10">
                 <h4 className={`
-          text-md text-nowrap font-bold
-          ${selected
+                    text-md text-nowrap font-bold
+                    ${selected && isActive
                         ? `bg-blue-500 p-2 rounded-t-md`
-                        : 'border-b-1 border-gray-500 p-2 rounded-t-xl'
+                        : !isActive
+                            ? 'bg-gray-600 p-2 rounded-t-md text-gray-300'
+                            : 'border-b-1 border-gray-500 p-2 rounded-t-xl'
                     }
-        `}>
+                `}>
                     {name}
                 </h4>
 
-                {discount > 0 ? (
+                {!isActive ? (
+                    <div className="flex flex-col gap-2 p-2 items-center justify-center">
+                        <div className="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-sm text-gray-300">Tidak Tersedia</span>
+                        </div>
+                        <span className="text-xs text-gray-400">Produk sedang nonaktif</span>
+                    </div>
+                ) : discount > 0 ? (
                     <div className="flex flex-col gap-2 p-2">
                         <div className="flex items-center gap-2">
                             <Chip className="text-[10px] bg-orange-500 text-white">{discount}%</Chip>
@@ -90,9 +108,16 @@ const ItemProduct = ({ product, selected, onClick }) => {
                 )}
             </div>
 
-            {discount > 0 && (
+            {discount > 0 && isActive && (
                 <div className="absolute right-2 top-1">
                     <FlameIcon />
+                </div>
+            )}
+
+            {/* Tambahkan overlay nonaktif */}
+            {!isActive && (
+                <div className="absolute top-0 right-0 p-1 bg-red-500 text-white text-xs font-bold rounded-bl-lg rounded-tr-lg">
+                    NONAKTIF
                 </div>
             )}
         </div>

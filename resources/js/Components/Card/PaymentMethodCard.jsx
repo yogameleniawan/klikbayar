@@ -9,6 +9,7 @@ const PaymentMethodCard = ({
     fee,
     price,
     logo,
+    enabled,
     onClick,
     disabled = false
 }) => {
@@ -19,8 +20,10 @@ const PaymentMethodCard = ({
     const isPaymentNull = checkoutStore.checkout.product.product_id === "";
     const isDisabled = disabled || isPaymentNull;
 
+    console.log({ enabled })
+
     const handleClick = () => {
-        if (isDisabled) return;
+        if (isDisabled || enabled !== 1) return;
 
         onClick(payment);
 
@@ -39,7 +42,7 @@ const PaymentMethodCard = ({
             className={`
                 flex justify-between px-4 py-3 rounded-xl items-center
                 transition-all duration-300 shadow-sm
-                ${isDisabled
+                ${isDisabled || enabled !== 1
                     ? 'bg-gray-100 dark:bg-gray-700 opacity-60 cursor-not-allowed'
                     : isSelected
                         ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white border-2 border-blue-500 transform -translate-y-1 cursor-pointer'
@@ -48,13 +51,14 @@ const PaymentMethodCard = ({
             `}
         >
             <div className="flex flex-col">
-                {isDisabled && (
+                {(isDisabled || enabled !== 1) && (
                     <span className="bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-xs px-2 py-0.5 rounded-full mb-2">
-                        Pilih Produk Terlebih Dahulu
+                        {enabled !== 1 && 'Tidak Tersedia'}
+                        {isDisabled && enabled === 1 && 'Pilih Produk Terlebih Dahulu'}
                     </span>
                 )}
                 <div className="flex items-center gap-2">
-                    <span className={`font-bold text-base ${isDisabled
+                    <span className={`font-bold text-base ${isDisabled || enabled !== 1
                         ? 'text-gray-500 dark:text-gray-400'
                         : isSelected
                             ? 'text-white'
@@ -76,29 +80,29 @@ const PaymentMethodCard = ({
                                 {formatRupiah(price)}
                             </span>
                             <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${isDisabled
-                                    ? 'text-gray-400 dark:text-gray-500'
-                                    : isSelected
-                                        ? 'text-orange-300'
-                                        : 'text-orange-500'
+                                ? 'text-gray-400 dark:text-gray-500'
+                                : isSelected
+                                    ? 'text-orange-300'
+                                    : 'text-orange-500'
                                 }`}>
                                 + {formatRupiah(fee)}
                             </span>
                         </div>
                         <span className={`text-sm font-bold ${isDisabled
-                                ? 'text-gray-500 dark:text-gray-400'
-                                : isSelected
-                                    ? 'text-white'
-                                    : 'text-blue-600 dark:text-blue-300'
+                            ? 'text-gray-500 dark:text-gray-400'
+                            : isSelected
+                                ? 'text-white'
+                                : 'text-blue-600 dark:text-blue-300'
                             } mt-1 block`}>
                             {formatRupiah(totalPrice)}
                         </span>
                     </div>
                 ) : (
                     <span className={`text-sm font-bold mt-1 ${isDisabled
-                            ? 'text-gray-500 dark:text-gray-400'
-                            : isSelected
-                                ? 'text-white'
-                                : 'text-blue-600 dark:text-blue-300'
+                        ? 'text-gray-500 dark:text-gray-400'
+                        : isSelected
+                            ? 'text-white'
+                            : 'text-blue-600 dark:text-blue-300'
                         }`}>
                         {formatRupiah(price)}
                     </span>

@@ -346,6 +346,7 @@ const CheckoutPage = ({ product }) => {
                                                 fee={item.fee}
                                                 price={finalPrice}
                                                 logo={item.image}
+                                                enabled={item.enabled}
                                                 onClick={handlePaymentClick}
                                             />
                                         ))}

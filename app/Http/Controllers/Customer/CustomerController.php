@@ -59,7 +59,7 @@ class CustomerController extends Controller
             return Inertia::render('NotFound');
         }
 
-        $payment_methods = PaymentMethod::where('enabled', true)->get();
+        $payment_methods = PaymentMethod::all();
 
         return Inertia::render('Customer/Checkout/Index', [
             'product' => $product->toArray(),

@@ -21,6 +21,7 @@ class ProductController extends Controller
                         'brand' => $product->brand,
                         'image' => $product->image->path,
                         'slug' => $product->slug,
+                        'category' => $product->category->name
                     ];
                 }
             );
@@ -36,6 +37,7 @@ class ProductController extends Controller
                     'brand' => $product->brand,
                     'image' => $product->image->path,
                     'slug' => $product->slug,
+                    'category' => $product->category->name
                 ];
             }
         );

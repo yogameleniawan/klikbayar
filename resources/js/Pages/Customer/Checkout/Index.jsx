@@ -57,7 +57,7 @@ const ItemProduct = ({ product, selected, onClick }) => {
             onClick={handleClick}
             className={`
                 flex items-center gap-2 translate-y-0
-                ${isActive ? 'bg-default-400/20 hover:-translate-y-2 hover:border-2 border-blue-500' : 'bg-gray-500/40 opacity-75'}
+                ${isActive ? 'bg-default-400/20 hover:-translate-y-2 hover:border-2 border-blue-500' : 'bg-gray-500/40 opacity-75 c'}
                 transition-all rounded-xl cursor-pointer justify-between relative
                 ${selected && isActive ? 'border-3 border-blue-500' : ''}
                 ${!isActive ? 'cursor-not-allowed' : ''}
@@ -74,7 +74,7 @@ const ItemProduct = ({ product, selected, onClick }) => {
                     ${selected && isActive
                         ? `bg-blue-500 p-2 rounded-t-md`
                         : !isActive
-                            ? 'bg-gray-600 p-2 rounded-t-md text-gray-300'
+                            ? 'bg-gray-600 p-2 rounded-t-md text-gray-300 cursor-not-allowed'
                             : 'border-b-1 border-gray-500 p-2 rounded-t-xl'
                     }
                 `}>
@@ -82,7 +82,7 @@ const ItemProduct = ({ product, selected, onClick }) => {
                 </h4>
 
                 {!isActive ? (
-                    <div className="flex flex-col gap-2 p-2 items-center justify-center">
+                    <div className="flex flex-col gap-2 p-2 items-center justify-center cursor-not-allowed">
                         <div className="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -118,7 +118,7 @@ const ItemProduct = ({ product, selected, onClick }) => {
 
             {/* Tambahkan overlay nonaktif */}
             {!isActive && (
-                <div className="absolute top-0 right-0 p-1 bg-red-500 text-white text-xs font-bold rounded-bl-lg rounded-tr-lg">
+                <div className="absolute top-0 right-0 p-1 bg-red-500 text-white text-xs font-bold rounded-bl-lg rounded-tr-lg cursor-not-allowed">
                     NONAKTIF
                 </div>
             )}

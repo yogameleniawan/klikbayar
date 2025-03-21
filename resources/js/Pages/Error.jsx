@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 import CustomerLayout from '@/Layouts/CustomerLayout';
 import { gsap } from 'gsap';
-const NotFound = () => {
+const Error = ({ statusCode, title, description }) => {
     // Efek animasi untuk elemen-elemen pada halaman
     useEffect(() => {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -16,27 +16,26 @@ const NotFound = () => {
 
     return (
         <CustomerLayout>
-            <Head title="Halaman Tidak Ditemukan" />
+            <Head title={title} />
 
             <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 relative overflow-hidden">
                 {/* Content */}
                 <div className="z-10 max-w-lg w-full text-center">
                     <div className="error-number relative mb-8">
-                        <div className="text-9xl font-bold text-blue-500/10 select-none">404</div>
+                        <div className="text-9xl font-bold text-blue-500/10 select-none">{statusCode}</div>
                         <div className="absolute inset-0 flex items-center justify-center">
                             <div className="text-5xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-700">
-                                404
+                                {statusCode}
                             </div>
                         </div>
                     </div>
 
                     <h1 className="error-title text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4">
-                        Ups! Halaman Tidak Ditemukan
+                        {title}
                     </h1>
 
                     <p className="error-description text-gray-600 dark:text-gray-300 mb-8">
-                        Maaf, halaman yang Anda cari tidak dapat ditemukan. Mungkin alamat URL
-                        salah, halaman telah dipindahkan, atau halaman tidak lagi tersedia.
+                        {description}
                     </p>
 
                     <div className="error-actions flex flex-col sm:flex-row gap-4 justify-center">
@@ -73,4 +72,4 @@ const NotFound = () => {
     );
 };
 
-export default NotFound;
+export default Error;

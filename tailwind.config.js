@@ -42,6 +42,27 @@ export default {
                     "80%": { transform: "translateX(10%)", rotate: "-10deg" },
                     "90%": { transform: "translateX(10%)", rotate: "0deg" },
                 },
+                spin: {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                },
+                bounce: {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-10px)' },
+                },
+                fadeIn: {
+                    '0%': { opacity: '0' },
+                    '100%': { opacity: '1' },
+                },
+                slideUp: {
+                    '0%': { transform: 'translateY(20px)', opacity: '0' },
+                    '100%': { transform: 'translateY(0)', opacity: '1' },
+                },
+                progress: {
+                    '0%': { width: '0%' },
+                    '50%': { width: '70%' },
+                    '100%': { width: '90%' },
+                },
                 gradient: {
                     '0%, 100%': {
                         'background-size': '200% 200%',
@@ -84,8 +105,11 @@ export default {
                 'gradient': 'gradient 5s linear infinite',
                 'float': 'float 8s ease-in infinite',
                 bell: 'bell 1s ease-in-out infinite',
-                'spin-slow': 'spin-slow 8s linear infinite',
-                'flame': 'flame 1.5s infinite'
+                'spin-slow': 'spin 10s linear infinite',
+                'bounce-slow': 'bounce 3s ease-in-out infinite',
+                'fade-in': 'fadeIn 1s ease-out forwards',
+                'slide-up': 'slideUp 0.7s ease-out forwards',
+                'progress': 'progress 3s ease-in-out infinite alternate',
             },
         },
     },

@@ -55,7 +55,7 @@ const menuItems = [
 
 const CustomerNavbar = (props) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    const user = usePage().props.auth.user;
+    const user = usePage().props?.auth?.user;
 
     const [darkMode, setDarkMode] = React.useState(() => {
         const storedPreference = localStorage.getItem('darkMode');

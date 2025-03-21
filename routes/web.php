@@ -25,7 +25,5 @@ Route::get('stream/image', [ImageController::class, 'streamImage'])->name('strea
 Route::post('destroy/image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
 Route::get('/logo/{filename}', [ImageController::class, 'streamLogoFile'])->name('logo.stream');
 
-Route::fallback(RouteFallbackController::class)->name('fallback');
-
 require __DIR__.'/auth.php';
 require __DIR__.'/backoffice.php';

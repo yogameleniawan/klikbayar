@@ -1,4 +1,4 @@
-import { Form, Input, Button, Breadcrumbs, BreadcrumbItem, Select, SelectItem } from "@heroui/react";
+import { Form, Input, Button, Breadcrumbs, BreadcrumbItem, Select, SelectItem, Switch } from "@heroui/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head, router, useForm } from "@inertiajs/react";
 import AlertMessage from "@/Components/Alert/AlertMessage";
@@ -14,6 +14,7 @@ export default function Edit({ data: payment_method }) {
         code: payment_method.code,
         description: payment_method.description,
         category: payment_method.category,
+        enabled: payment_method.enabled,
         image: "",
         _method: 'PUT'
     });
@@ -102,6 +103,8 @@ export default function Edit({ data: payment_method }) {
                         <span className="text-small">Retail</span>
                     </SelectItem>
                 </Select>
+
+                <Switch name="enabled" size="sm" defaultSelected={payment_method.enabled} onValueChange={(isSelected) => setData('enabled', isSelected)}>Active</Switch>
 
                 <div className="flex gap-2">
                     <Button color="primary" type="submit" isLoading={processing}>

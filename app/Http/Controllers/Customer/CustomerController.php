@@ -10,6 +10,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductPromo;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -58,7 +59,7 @@ class CustomerController extends Controller
             return Inertia::render('NotFound');
         }
 
-        $payment_methods = PaymentMethod::all();
+        $payment_methods = PaymentMethod::where('enabled', true)->get();
 
         return Inertia::render('Customer/Checkout/Index', [
             'product' => $product->toArray(),
@@ -66,11 +67,13 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function checkTransaction() {
+    public function checkTransaction()
+    {
         return Inertia::render('Customer/Transaction/Index');
     }
 
-    public function detailTransaction($id) {
+    public function detailTransaction($id)
+    {
         $transaction = Transaction::with(['transaction_detail.product_detail.product.image', 'transaction_log', 'payment_method'])->where('id', $id)->first()->toArray();
 
         return Inertia::render('Customer/Transaction/Detail/Index', [
@@ -78,7 +81,39 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function aboutUs() {
+    public function aboutUs()
+    {
         return Inertia::render('Customer/TentangKami/Index');
+    }
+
+    /**
+     * Handle Duitku payment notification callback
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function handleRedirect(Request $request)
+    {
+        Log::info('Duitku redirect received', $request->all());
+
+        // Get all parameters from request
+        $merchantOrderId = $request->input('merchantOrderId');
+        $reference = $request->input('reference');
+
+        Log::info('Payment Redirect Received', $request->all());
+
+        $transaction = Transaction::where('invoice_number', $merchantOrderId)->first();
+
+        if (!$transaction) {
+            Log::warning('Transaction not found', ['order_id' => $merchantOrderId]);
+            return response()->json(['status' => 'error', 'message' => 'Transaction not found'], 404);
+        }
+
+        Log::info('Payment Callback: Success', [
+            'merchantOrderId' => $merchantOrderId,
+            'reference' => $reference
+        ]);
+
+        return redirect()->route('customer.detail-transaction', ['id' => $transaction->id]);
     }
 }

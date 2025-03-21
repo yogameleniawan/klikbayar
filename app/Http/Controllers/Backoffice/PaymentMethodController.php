@@ -48,6 +48,7 @@ class PaymentMethodController extends Controller
             'description' => 'required',
             'code' => 'required',
             'category' => 'required',
+            'enabled' => 'required',
         ]);
 
         try {
@@ -57,6 +58,7 @@ class PaymentMethodController extends Controller
                     'description' => $request->description,
                     'code' => $request->code,
                     'category' => $request->category,
+                    'enabled' => $request->enabled,
                 ]);
 
                 return back()->with('message', 'Data added successfuly');
@@ -101,6 +103,7 @@ class PaymentMethodController extends Controller
             'description' => 'required',
             'code' => 'required',
             'category' => 'required',
+            'enabled' => 'required',
         ]);
 
         $payment_method = PaymentMethod::find($id);
@@ -113,6 +116,7 @@ class PaymentMethodController extends Controller
                     'description' => $request->description,
                     'code' => $request->code,
                     'category' => $request->category,
+                    'enabled' => $request->enabled,
                 ]);
 
                 return back()->with('message', 'Data updated successfuly');

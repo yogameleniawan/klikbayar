@@ -52,6 +52,7 @@ class PaymentMethodSeeder extends Seeder
                 'fee' => $feeAmount,
                 'description' => "<p>Deskripsi</p>",
                 'image' => $value['imageUrl'],
+                'enabled' => true
             ]);
         }
     }

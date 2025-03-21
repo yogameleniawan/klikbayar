@@ -72,8 +72,8 @@ class DuitkuController extends Controller
                 "paymentMethod" => $paymentMethodCode,
                 "customerVaName" => $productName . " | " . $request->contactPhone,
                 "datetime" => $datetime,
-                'callbackUrl' => 'https://a522-103-94-190-20.ngrok-free.app/api/duitku/callback',
-                'returnUrl' => 'http://example.com/return',
+                'callbackUrl' => 'https://425c-103-94-190-21.ngrok-free.app/api/duitku/callback',
+                'returnUrl' => 'https://425c-103-94-190-21.ngrok-free.app/transaction/redirect',
                 "signature" => $signature,
                 "expiryPeriod" => 15,
             ];
@@ -135,7 +135,7 @@ class DuitkuController extends Controller
         }
     }
 
-    public function checkStatus(Request $request, $id)
+    public function checkStatus($id)
     {
         try {
             $transaction = Transaction::findOrFail($id);
@@ -229,25 +229,25 @@ class DuitkuController extends Controller
         if ($transaction->status === 'success') {
             $message = json_encode([
                 'status' => 'success',
-                'message' => "Transaksi " . $transaction->id . " berhasil dibayar",
+                'message' => "Transaksi " . $transaction->invoice_number . " berhasil dibayar",
                 'data' => $transaction
             ]);
         } elseif ($transaction->status === 'failed') {
             $message = json_encode([
                 'status' => 'failed',
-                'message' => "Transaksi " . $transaction->id . " gagal dibayar",
+                'message' => "Transaksi " . $transaction->invoice_number . " gagal dibayar",
                 'data' => $transaction
             ]);
         } elseif ($transaction->status === 'cancel') {
             $message = json_encode([
                 'status' => 'cancel',
-                'message' => "Transaksi " . $transaction->id . " dibatalkan",
+                'message' => "Transaksi " . $transaction->invoice_number . " dibatalkan",
                 'data' => $transaction
             ]);
         } elseif ($transaction->status === 'expire') {
             $message = json_encode([
                 'status' => 'expire',
-                'message' => "Transaksi " . $transaction->id . " expired",
+                'message' => "Transaksi " . $transaction->invoice_number . " expired",
                 'data' => $transaction
             ]);
         }

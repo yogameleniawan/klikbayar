@@ -20,8 +20,6 @@ const PaymentMethodCard = ({
     const isPaymentNull = checkoutStore.checkout.product.product_id === "";
     const isDisabled = disabled || isPaymentNull;
 
-    console.log({ enabled })
-
     const handleClick = () => {
         if (isDisabled || enabled !== 1) return;
 

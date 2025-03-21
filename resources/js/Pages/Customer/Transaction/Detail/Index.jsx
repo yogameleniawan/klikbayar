@@ -241,8 +241,6 @@ const Index = ({ transaction }) => {
         ? JSON.parse(transaction_log[0].response)
         : null;
 
-    console.log({ response })
-
     const {vaNumber, paymentUrl} = response;
     const qrCodeUrl = response?.actions?.[0]?.url || null;
 

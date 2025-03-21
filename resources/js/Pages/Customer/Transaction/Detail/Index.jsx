@@ -9,6 +9,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useWebSocket from '@/Hooks/useWebSocket';
 import CancelTransactionModal from '@/Components/Modal/CancelTransactionModal';
 import { Copy, CheckCircle } from 'lucide-react';
+import ReviewModal from '@/Components/Modal/ReviewModal';
+import ReviewStatusDisplay from '@/Components/ReviewStatusDisplay';
 
 // Komponen Countdown terpisah
 const Countdown = ({ expiryTime }) => {
@@ -214,8 +216,9 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
     };
 
     return (
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full">
             <Button
+                className='w-full'
                 color="primary"
                 startContent={<VscSync className={checkStatusMutation.isPending ? "animate-spin" : ""} />}
                 isLoading={checkStatusMutation.isPending}
@@ -232,7 +235,7 @@ const Index = ({ transaction }) => {
     const [copied, setCopied] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(transaction.status || "Menunggu Pembayaran");
 
-    const { transaction_detail, transaction_log, payment_method } = transaction;
+    const { transaction_detail, transaction_log, payment_method, product_review } = transaction;
     const { product_detail } = transaction_detail[0];
     const { product } = product_detail;
     const { image } = product;
@@ -241,7 +244,7 @@ const Index = ({ transaction }) => {
         ? JSON.parse(transaction_log[0].response)
         : null;
 
-    const {vaNumber, paymentUrl} = response;
+    const { vaNumber, paymentUrl } = response;
     const qrCodeUrl = response?.actions?.[0]?.url || null;
 
     const copyInvoiceNumber = () => {
@@ -283,7 +286,7 @@ const Index = ({ transaction }) => {
     return (
         <CustomerLayout>
             <Head title="Detail Transaksi" />
-            <div className="flex flex-col sm:flex-row justify-center py-8 px-4 md:px-0 gap-4">
+            <div className="flex flex-col sm:flex-row justify-center py-8 px-4 md:px-0 gap-4 mx-8">
                 {/* Card Transaksi */}
                 <Card className="w-full max-w-md shadow-lg overflow-hidden h-fit">
                     {/* Header */}
@@ -351,22 +354,27 @@ const Index = ({ transaction }) => {
                         }
 
                         {/* Status Transaksi */}
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <p className="text-sm text-gray-500 dark:text-gray-100">Status Transaksi</p>
-                                <p className={`font-medium ${currentStatus === 'success' ? 'text-green-600 dark:text-green-400' :
-                                    currentStatus === 'failed' || currentStatus === 'cancel' || currentStatus === 'expire' ? 'text-red-600 dark:text-red-400' :
-                                        'text-gray-800 dark:text-gray-100'
-                                    }`}>
-                                    {currentStatus === 'success' ? 'Berhasil' :
-                                        currentStatus === 'pending' ? 'Menunggu Pembayaran' :
-                                            currentStatus === 'failed' ? 'Gagal' :
-                                                currentStatus === 'cancel' ? 'Dibatalkan' :
-                                                    currentStatus === 'expire' ? 'Expired' :
-                                                        currentStatus || "Menunggu Pembayaran"}
-                                </p>
-                            </div>
-                        </div>
+                        {
+                            currentStatus !== 'review' ? (
+                                <div className="flex justify-between items-center mb-2">
+                                    <p className="text-sm text-gray-500 dark:text-gray-100">Status Transaksi</p>
+                                    <p className={`px-2 py-1 text-xs rounded-full ${currentStatus === 'success' ? 'bg-green-500  text-white dark:bg-green-400 dark:text-default-100' :
+                                        currentStatus === 'failed' || currentStatus === 'cancel' || currentStatus === 'expire' ? 'bg-red-600 dark:bg-red-400' :
+                                            'bg-gray-800 dark:bg-gray-100 dark:text-gray-500'
+                                        }`}>
+                                        {currentStatus === 'success' ? 'Berhasil' :
+                                            currentStatus === 'pending' ? 'Menunggu Pembayaran' :
+                                                currentStatus === 'failed' ? 'Gagal' :
+                                                    currentStatus === 'cancel' ? 'Dibatalkan' :
+                                                        currentStatus === 'expire' ? 'Expired' :
+                                                            currentStatus || "Menunggu Pembayaran"}
+                                    </p>
+                                </div>
+                            ) : (
+                                <ReviewStatusDisplay rating={product_review[0]?.rating || 0} reviewText={product_review[0]?.review || ""} />
+                            )
+                        }
+
 
                         {/* Tombol Aksi */}
                         {
@@ -375,6 +383,12 @@ const Index = ({ transaction }) => {
                                     transactionId={transaction.id}
                                     onStatusUpdate={handleStatusUpdate}
                                 />
+                            )
+                        }
+
+                        {
+                            currentStatus === 'success' && (
+                                <ReviewModal transactionId={transaction.id} onStatusUpdate={handleStatusUpdate} />
                             )
                         }
 

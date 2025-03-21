@@ -72,8 +72,8 @@ class DuitkuController extends Controller
                 "paymentMethod" => $paymentMethodCode,
                 "customerVaName" => $productName . " | " . $request->contactPhone,
                 "datetime" => $datetime,
-                'callbackUrl' => 'https://425c-103-94-190-21.ngrok-free.app/api/duitku/callback',
-                'returnUrl' => 'https://425c-103-94-190-21.ngrok-free.app/transaction/redirect',
+                'callbackUrl' => 'https://cd3a-103-94-190-21.ngrok-free.app/api/duitku/callback',
+                'returnUrl' => 'https://cd3a-103-94-190-21.ngrok-free.app/transaction/redirect',
                 "signature" => $signature,
                 "expiryPeriod" => 15,
             ];

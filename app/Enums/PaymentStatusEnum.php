@@ -16,4 +16,5 @@ enum PaymentStatusEnum: string
     case FAILED = "failed";
     case SUCCESS = "success";
     case REJECT = "reject";
+    case REVIEW = "review";
 }

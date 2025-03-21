@@ -48,5 +48,9 @@ Route::group(['as' => 'api.'], function () {
         Route::get('/{number}', [TransactionController::class, 'getTransaction'])
             ->middleware('throttle:10,1')
             ->name('transactions.detail');
+
+        Route::post('/review', [TransactionController::class, 'storeReview'])
+            ->middleware('throttle:10,1')
+            ->name('transactions.review');
     });
 });

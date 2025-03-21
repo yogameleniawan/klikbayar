@@ -74,7 +74,7 @@ class CustomerController extends Controller
 
     public function detailTransaction($id)
     {
-        $transaction = Transaction::with(['transaction_detail.product_detail.product.image', 'transaction_log', 'payment_method'])->where('id', $id)->first()->toArray();
+        $transaction = Transaction::with(['transaction_detail.product_detail.product.image', 'transaction_log', 'payment_method', 'product_review'])->where('id', $id)->first()->toArray();
 
         return Inertia::render('Customer/Transaction/Detail/Index', [
             'transaction' => $transaction

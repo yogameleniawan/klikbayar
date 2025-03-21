@@ -25,4 +25,8 @@ class Transaction extends Model
     public function transaction_log() {
         return $this->hasMany(TransactionLog::class, 'transaction_id');
     }
+
+    public function product_review() {
+        return $this->hasMany(ProductReview::class, 'transaction_id');
+    }
 }

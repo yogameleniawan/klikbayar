@@ -1,15 +1,13 @@
-import { Form, Input, Button, Breadcrumbs, BreadcrumbItem, Select, SelectItem, Textarea } from "@heroui/react";
+import { Form, Input, Button, Breadcrumbs, BreadcrumbItem, Select, SelectItem } from "@heroui/react";
 import BackofficeLayout from "@/Layouts/BackofficeLayout";
 import { Head, router, useForm } from "@inertiajs/react";
 import AlertMessage from "@/Components/Alert/AlertMessage";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
-import FileImageUploadForm from "@/Components/Form/FileImageUploadForm";
 
 import React from 'react';
-import FilePreview from "@/Components/FilePreview";
 import TextEditor from "@/Components/Editor/TextEditor";
 
-export default function Edit({ data: payment_method, logo }) {
+export default function Edit({ data: payment_method }) {
 
     const { data, setData, post, processing, errors } = useForm({
         name: payment_method.name,
@@ -104,27 +102,6 @@ export default function Edit({ data: payment_method, logo }) {
                         <span className="text-small">Retail</span>
                     </SelectItem>
                 </Select>
-
-                <div className="flex flex-row gap-2 w-full">
-                    <Select
-                        label="Logo"
-                        labelPlacement="outside"
-                        placeholder="Select a Logo"
-                        name="image"
-                        onChange={(e) => {
-                            setData('image', e.target.value)
-                        }}
-                        defaultSelectedKeys={new Set([payment_method.image])}
-                    >
-                        {
-                            logo.map((item, i) => (
-                                <SelectItem key={item.name} textValue={item.name} value={item.name}>
-                                    <span className="text-small">{item.name}</span>
-                                </SelectItem>
-                            ))
-                        }
-                    </Select>
-                </div>
 
                 <div className="flex gap-2">
                     <Button color="primary" type="submit" isLoading={processing}>

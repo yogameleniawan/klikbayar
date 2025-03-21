@@ -35,9 +35,7 @@ class PaymentMethodController extends Controller
      */
     public function create()
     {
-        $logo = $this->getLogoFiles();
-
-        return Inertia::render("Backoffice/PaymentMethods/Add", ['logo' => $logo]);
+        return Inertia::render("Backoffice/PaymentMethods/Add");
     }
 
     /**
@@ -50,7 +48,6 @@ class PaymentMethodController extends Controller
             'description' => 'required',
             'code' => 'required',
             'category' => 'required',
-            'image' => 'required',
         ]);
 
         try {
@@ -60,7 +57,6 @@ class PaymentMethodController extends Controller
                     'description' => $request->description,
                     'code' => $request->code,
                     'category' => $request->category,
-                    'image' => $request->image,
                 ]);
 
                 return back()->with('message', 'Data added successfuly');
@@ -90,11 +86,8 @@ class PaymentMethodController extends Controller
             ->first()
             ->toArray();
 
-            $logo = $this->getLogoFiles();
-
         return Inertia::render("Backoffice/PaymentMethods/Edit", [
             'data' => $data,
-            'logo' => $logo
         ]);
     }
 
@@ -108,7 +101,6 @@ class PaymentMethodController extends Controller
             'description' => 'required',
             'code' => 'required',
             'category' => 'required',
-            'image' => 'required',
         ]);
 
         $payment_method = PaymentMethod::find($id);
@@ -121,7 +113,6 @@ class PaymentMethodController extends Controller
                     'description' => $request->description,
                     'code' => $request->code,
                     'category' => $request->category,
-                    'image' => $request->image
                 ]);
 
                 return back()->with('message', 'Data updated successfuly');

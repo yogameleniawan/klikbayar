@@ -1,14 +1,14 @@
 import CustomerLayout from '@/Layouts/CustomerLayout'
 import { Head } from '@inertiajs/react'
 import React, { useEffect, useState } from 'react'
-import { Image, Card, Divider, Button, addToast, useDisclosure } from '@heroui/react';
+import { Image, Card, Divider, Button, addToast } from '@heroui/react';
 import { BiCopy, BiInfoCircle, BiCheck } from 'react-icons/bi';
 import { VscSync } from "react-icons/vsc";
-import { MdOutlineCancel } from "react-icons/md";
 import { formatRupiah } from '@/utils/format_rupiah';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useWebSocket from '@/Hooks/useWebSocket';
 import CancelTransactionModal from '@/Components/Modal/CancelTransactionModal';
+import { Copy, CheckCircle } from 'lucide-react';
 
 // Komponen Countdown terpisah
 const Countdown = ({ expiryTime }) => {
@@ -60,8 +60,8 @@ const Countdown = ({ expiryTime }) => {
 };
 
 // Komponen TransactionDetails
-const TransactionDetails = ({ transaction, copyInvoiceNumber, copied }) => {
-    const { transaction_detail, product_detail, product, image } = transaction;
+const TransactionDetails = ({ transaction, payment_method }) => {
+    const { transaction_detail, product, image } = transaction;
 
     return (
         <div className="p-4">
@@ -80,7 +80,7 @@ const TransactionDetails = ({ transaction, copyInvoiceNumber, copied }) => {
                     </div>
                     <div className="bg-gray-50 dark:bg-default-100 p-2 rounded-lg">
                         <p className="text-sm text-gray-500 dark:text-gray-100">Harga</p>
-                        <p className="text-xl font-bold text-blue-600">{formatRupiah(transaction_detail[0].price)}</p>
+                        <p className="text-xl font-bold text-blue-600">{formatRupiah(transaction_detail[0].price + payment_method.fee)}</p>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@ const TransactionDetails = ({ transaction, copyInvoiceNumber, copied }) => {
 // Komponen QRCodeSection
 const QRCodeSection = ({ qrCodeUrl, paymentMethod }) => {
     if (!qrCodeUrl) {
-        return <p className="text-gray-500">QR Code tidak tersedia saat ini.</p>;
+        return;
     }
 
     return (
@@ -114,6 +114,67 @@ const QRCodeSection = ({ qrCodeUrl, paymentMethod }) => {
                 </div>
             </div>
         </>
+    );
+};
+
+const VirtualAccountSection = ({ vaNumber, paymentMethod, paymentUrl }) => {
+    const [copied, setCopied] = useState(false);
+
+    if (!vaNumber) {
+        return;
+    }
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(vaNumber);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <div className="space-y-4">
+            {/* VA Number Card */}
+            <div className="rounded-lg p-4 bg-white dark:bg-default-100 shadow-sm">
+                <div className="flex flex-col space-y-2">
+                    <div className="text-sm font-medium text-gray-500">Virtual Account Number</div>
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="text-xl font-bold tracking-wider">{vaNumber}</div>
+                        <button
+                            onClick={handleCopy}
+                            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
+                        >
+                            {copied ? (
+                                <>
+                                    <CheckCircle size={18} className="text-green-500" />
+                                    <span className="text-sm font-medium text-green-500">Copied!</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Copy size={18} />
+                                    <span className="text-sm font-medium">Copy</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
+                    <Button color='primary' onPress={() => {
+                        window.location.href = paymentUrl
+                    }}>Halaman Pembayaran</Button>
+                </div>
+            </div>
+
+            {/* Payment Guide */}
+            <div className="bg-yellow-50 border border-yellow-100 p-4 rounded-lg shadow-sm">
+                <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-2 text-gray-800">
+                        <BiInfoCircle size={20} className="text-yellow-500" />
+                        <h3 className="font-medium">Panduan Pembayaran</h3>
+                    </div>
+                    <div
+                        className="prose max-w-full text-gray-700"
+                        dangerouslySetInnerHTML={{ __html: paymentMethod.description }}
+                    />
+                </div>
+            </div>
+        </div>
     );
 };
 
@@ -148,34 +209,6 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
         }
     });
 
-    // Mutation untuk membatalkan transaksi
-    const cancelTransactionMutation = useMutation({
-        mutationFn: async () => {
-            const response = await axios.post(route('api.transactions.cancel', { id: transactionId }));
-            return response.data;
-        },
-        onSuccess: (response) => {
-            queryClient.invalidateQueries(['transaction', transactionId]);
-
-            if (response.status === 'success' && response.data) {
-                onStatusUpdate(response.data.transaction_status);
-
-                addToast({
-                    title: "Berhasil",
-                    description: response.message || "Status transaksi berhasil dibatalkan",
-                    color: "success",
-                });
-            }
-        },
-        onError: (error) => {
-            addToast({
-                title: "Hmm, sayang sekali:(",
-                description: error.response?.data?.error || 'Gagal membatalkan transaksi',
-                color: "danger",
-            })
-        }
-    });
-
     const handleCheckStatus = () => {
         checkStatusMutation.mutate();
     };
@@ -187,46 +220,38 @@ const PaymentActions = ({ transactionId, onStatusUpdate }) => {
                 startContent={<VscSync className={checkStatusMutation.isPending ? "animate-spin" : ""} />}
                 isLoading={checkStatusMutation.isPending}
                 onPress={handleCheckStatus}
-                isDisabled={checkStatusMutation.isPending || cancelTransactionMutation.isPending}
+                isDisabled={checkStatusMutation.isPending}
             >
                 Cek Status
             </Button>
-            <CancelTransactionModal transactionId={transactionId} onStatusUpdate={onStatusUpdate} checkStatusMutation={checkStatusMutation} />
         </div>
     );
 };
 
-// Komponen utama
 const Index = ({ transaction }) => {
     const [copied, setCopied] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(transaction.status || "Menunggu Pembayaran");
 
-    // Ekstrak dan siapkan data
     const { transaction_detail, transaction_log, payment_method } = transaction;
     const { product_detail } = transaction_detail[0];
     const { product } = product_detail;
     const { image } = product;
 
-    // Parse data dari transaction log
     const response = transaction_log?.[0]?.response
         ? JSON.parse(transaction_log[0].response)
         : null;
 
-        console.log({response})
+    console.log({ response })
 
+    const {vaNumber, paymentUrl} = response;
     const qrCodeUrl = response?.actions?.[0]?.url || null;
-    const payload = transaction_log?.[0]?.payload
-        ? JSON.parse(transaction_log[0].payload)
-        : null;
 
-    // Handler untuk copy invoice number
     const copyInvoiceNumber = () => {
         navigator.clipboard.writeText(transaction.invoice_number);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
-    // Data yang dikumpulkan untuk digunakan dalam komponen
     const transactionData = {
         transaction_detail,
         product_detail,
@@ -296,8 +321,7 @@ const Index = ({ transaction }) => {
                     {/* Detail Produk */}
                     <TransactionDetails
                         transaction={transactionData}
-                        copyInvoiceNumber={copyInvoiceNumber}
-                        copied={copied}
+                        payment_method={payment_method}
                     />
 
                     <Divider className="my-0" />
@@ -340,8 +364,8 @@ const Index = ({ transaction }) => {
                                         currentStatus === 'pending' ? 'Menunggu Pembayaran' :
                                             currentStatus === 'failed' ? 'Gagal' :
                                                 currentStatus === 'cancel' ? 'Dibatalkan' :
-                                                currentStatus === 'expire' ? 'Expired' :
-                                                    currentStatus || "Menunggu Pembayaran"}
+                                                    currentStatus === 'expire' ? 'Expired' :
+                                                        currentStatus || "Menunggu Pembayaran"}
                                 </p>
                             </div>
                         </div>
@@ -362,6 +386,7 @@ const Index = ({ transaction }) => {
                 {/* QR Code dan Panduan */}
                 <div className="flex flex-col items-center">
                     <QRCodeSection qrCodeUrl={qrCodeUrl} paymentMethod={payment_method} />
+                    <VirtualAccountSection vaNumber={vaNumber} paymentMethod={payment_method} paymentUrl={paymentUrl} />
                 </div>
             </div>
         </CustomerLayout>

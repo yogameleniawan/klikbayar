@@ -14,6 +14,9 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\TransactionLog;
 use App\Services\DigiflazzService;
+use DateInterval;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -77,6 +80,20 @@ class DuitkuController extends Controller
 
             $response = Http::post(env('DUITKU_BASE_URL') . "/webapi/api/merchant/v2/inquiry", $payload);
 
+            $responseData = $response->json();
+
+            $timezone = new DateTimeZone('Asia/Jakarta');
+
+            $transactionTime = new DateTime($datetime);
+            if ($transactionTime->getTimezone()->getName() === 'UTC') {
+                $transactionTime->setTimezone($timezone);
+            }
+
+            $transactionTime->add(new DateInterval('PT' . $payload['expiryPeriod'] . 'M'));
+            $expiryTime = $transactionTime->format('Y-m-d H:i:s');
+
+            $responseData['expiry_time'] = $expiryTime;
+
             $transaction = Transaction::create([
                 'customer_number' => $customerNo,
                 'invoice_number' => $invoiceNumber,
@@ -86,7 +103,7 @@ class DuitkuController extends Controller
             ]);
 
             TransactionLog::create([
-                'response' => json_encode($response->json()),
+                'response' => json_encode($responseData),
                 'payload' => json_encode($payload),
                 'gateway' => GatewayEnum::DUITKU->value,
                 'transaction_id' => $transaction->id

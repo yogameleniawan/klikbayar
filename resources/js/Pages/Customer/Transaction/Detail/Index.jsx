@@ -155,9 +155,9 @@ const VirtualAccountSection = ({ vaNumber, paymentMethod, paymentUrl }) => {
                             )}
                         </button>
                     </div>
-                    <Button color='primary' onPress={() => {
+                    {/* <Button color='primary' onPress={() => {
                         window.location.href = paymentUrl
-                    }}>Halaman Pembayaran</Button>
+                    }}>Halaman Pembayaran</Button> */}
                 </div>
             </div>
 
@@ -287,7 +287,7 @@ const Index = ({ transaction }) => {
             <Head title="Detail Transaksi" />
             <div className="flex flex-col sm:flex-row justify-center py-8 px-4 md:px-0 gap-4">
                 {/* Card Transaksi */}
-                <Card className="w-full max-w-md shadow-lg overflow-hidden">
+                <Card className="w-full max-w-md shadow-lg overflow-hidden h-fit">
                     {/* Header */}
                     <div className="bg-blue-500 text-white p-4">
                         <div className="flex justify-between items-center">

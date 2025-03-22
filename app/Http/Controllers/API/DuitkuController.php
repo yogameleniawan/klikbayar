@@ -78,58 +78,77 @@ class DuitkuController extends Controller
                 "expiryPeriod" => 15,
             ];
 
-            $response = Http::post(env('DUITKU_BASE_URL') . "/webapi/api/merchant/v2/inquiry", $payload);
+            try {
+                $response = Http::post(env('DUITKU_BASE_URL') . "/webapi/api/merchant/v2/inquiry", $payload);
 
-            $responseData = $response->json();
+                if ($response->successful()) {
+                    $responseData = $response->json();
 
-            $timezone = new DateTimeZone('Asia/Jakarta');
+                    $timezone = new DateTimeZone('Asia/Jakarta');
 
-            $transactionTime = new DateTime($datetime);
-            if ($transactionTime->getTimezone()->getName() === 'UTC') {
-                $transactionTime->setTimezone($timezone);
+                    $transactionTime = new DateTime($datetime);
+                    if ($transactionTime->getTimezone()->getName() === 'UTC') {
+                        $transactionTime->setTimezone($timezone);
+                    }
+
+                    $transactionTime->add(new DateInterval('PT' . $payload['expiryPeriod'] . 'M'));
+                    $expiryTime = $transactionTime->format('Y-m-d H:i:s');
+
+                    $responseData['expiry_time'] = $expiryTime;
+
+                    $transaction = Transaction::create([
+                        'customer_number' => $customerNo,
+                        'invoice_number' => $invoiceNumber,
+                        'phone' => $contactPhone,
+                        'status' => PaymentStatusEnum::PENDING->value,
+                        'payment_method_id' => $paymentMethod->id
+                    ]);
+
+                    TransactionLog::create([
+                        'response' => json_encode($responseData),
+                        'payload' => json_encode($payload),
+                        'gateway' => GatewayEnum::DUITKU->value,
+                        'transaction_id' => $transaction->id
+                    ]);
+
+                    TransactionDetail::create([
+                        'name' => $request->productName,
+                        'price' => $paymentAmount,
+                        'product_detail_id' => $request->productId,
+                        'transaction_id' => $transaction->id,
+                    ]);
+
+                    event(new CheckoutEvent(json_encode([
+                        'name' => $request->productName,
+                        'phone' => $contactPhone,
+                        'product' => ProductDetail::where('product_details.id', $request->productId)
+                            ->join('products', 'product_details.product_id', '=', 'products.id')
+                            ->leftJoin('files', 'products.image_id', '=', 'files.id')
+                            ->select('products.brand', 'files.path as image_path')
+                            ->first()->toArray(),
+                    ])));
+
+                    return response()->json([
+                        'transaction_id' => $transaction->id,
+                        'message' => 'Transaction created'
+                    ]);
+                } else {
+                    $errorMessage = $response->json()['Message'] ?? 'Unknown error';
+                    $statusCode = $response->status();
+
+                    Log::error('Duitku API Error', [
+                        'status' => $statusCode,
+                        'message' => $errorMessage,
+                        'payload' => $payload
+                    ]);
+
+                    return response()->json([
+                        'error' => $errorMessage
+                    ], $statusCode);
+                }
+            } catch (\Throwable $th) {
+                return response()->json(['error' => $th->getMessage()], 500);
             }
-
-            $transactionTime->add(new DateInterval('PT' . $payload['expiryPeriod'] . 'M'));
-            $expiryTime = $transactionTime->format('Y-m-d H:i:s');
-
-            $responseData['expiry_time'] = $expiryTime;
-
-            $transaction = Transaction::create([
-                'customer_number' => $customerNo,
-                'invoice_number' => $invoiceNumber,
-                'phone' => $contactPhone,
-                'status' => PaymentStatusEnum::PENDING->value,
-                'payment_method_id' => $paymentMethod->id
-            ]);
-
-            TransactionLog::create([
-                'response' => json_encode($responseData),
-                'payload' => json_encode($payload),
-                'gateway' => GatewayEnum::DUITKU->value,
-                'transaction_id' => $transaction->id
-            ]);
-
-            TransactionDetail::create([
-                'name' => $request->productName,
-                'price' => $paymentAmount,
-                'product_detail_id' => $request->productId,
-                'transaction_id' => $transaction->id,
-            ]);
-
-            event(new CheckoutEvent(json_encode([
-                'name' => $request->productName,
-                'phone' => $contactPhone,
-                'product' => ProductDetail::where('product_details.id', $request->productId)
-                    ->join('products', 'product_details.product_id', '=', 'products.id')
-                    ->leftJoin('files', 'products.image_id', '=', 'files.id')
-                    ->select('products.brand', 'files.path as image_path')
-                    ->first()->toArray(),
-            ])));
-
-            return response()->json([
-                'transaction_id' => $transaction->id,
-                'message' => 'Transaction created'
-            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
